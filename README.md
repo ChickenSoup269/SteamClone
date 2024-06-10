@@ -1,0 +1,9 @@
+file .env => lưu các biến db 
+folder config => chứa các tệp cấu hình (như cấu hình connect mongodb)
+folder controller => xử lý các yêu cầu HTTP 
+folder models => khai báo các kiểu dữ liệu  
+folder middlewares => Chứa các middleware xử lý trước khi các yêu cầu đến các routes ( xác thực user ) 
+folder routes => chứa các tuyến API (Get,Post,..)
+folder utils =>
+folder services => xử lý các method insert , delete , update , get
+folder public => Chứa các dịch vụ (services) thực hiện các logic
