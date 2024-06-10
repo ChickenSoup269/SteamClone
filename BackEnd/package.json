@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.5",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.3",
+    "prettier": "^3.3.1"
+  },
+  "scripts": {
+    "beautiful":"lint-staged",
+    "start": "nodemon --inspect src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "lint-staged":{"src/**/*.{js,json,scss}":"perttier --single-quote --trailing-comma all --write"},
+  "husky":{
+    "pre-commit":"lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MenterTho/SteamClone.git"
+  },
+  "keywords": [
+    "node",
+    "Mongodb"
+  ],
+  "author": "Tuantho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MenterTho/SteamClone/issues"
+  },
+  "homepage": "https://github.com/MenterTho/SteamClone#readme",
+  "description": ""
+}
