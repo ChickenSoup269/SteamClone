@@ -1,14 +1,15 @@
 const { getGamesFromMongo } = require('../services/gameServices');
-
+//render in [localhost]
 const getGames = async (req, res) => {
     try {
         const games = await getGamesFromMongo();
-        res.json(games);
+        res.json('Data fetched successfully',games);
     } catch (error) {
-        console.error('Có lỗi xảy ra:', error);
-        res.status(500).send('Có lỗi xảy ra trong quá trình lấy dữ liệu từ MongoDB');
+        console.error('Error while getting games from MongoDB ', error);
+        res.status(500).send('Internal server error');
     }
 };
+
 
 module.exports = {
     getGames

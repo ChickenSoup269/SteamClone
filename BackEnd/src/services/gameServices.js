@@ -2,6 +2,27 @@ const { MongoClient } = require('mongodb');
 const axios = require('axios');
 const config = require('../config/mongodb');
 
+// Fetch data from API List [GET]
+const getAppList = async () => {
+    try {
+        const response = await axios.get(config.gameListApiUrl);
+        return response.data.applist.apps;
+    } catch (error) {
+        console.error('Error fetching app list:', error);
+        throw error;
+    }
+};
+
+// Fetch game details from API [GET]
+const getAppDetail = async (appId) => {
+    try {
+        const response = await axios.get(`${config.gameDetailsApiUrl}${appId}`);
+        return response.data[appId].data;
+    } catch (error) {
+        console.error(`Error fetching details for app with ID ${appId}:`, error);
+        throw error;
+    }
+};
 const fetchDataAndSaveToMongo = async () => {
     let client;
     try {
@@ -11,21 +32,39 @@ const fetchDataAndSaveToMongo = async () => {
 
         const db = client.db(config.dbName);
         const collection = db.collection('games');
+        // API LIST
+        const appList = await getAppList();
+        // Log total number of games fetched
+        console.log(`Fetched ${appList.length} games from API`);
 
-        const response = await axios.get(config.gameListApiUrl);
-        const games = response.data.applist.apps;
+        // Only take the first 10 games
+        const limitedGames = appList.slice(0, 10);
 
-        for (const game of games) {
-            if (game.name.trim() !== "") {
+        // Log limited games for debugging
+        console.log('Limited games:', limitedGames);
+
+        // Clear the existing collection to ensure only 10 items are stored
+        await collection.deleteMany({});
+
+        // Insert limited games into MongoDB
+        for (const game of limitedGames) {
+            if (game.name && game.name.trim() !== "") {
+                // Get game detail
+                const gameDetails = await getAppDetail(game.appid);
+                //
                 const transformedGame = {
                     game_id: game.appid,
-                    game_name: game.name
+                    game_name: game.name,
+                    header_image: gameDetails.header_image
                 };
                 await collection.updateOne(
                     { game_id: transformedGame.game_id },
                     { $set: transformedGame },
                     { upsert: true }
                 );
+            } else {
+                // Log games that are skipped due to empty names
+                console.log(`Skipped game with appid ${game.appid} due to empty name`);
             }
         }
 
@@ -39,17 +78,16 @@ const fetchDataAndSaveToMongo = async () => {
         }
     }
 };
-//Method [GET]
+
+//Method [GET] from Mongo
 const getGamesFromMongo = async () => {
     let client;
     try {
-        // Loại bỏ các tùy chọn đã lỗi thời
         client = new MongoClient(config.mongoUrl);
         await client.connect();
         const db = client.db(config.dbName);
         const collection = db.collection('games');
-
-        const games = await collection.find({ game_name: { $ne: "" } }, { projection: { _id: 0, game_name: 1 } }).toArray();
+        const games = await collection.find({ game_name: { $ne: "" } }, { projection: { _id: 0, game_name: 1 } }).limit(10).toArray();
         return games;
     } catch (error) {
         console.error('Có lỗi xảy ra:', error);
