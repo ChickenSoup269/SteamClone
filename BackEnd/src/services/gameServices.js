@@ -1,37 +1,7 @@
 const { MongoClient } = require('mongodb');
-const axios = require('axios');
 const config = require('../config/mongodb');
-
-// Fetch data from API List [GET]
-const getAppList = async () => {
-    try {
-        const response = await axios.get(config.gameListApiUrl);
-        return response.data.applist.apps;
-    } catch (error) {
-        console.error('Error fetching app list:', error);
-        throw error;
-    }
-};
-const getAppDetail = async (appId) => {
-    try {
-        const response = await axios.get(`${config.gameDetailsApiUrl}${appId}`);
-        if (response.data && response.data[appId]) {
-            if (response.data[appId].success) {
-                return response.data[appId].data;
-            } else {
-                console.log(`API returned success: false for app with ID ${appId}. Skipping.`);
-                return null; // Return null or handle differently
-            }
-        } else {
-            console.error(`Invalid response format for app with ID ${appId}`);
-            return null; // Return null or handle differently
-        }
-    } catch (error) {
-        console.error(`Error fetching details for app with ID ${appId}:`, error);
-        throw error;
-    }
-};
-
+const { fetchAppList, fetchAppDetail } = require('../utils/apiUtils');
+// Fetch Data API save to Mongo
 const fetchDataAndSaveToMongo = async () => {
     let client;
     try {
@@ -42,7 +12,7 @@ const fetchDataAndSaveToMongo = async () => {
         const db = client.db(config.dbName);
         const collection = db.collection('games');
         // API LIST
-        const appList = await getAppList();
+        const appList = await fetchAppList();
         // Log total number of games fetched
         console.log(`Fetched ${appList.length} games from API`);
 
@@ -58,7 +28,7 @@ const fetchDataAndSaveToMongo = async () => {
         // Insert limited games into MongoDB
         for (const game of limitedGames) {
             if (game.name && game.name.trim() !== "") {
-                const gameDetails = await getAppDetail(game.appid);
+                const gameDetails = await fetchAppDetail(game.appid);
                 if (gameDetails) {
                     const transformedGame = {
                         game_id: game.appid,

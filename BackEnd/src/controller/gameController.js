@@ -10,7 +10,6 @@ const getGames = async (req, res) => {
     }
 };
 
-
 module.exports = {
     getGames
 };
