@@ -4,6 +4,6 @@ folder controller => xử lý các yêu cầu HTTP ||
 folder models => khai báo các kiểu dữ liệu  ||
 folder middlewares => Chứa các middleware xử lý trước khi các yêu cầu đến các routes ( xác thực user ) ||
 folder routes => chứa các tuyến API (Get,Post,..) ||
-folder utils => || 
+folder utils => || chứa các chức năng dùng để tái sử dụng nhiều nơi 
 folder services => xử lý các method insert , delete , update , get ||
 folder public => Chứa các dịch vụ (services) thực hiện các logic ||
