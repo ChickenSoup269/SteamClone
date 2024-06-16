@@ -6,20 +6,40 @@
     --steamBackgroundPrice: #4c6b22;
     --steamOldPrice: #354554;
     --steamBackground: #171a21;
-    --steamColorFont: #ffffff;
+    --steamColorWhite: #ffffff;
+    --steamColorBlack: black;
     --steamFontNavBar: #7a8b9d;
     --steamFontBackground: #1b2e40;
+    --default-layout-header-height: 60px;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html {
     font-size: 62.5%;
 }
 
 body {
     display: block;
-    margin: 8px;
     font-family: 'Roboto', sans-serif;
     font-size: 1.6rem;
     font-style: normal;
-    color: var(--steamColorFont);
+    color: var(--steamColorWhite);
     background-color: var(--steamBackground);
+}
+
+a [href] {
+    color: var(--steamColorWhite);
+    text-decoration: none;
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
 }

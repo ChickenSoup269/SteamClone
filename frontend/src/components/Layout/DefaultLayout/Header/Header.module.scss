@@ -1,0 +1,100 @@
+.wrapper {
+    --search-boder: 10px;
+    --search-height: 38px;
+    --search-top-spacer: 9px;
+
+    background-color: white;
+    border-radius: 0px 0px 5px 5px;
+    height: var(--default-layout-header-height);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.inner {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: var(--steamColorBlack);
+    font-weight: bold;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: calc(0.4s);
+
+    &:hover {
+        text-decoration: underline;
+        text-underline-offset: 10px;
+        transform: scale(1.1);
+        transition: calc(0.3s);
+    }
+}
+
+.search {
+    position: relative;
+    width: 345px;
+    height: var(--search-height);
+    padding-left: 16px;
+    display: flex;
+    background-color: rgb(212, 212, 212);
+    border-radius: var(--search-boder);
+
+    input {
+        flex: 1;
+        height: 100%;
+        color: var(--steamColorBlack);
+        font-size: 1.6rem;
+        background-color: transparent;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: var(--search-top-spacer);
+        right: 52px;
+        width: 1.2px;
+        height: calc(var(--search-height) - var(--search-top-spacer) * 2);
+        background-color: rgb(255, 0, 0);
+    }
+
+    &:focus-within {
+        border: 1.5px solid var(--primary);
+    }
+}
+
+.clear {
+}
+
+.loading {
+}
+
+.search-btn {
+    width: 52px;
+    height: 100%;
+    font-size: 1.8rem;
+    transition: calc(0.4s);
+    border-top-right-radius: var(--search-boder);
+    border-bottom-right-radius: var(--search-boder);
+
+    &:hover {
+        cursor: pointer;
+        transition: calc(0.2s);
+        color: var(--steamPrice);
+        background-color: var(--steamBackgroundPrice);
+    }
+}
