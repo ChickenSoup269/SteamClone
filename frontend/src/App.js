@@ -10,7 +10,7 @@ function App() {
             <div className="App">
                 <Routes>
                     {publicRoutes.map((route, index) => {
-                        const Layout = route.layout || DefaultLayout
+                        const Layout = route.layout === null ? Fragment : DefaultLayout
                         const Page = route.component
                         return (
                             <Route
@@ -26,7 +26,7 @@ function App() {
                     })}
                     {/* Các trang phải đăng nhập mới vào được */}
                     {privateRoutes.map((route, index) => {
-                        const Layout = route.layout === null ? Fragment : DefaultLayout
+                        const Layout = route.layout || DefaultLayout
                         const Page = route.component
                         return (
                             <Route

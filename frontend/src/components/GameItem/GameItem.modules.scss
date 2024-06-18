@@ -1,0 +1,36 @@
+.wrapper {
+    display: flex;
+    padding: 5px 15px;
+    align-items: center;
+    pointer-events: auto;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--steamHoverPopUp);
+    }
+}
+
+.gameimages {
+    width: 80px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: var(--steamBoder);
+}
+
+.library {
+    color: var(--steamColorBlack);
+}
+
+.info {
+    flex: 1;
+}
+
+.gamename {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.price {
+    font-size: 1.2rem;
+    margin-top: 4px;
+    font-weight: 100;
+}

@@ -1,10 +1,14 @@
+import { useEffect, useState } from 'react'
 import classNames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faX, faSpinner, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
 
+import Tippy from '@tippyjs/react/headless'
+
+import { Wrapper as PopperWrapper } from '~/components/Popper'
 import { NavLink } from 'react-router-dom'
 import styles from './Header.module.scss'
-import { deprecations } from 'sass'
+import GameItem from '~/components/GameItem'
 
 const cx = classNames.bind(styles)
 
@@ -16,6 +20,14 @@ const navLinkStyles = ({ isActive }) => {
 }
 
 function Header() {
+    const [searchResult, setSearchResult] = useState([])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setSearchResult([1])
+        }, 0)
+    }, [])
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -38,16 +50,31 @@ function Header() {
                         </li>
                     </ul>
                 </div>
-                <div className={cx('search')}>
-                    <input placeholder="Nhập tên game" spellCheck={false} />
-                    <button classNames={cx('clear')}>
-                        <FontAwesomeIcon icon={faX} />
-                    </button>
-                    <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
-                    <button className={cx('search-btn')}>
-                        <FontAwesomeIcon icon={faSearch} />
-                    </button>
-                </div>
+                <Tippy
+                    visible={searchResult.length > 0}
+                    render={(attrs) => (
+                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                            <PopperWrapper>
+                                <GameItem />
+                                <GameItem />
+                                <GameItem />
+                                <GameItem />
+                            </PopperWrapper>
+                        </div>
+                    )}
+                >
+                    <div className={cx('search')}>
+                        <input placeholder="Nhập tên game" spellCheck={false} />
+                        <button className={cx('clear')}>
+                            <FontAwesomeIcon icon={faXmark} />
+                        </button>
+                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
+
+                        <button className={cx('search-btn')}>
+                            <FontAwesomeIcon icon={faSearch} />
+                        </button>
+                    </div>
+                </Tippy>
                 <div className={cx('actions')}></div>
             </div>
         </header>

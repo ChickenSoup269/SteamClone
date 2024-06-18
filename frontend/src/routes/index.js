@@ -1,3 +1,4 @@
+import { Sidebar } from '~/components/Layout'
 import Home from '~/pages/Home'
 import Gamedetails from '~/pages/GameDetails'
 import Profile from '~/pages/Profile'
@@ -13,7 +14,7 @@ const publicRoutes = [
 
 // Đăng nhập mới vào được
 const privateRoutes = [
-    { path: '/admin', component: Admin, layout: null },
+    { path: '/admin', component: Admin, layout: Sidebar },
     { path: '/profile', component: Profile },
 ]
 

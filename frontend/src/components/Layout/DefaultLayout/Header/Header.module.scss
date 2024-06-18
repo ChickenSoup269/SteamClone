@@ -1,12 +1,13 @@
 .wrapper {
-    --search-boder: 10px;
-    --search-height: 38px;
+    --search-boder: 5px;
+    --search-height: 35px;
     --search-top-spacer: 9px;
+    --search-button-width: 52px;
 
     background-color: white;
     border-radius: 0px 0px 5px 5px;
-    height: var(--default-layout-header-height);
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: var(--default-layout-header-height, 60px);
+    box-shadow: var(--steamBoxShadow);
 }
 .inner {
     height: 100%;
@@ -34,7 +35,6 @@ li a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    border-radius: 10px;
     transition: calc(0.4s);
 
     &:hover {
@@ -47,46 +47,61 @@ li a {
 
 .search {
     position: relative;
-    width: 345px;
+    width: 385px;
     height: var(--search-height);
     padding-left: 16px;
     display: flex;
-    background-color: rgb(212, 212, 212);
-    border-radius: var(--search-boder);
+    background-color: var(--steamColorSearch);
+
+    border-radius: 6px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 
     input {
         flex: 1;
         height: 100%;
         color: var(--steamColorBlack);
         font-size: 1.6rem;
-        background-color: transparent;
+        caret-color: var(--primary);
+        background-color: var(--steamColorSearch);
+    }
+
+    input:not(:placeholder-shown) ~ .search-btn {
+        color: var(--steamColorWhite);
+        background-color: var(--primary);
+    }
+
+    &:hover {
+        border: 1px solid var(--primary);
     }
 
     &::after {
         content: '';
         position: absolute;
         top: var(--search-top-spacer);
-        right: 52px;
+        right: 50px;
         width: 1.2px;
         height: calc(var(--search-height) - var(--search-top-spacer) * 2);
-        background-color: rgb(255, 0, 0);
-    }
-
-    &:focus-within {
-        border: 1.5px solid var(--primary);
+        background-color: var(--primary);
     }
 }
 
-.clear {
+.search-result {
+    width: 445px;
 }
 
+.clear,
 .loading {
+    position: absolute;
+    right: calc(var(--search-button-width) + 16px);
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(22, 24, 35, 0.34);
 }
 
 .search-btn {
-    width: 52px;
+    width: var(--search-button-width);
     height: 100%;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     transition: calc(0.4s);
     border-top-right-radius: var(--search-boder);
     border-bottom-right-radius: var(--search-boder);
@@ -94,7 +109,12 @@ li a {
     &:hover {
         cursor: pointer;
         transition: calc(0.2s);
-        color: var(--steamPrice);
-        background-color: var(--steamBackgroundPrice);
+        color: var(--steamBoxShadow);
+        background-color: var(--primary);
+    }
+
+    &:active {
+        color: var(--steamColorWhite);
+        background-color: var(--primary);
     }
 }
