@@ -1,7 +1,7 @@
 // import library 
 const express = require('express');
 const morgan = require("morgan"); 
-const { fetchDataAndSaveToMongo } = require('./services/gameServices');
+const { fetchDataAndSaveToMongo } = require('./utils/apiUtils');
 const path = require('path');
 // import structure
 const config = require('./config/mongodb');  
