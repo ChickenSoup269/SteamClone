@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
-
 import Tippy from '@tippyjs/react/headless'
 
+import Button from '~/components/Button'
 import { Wrapper as PopperWrapper } from '~/components/Popper'
 import { NavLink } from 'react-router-dom'
 import styles from './Header.module.scss'
@@ -14,7 +14,7 @@ const cx = classNames.bind(styles)
 
 const navLinkStyles = ({ isActive }) => {
     return {
-        fontWeight: isActive ? 'blod' : 'normal',
+        fontWeight: isActive ? '700' : '500',
         color: isActive ? 'var(--primary)' : 'var(--steamBackground)',
     }
 }
@@ -24,7 +24,7 @@ function Header() {
 
     useEffect(() => {
         setTimeout(() => {
-            setSearchResult([1])
+            setSearchResult([])
         }, 0)
     }, [])
 
@@ -75,7 +75,14 @@ function Header() {
                         </button>
                     </div>
                 </Tippy>
-                <div className={cx('actions')}></div>
+                <div className={cx('actions')}>
+                    <NavLink to="/register">
+                        <Button outline>Đăng ký</Button>
+                    </NavLink>
+                    <NavLink to="/login">
+                        <Button primary>Đăng nhập</Button>
+                    </NavLink>
+                </div>
             </div>
         </header>
     )

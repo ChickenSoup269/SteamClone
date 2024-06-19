@@ -1,5 +1,5 @@
 @import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 :root {
     --primary: #1a9fff;
     --steamPrice: #beee11;
@@ -11,10 +11,11 @@
     --steamFontNavBar: #7a8b9d;
     --steamFontBackground: #192733;
     --steamPopUpSearch: #3d4450;
-    --steamHoverPopUp: #ccd8e3;
+    --steamHoverPopUp: #dcdedf;
     --steamColorSearch: #eeeeee;
     --steamBoder: 5px;
     --steamBoxShadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    --steamBoxShadowHover: rgba(32, 173, 255, 0.35) 0px 5px 15px;
     --default-layout-header-height: 60px;
 }
 

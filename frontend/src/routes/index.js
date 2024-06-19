@@ -4,12 +4,16 @@ import Gamedetails from '~/pages/GameDetails'
 import Profile from '~/pages/Profile'
 import Admin from '~/pages/Admin'
 import Search from '~/pages/Search'
+import Login from '~/pages/Login'
+import Register from '~/pages/register'
 
 // Cho mọi tài khoản publicRoutes
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/gamedetails', component: Gamedetails },
     { path: '/search', component: Search },
+    { path: '/login', component: Login },
+    { path: '/register', component: Register },
 ]
 
 // Đăng nhập mới vào được

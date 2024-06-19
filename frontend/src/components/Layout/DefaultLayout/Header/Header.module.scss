@@ -11,7 +11,7 @@
 }
 .inner {
     height: 100%;
-    width: 100%;
+    width: 99%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -30,8 +30,8 @@ li {
 
 li a {
     display: block;
+    text-transform: capitalize;
     color: var(--steamColorBlack);
-    font-weight: bold;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -51,10 +51,11 @@ li a {
     height: var(--search-height);
     padding-left: 16px;
     display: flex;
-    background-color: var(--steamColorSearch);
-
+    background-color: var(--steamColorWhite);
+    border: 1.2px solid var(--steamHoverPopUp);
     border-radius: 6px;
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    transition: calc(0.2s);
+    box-shadow: var(--steamBoxShadow);
 
     input {
         flex: 1;
@@ -62,7 +63,7 @@ li a {
         color: var(--steamColorBlack);
         font-size: 1.6rem;
         caret-color: var(--primary);
-        background-color: var(--steamColorSearch);
+        background-color: var(--steamColorWhite);
     }
 
     input:not(:placeholder-shown) ~ .search-btn {
@@ -71,7 +72,9 @@ li a {
     }
 
     &:hover {
+        transition: calc(0.2s);
         border: 1px solid var(--primary);
+        box-shadow: var(--steamBoxShadowHover);
     }
 
     &::after {
@@ -103,6 +106,8 @@ li a {
     height: 100%;
     font-size: 1.6rem;
     transition: calc(0.4s);
+    color: var(--primary);
+    background-color: var(--steamColorWhite);
     border-top-right-radius: var(--search-boder);
     border-bottom-right-radius: var(--search-boder);
 
@@ -110,11 +115,6 @@ li a {
         cursor: pointer;
         transition: calc(0.2s);
         color: var(--steamBoxShadow);
-        background-color: var(--primary);
-    }
-
-    &:active {
-        color: var(--steamColorWhite);
         background-color: var(--primary);
     }
 }

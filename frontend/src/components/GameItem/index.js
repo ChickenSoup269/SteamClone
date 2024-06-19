@@ -1,13 +1,13 @@
-import { faBars, faSheetPlastic } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faBars, faSheetPlastic } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
 import styles from './GameItem.modules.scss'
 
 const cx = classNames.bind(styles)
 
 function GameItem() {
-    const isOwned = false
-    const isInCart = false
+    // const isOwned = false
+    // const isInCart = false
     return (
         <div className={cx('wrapper')}>
             <img
@@ -16,17 +16,17 @@ function GameItem() {
                 alt="Têngame"
             />
             {/* Check xem user đã mua game chưa */}
-            {isOwned && (
+            {/* {isOwned && (
                 <div className={cx('library')}>
                     <FontAwesomeIcon icon={faBars} />
                 </div>
-            )}
+            )} */}
             {/* Check xem user đã thêm game vào giỏ hàng chưa */}
-            {isInCart && (
+            {/* {isInCart && (
                 <div className={cx('wishlist')}>
                     <FontAwesomeIcon icon={faSheetPlastic} />
                 </div>
-            )}
+            )} */}
             <div className={cx('info')}>
                 <h4 className={cx('gamename')}>Total war</h4>
                 <p className={cx('price')}>100.00đ</p>

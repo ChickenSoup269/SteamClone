@@ -1,0 +1,53 @@
+.wrapper {
+    min-width: 100px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--steamFontWhite);
+    background-color: var(--steamFontWhite);
+    border: 1px solid transparent;
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    &:hover {
+        transform: scale(1);
+        transition: calc(0.2s);
+    }
+}
+
+a {
+    color: var(--steamFontWhite);
+}
+
+// Button type
+.primary {
+    transform: scale(0.89);
+    transition: calc(0.4s);
+    background-color: var(--primary);
+    box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
+}
+
+.outline {
+    transform: scale(0.89);
+    transition: calc(0.4s);
+    color: var(--primary);
+    border: 1.2px solid currentColor;
+    box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
+}
+
+// Button size [small, medium, large]
+.small {
+    min-width: 88px;
+    padding: 4px 16px;
+}
+.medium {
+}
+.large {
+    min-width: 150px;
+    padding: 14px 16px;
+}
