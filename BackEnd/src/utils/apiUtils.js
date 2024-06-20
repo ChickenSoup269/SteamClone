@@ -57,13 +57,15 @@ const fetchDataAndSaveToMongo = async () => {
         // Insert limited games into MongoDB
         for (const game of limitedGames) {
             if (game.name && game.name.trim() !== "") {
-                const gameDetails = await fetchAppDetail(game.appid); // detail game
+                const gameDetails = await fetchAppDetail(game.appid);
                 if (gameDetails && gameDetails.genres) {
                     const genres = gameDetails.genres || [];
+                    const genre_ids = genres.map(genre => genre.id); // get genre_ids
                     const transformedGame = {
                         game_id: game.appid,
                         game_name: game.name,
                         header_image: gameDetails.header_image,
+                        genre_ids: genre_ids // add genre_ids to transformedGame
                     };
                     await collection.updateOne(
                         { game_id: transformedGame.game_id },
