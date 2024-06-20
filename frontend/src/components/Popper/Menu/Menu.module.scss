@@ -1,0 +1,22 @@
+.menu-list {
+    width: 215px;
+}
+
+.menu-more-popper {
+    padding-bottom: 8px;
+}
+
+.menu-item {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 500;
+    margin-top: 5px;
+    border-radius: 0;
+
+    &:hover {
+        color: var(--steamBackground);
+        background-color: var(--steamHoverPopUp);
+        transition: calc(0.3s);
+    }
+}

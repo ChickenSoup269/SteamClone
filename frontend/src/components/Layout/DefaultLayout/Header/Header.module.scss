@@ -6,7 +6,7 @@
 
     background-color: white;
     border-radius: 0px 0px 5px 5px;
-    height: var(--default-layout-header-height, 60px);
+    height: var(--default-layout-header-height, 70px);
     box-shadow: var(--steamBoxShadow);
 }
 .inner {
@@ -97,6 +97,8 @@ li a {
     position: absolute;
     right: calc(var(--search-button-width) + 16px);
     top: 50%;
+    font-size: 1.6rem;
+    background-color: transparent;
     transform: translateY(-50%);
     color: rgba(22, 24, 35, 0.34);
 }
@@ -116,5 +118,36 @@ li a {
         transition: calc(0.2s);
         color: var(--steamBoxShadow);
         background-color: var(--primary);
+    }
+}
+
+.more-btn {
+    font-size: 2rem;
+    margin-left: 8px;
+    padding: 4px 8px;
+    cursor: pointer;
+    background-color: transparent;
+    transform: rotate(180deg);
+    transition: transform 0.5s ease;
+
+    &.is-animating {
+        transform: rotate(0deg);
+        transition: transform 0.5s ease;
+    }
+}
+
+.cart-btn {
+    cursor: pointer;
+    font-size: 2.5rem;
+    margin-left: 8px;
+    padding: 4px 8px;
+    transform: scale(0.89);
+    transition: calc(0.3s);
+    border-radius: var(--steamBoder);
+    background-color: var(--steamColorWhite);
+
+    &:hover {
+        transform: scale(1);
+        transition: calc(0.2s);
     }
 }

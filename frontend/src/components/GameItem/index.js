@@ -28,7 +28,7 @@ function GameItem() {
                 </div>
             )} */}
             <div className={cx('info')}>
-                <h4 className={cx('gamename')}>Total war</h4>
+                <h4 className={cx('game-name')}>Total war</h4>
                 <p className={cx('price')}>100.00đ</p>
             </div>
             <div className={cx('user-defined-tags')}>

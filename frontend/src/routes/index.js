@@ -5,7 +5,8 @@ import Profile from '~/pages/Profile'
 import Admin from '~/pages/Admin'
 import Search from '~/pages/Search'
 import Login from '~/pages/Login'
-import Register from '~/pages/register'
+import Register from '~/pages/Register'
+import Cart from '~/pages/Cart'
 
 // Cho mọi tài khoản publicRoutes
 const publicRoutes = [
@@ -14,6 +15,7 @@ const publicRoutes = [
     { path: '/search', component: Search },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
+    { path: '/cart', component: Cart },
 ]
 
 // Đăng nhập mới vào được
