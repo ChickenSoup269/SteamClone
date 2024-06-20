@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const config = require('../config/mongodb');
 //Method [GET] ALL from Mongo
-const getGenres = async () => {
+const getAllGenres = async () => {
   let client;
   try {
     client = new MongoClient(config.mongoUrl);
@@ -9,12 +9,9 @@ const getGenres = async () => {
     console.log('Connected to MongoDB');
     const db = client.db(config.dbName);
     const collectionGenres = db.collection('genres');
-
     // [GET] list Genres 
     const genres = await collectionGenres.find({}).toArray();
-    
     console.log('Genres:', genres);
-    
     return genres;
   } catch (error) {
     console.error('Error fetching genres:', error);
@@ -66,6 +63,6 @@ const getGamesByGenres = async () => {
 };
 
 module.exports = {
-  getGenres,
+  getAllGenres,
   getGamesByGenres
 };
