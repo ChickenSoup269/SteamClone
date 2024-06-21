@@ -67,7 +67,7 @@ li a {
     &:hover {
         text-decoration: underline;
         text-underline-offset: 10px;
-        text-shadow: 2px 3px 13px rgba(255, 255, 255, 0.63);
+        text-shadow: var(--steamTextShadow);
         transition: calc(0.2s);
     }
 }

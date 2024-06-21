@@ -6,7 +6,7 @@ const cx = classNames.bind(styles)
 function Login() {
     return (
         <header className={cx('wrapper')}>
-            <h2>login</h2>
+            <div className={cx('full-background')}></div>
         </header>
     )
 }

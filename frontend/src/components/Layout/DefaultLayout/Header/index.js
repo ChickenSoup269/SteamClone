@@ -9,6 +9,8 @@ import {
     faLanguage,
     faCircleHalfStroke,
     faBasketShopping,
+    faSun,
+    faMoon,
 } from '@fortawesome/free-solid-svg-icons'
 import Tippy from '@tippyjs/react/headless'
 
@@ -25,10 +27,50 @@ const MENU_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faLanguage} />,
         title: 'Tiếng Việt',
+        children: {
+            title: 'Ngôn ngữ',
+            data: [
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+            ],
+        },
     },
     {
         icon: <FontAwesomeIcon icon={faCircleHalfStroke} />,
-        title: 'Giao diện: {Tối}',
+        title: 'Giao diện: Tối',
+        children: {
+            title: 'Giao diện',
+            data: [
+                {
+                    type: 'LightUI',
+                    code: 'day',
+                    title: (
+                        <>
+                            <FontAwesomeIcon icon={faSun} />
+                            &nbsp; Giao diện sáng
+                        </>
+                    ),
+                },
+                {
+                    type: 'LightUI',
+                    code: 'night',
+                    title: (
+                        <>
+                            <FontAwesomeIcon icon={faMoon} />
+                            &nbsp; Giao diện tối
+                        </>
+                    ),
+                },
+            ],
+        },
     },
 ]
 
@@ -65,6 +107,11 @@ function Header() {
             setSearchResult([])
         }, 0)
     }, [])
+
+    // Handel logic
+    const handleMenuChange = (menuItem) => {
+        console.log(menuItem)
+    }
 
     return (
         <header className={cx('wrapper', { scrolled: isScrolled })}>
@@ -129,7 +176,7 @@ function Header() {
                         <Button primary>Đăng Ký</Button>
                     </NavLink>
 
-                    <Menu items={MENU_ITEMS}>
+                    <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
                         {({ isAnimating }) => (
                             <button className={cx('more-btn', { 'is-animating': isAnimating })}>
                                 <FontAwesomeIcon icon={faCaretDown} />

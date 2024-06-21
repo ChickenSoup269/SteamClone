@@ -16,7 +16,31 @@
 
     &:hover {
         color: var(--steamBackground);
-        background-color: var(--steamHoverPopUp);
+        background-color: var(--steamColorWhite);
         transition: calc(0.3s);
     }
+}
+
+// Header
+
+.header {
+    position: relative;
+    height: 50px;
+    margin-top: -8px;
+}
+
+.back-btn {
+    width: 50px;
+    height: 100%;
+    font-size: 1.8rem;
+    color: var(--steamColorWhite);
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.header-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
