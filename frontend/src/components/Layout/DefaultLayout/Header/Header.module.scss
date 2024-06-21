@@ -4,13 +4,39 @@
     --search-top-spacer: 9px;
     --search-button-width: 52px;
 
-    background-color: white;
+    background-color: transparent;
     border-radius: 0px 0px 5px 5px;
     height: var(--default-layout-header-height, 70px);
-    box-shadow: var(--steamBoxShadow);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: 0.4s;
 }
+
+.wrapper.scrolled {
+    height: 68px;
+    transition: 0.2s;
+    background-color: var(--steamColorBlack);
+    box-shadow: var(--steamBoxShadow);
+
+    .change-btn-color {
+        transform: scale(0.89);
+        transition: calc(0.4s);
+        color: var(--primary);
+        border: 1.2px solid currentColor;
+        box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
+
+        &:hover {
+            transform: scale(1);
+            transition: calc(0.2s);
+        }
+    }
+}
+
 .inner {
     height: 100%;
+    margin: 0 auto;
     width: 99%;
     display: flex;
     align-items: center;
@@ -30,18 +56,19 @@ li {
 
 li a {
     display: block;
+    font-size: 1.8rem;
     text-transform: capitalize;
-    color: var(--steamColorBlack);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    border-radius: var(--steamBoder);
     transition: calc(0.4s);
 
     &:hover {
         text-decoration: underline;
         text-underline-offset: 10px;
-        transform: scale(1.1);
-        transition: calc(0.3s);
+        text-shadow: 2px 3px 13px rgba(255, 255, 255, 0.63);
+        transition: calc(0.2s);
     }
 }
 
@@ -98,9 +125,9 @@ li a {
     right: calc(var(--search-button-width) + 16px);
     top: 50%;
     font-size: 1.6rem;
+    color: var(--primary);
     background-color: transparent;
     transform: translateY(-50%);
-    color: rgba(22, 24, 35, 0.34);
 }
 
 .search-btn {
@@ -122,10 +149,11 @@ li a {
 }
 
 .more-btn {
+    cursor: pointer;
     font-size: 2rem;
     margin-left: 8px;
     padding: 4px 8px;
-    cursor: pointer;
+    color: var(--steamColorWhite);
     background-color: transparent;
     transform: rotate(180deg);
     transition: transform 0.5s ease;
@@ -138,13 +166,13 @@ li a {
 
 .cart-btn {
     cursor: pointer;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     margin-left: 8px;
-    padding: 4px 8px;
+    padding: 4px 10px;
+    color: var(--steamColorWhite);
     transform: scale(0.89);
     transition: calc(0.3s);
-    border-radius: var(--steamBoder);
-    background-color: var(--steamColorWhite);
+    background-color: transparent;
 
     &:hover {
         transform: scale(1);

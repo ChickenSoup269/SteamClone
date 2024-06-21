@@ -10,7 +10,7 @@ function Button({
     primary = false,
     outline = false,
     small = false,
-    medium = false,
+    changeColorBtn = false,
     large = false,
     leftIcon,
     rightIcon,
@@ -49,7 +49,7 @@ function Button({
         outline,
         disabled,
         small,
-        medium,
+        changeColorBtn,
         large,
     })
 

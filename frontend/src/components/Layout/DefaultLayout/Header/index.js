@@ -6,9 +6,9 @@ import {
     faSearch,
     faXmark,
     faCaretDown,
-    faShoppingCart,
     faLanguage,
     faCircleHalfStroke,
+    faBasketShopping,
 } from '@fortawesome/free-solid-svg-icons'
 import Tippy from '@tippyjs/react/headless'
 
@@ -35,12 +35,30 @@ const MENU_ITEMS = [
 const navLinkStyles = ({ isActive }) => {
     return {
         fontWeight: isActive ? '700' : '500',
-        color: isActive ? 'var(--primary)' : 'var(--steamBackground)',
+        background: isActive ? 'var(--steamColorWhite)' : 'none',
+        color: isActive ? 'var(--primary)' : 'var(--steamColorWhite)',
+        transform: isActive ? ' scale(0.9)' : 'none',
     }
 }
 
 function Header() {
     const [searchResult, setSearchResult] = useState([])
+    const [isScrolled, setIsScrolled] = useState(false)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 10) {
+                setIsScrolled(true)
+            } else {
+                setIsScrolled(false)
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
 
     useEffect(() => {
         setTimeout(() => {
@@ -49,7 +67,7 @@ function Header() {
     }, [])
 
     return (
-        <header className={cx('wrapper')}>
+        <header className={cx('wrapper', { scrolled: isScrolled })}>
             <div className={cx('inner')}>
                 <div className={cx('navbar')}>
                     <ul>
@@ -65,7 +83,7 @@ function Header() {
                         </li>
                         <li>
                             <NavLink style={navLinkStyles} to="/admin">
-                                Trợ giúp
+                                Hỗ trợ
                             </NavLink>
                         </li>
                     </ul>
@@ -84,7 +102,7 @@ function Header() {
                     )}
                 >
                     <div className={cx('search')}>
-                        <input placeholder="Nhập tên game" spellCheck={false} />
+                        <input placeholder="Tìm kiếm" spellCheck={false} />
                         <button className={cx('clear')}>
                             <FontAwesomeIcon icon={faXmark} />
                         </button>
@@ -98,12 +116,14 @@ function Header() {
                 <div className={cx('actions')}>
                     <NavLink to="/cart">
                         <button className={cx('cart-btn')}>
-                            <FontAwesomeIcon icon={faShoppingCart} />
+                            <FontAwesomeIcon icon={faBasketShopping} />
                         </button>
                     </NavLink>
 
-                    <NavLink to="/l">
-                        <Button outline>Đăng Nhập</Button>
+                    <NavLink to="/login">
+                        <Button outline className={cx('change-btn-color')}>
+                            Đăng Nhập
+                        </Button>
                     </NavLink>
                     <NavLink to="/register">
                         <Button primary>Đăng Ký</Button>

@@ -5,8 +5,8 @@
     font-size: 1.5rem;
     cursor: pointer;
     font-weight: 600;
-    color: var(--steamFontWhite);
-    background-color: var(--steamFontWhite);
+    color: var(--steamColorWhite);
+    background-color: transparent;
     border: 1px solid transparent;
 
     &.disabled {
@@ -31,7 +31,7 @@
 }
 
 a {
-    color: var(--steamFontWhite);
+    color: var(--steamColorWhite);
 }
 
 // Button type
@@ -39,24 +39,27 @@ a {
     transform: scale(0.89);
     transition: calc(0.4s);
     background-color: var(--primary);
+    border: 1.2px solid var(--primary);
     box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
 }
+
+// .changeColorBtn {
+// }
 
 .outline {
     transform: scale(0.89);
     transition: calc(0.4s);
-    color: var(--primary);
+    color: var(--steamColorWhite);
     border: 1.2px solid currentColor;
-    box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
+    box-shadow: rgba(255, 255, 255, 0.46) 0px 3px 8px;
 }
 
-// Button size [small, medium, large]
+// Button size [small, large]
 .small {
     min-width: 88px;
     padding: 4px 16px;
 }
-.medium {
-}
+
 .large {
     min-width: 150px;
     padding: 14px 16px;
