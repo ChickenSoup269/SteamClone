@@ -10,6 +10,7 @@ const app = express()
 app.use(express.static(path.join(__dirname,'public')))// xử lý static file nằm trong public 
 // req HTTP  
 app.use(morgan('combined'))
+app.use(express.json());
 // import routes 
 const userRoutes = require('./routes/appRoutes');
 // Routes init

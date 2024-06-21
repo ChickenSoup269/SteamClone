@@ -61,8 +61,46 @@ const getGamesByGenres = async () => {
     }
   }
 };
+//[POST]
+const insertGenres = async (genre) => {
+  let client;
+  try {
+    client = new MongoClient(config.mongoUrl);
+    await client.connect();
+    console.log('Connected to MongoDB');
+
+    const db = client.db(config.dbName);
+    const collectionGenres = db.collection('genres');
+    const result = await collectionGenres.insertOne({
+      genre_id: genre.genre_id,
+      description: genre.description
+    });
+    console.log("result", result);
+
+    console.log('Inserted genre with ID:', result.insertedId);
+    if (!result) {
+       throw new Error('Failed to insert genre.');
+    }
+
+    return result; 
+  } catch (error) {
+    if (error.code === 11000) {
+      throw new Error('Duplicate genre ID');
+    } else {
+      console.error('Error inserting genre:', error);
+      throw error;
+    }
+  } finally {
+    if (client) {
+      await client.close();
+      console.log('Closed MongoDB connection');
+    }
+  }
+};
+
 
 module.exports = {
   getAllGenres,
-  getGamesByGenres
+  getGamesByGenres,
+  insertGenres
 };
