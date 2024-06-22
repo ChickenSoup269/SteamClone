@@ -49,7 +49,10 @@ function Menu({ children, items = [], onChange = defaultF }) {
             trigger="click"
             placement="bottom-end"
             onShow={handleShow}
-            onHide={handleHide}
+            onHide={() => {
+                handleHide()
+                setHistory((prev) => prev.slice(0, 1))
+            }}
             render={(attrs) => (
                 <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
                     <PopperWrapper className={cx('menu-more-popper')}>

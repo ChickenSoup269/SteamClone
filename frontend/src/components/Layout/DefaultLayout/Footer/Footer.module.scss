@@ -73,11 +73,15 @@
 }
 
 @media (max-width: 500px) {
-    .footer-menu ul {
+    .footer-bottom {
         display: flex;
         flex-direction: column; /* For vertical alignment on small screens */
         align-items: center;
         margin-top: 10px;
         margin-bottom: 20px;
+
+        .footer-bottom h1 {
+            width: 200px;
+        }
     }
 }

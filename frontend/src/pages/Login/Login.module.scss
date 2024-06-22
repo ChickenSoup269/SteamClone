@@ -1,6 +1,5 @@
 .wrapper {
     position: relative;
-    height: 100vh;
 }
 
 .full-background {
@@ -9,7 +8,202 @@
         background: url('../../assets/images/steamBackground.jpg') no-repeat center center/cover;
         position: absolute;
         width: 100%;
-        height: 100%;
+        height: 100vh;
         z-index: -1;
+    }
+}
+
+.container-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    position: relative;
+    min-width: 250px;
+    height: 335px;
+    background: #181a21;
+    color: #fff;
+    padding: 20px 30px 25px 30px;
+    border-radius: var(--steamBoder);
+    box-shadow: var(--steamBoxShadowHover);
+}
+
+.header-text {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-weight: 500;
+    margin-bottom: 20px;
+
+    p {
+        font-weight: 900;
+        font-size: 28px;
+    }
+}
+
+.input-group {
+    width: 280px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    width: 280px;
+    height: 45px;
+    background: transparent;
+    color: #fff;
+    border: 0;
+    border-bottom: 1px solid #fff;
+    margin: 15px 0;
+    padding: 0 15px;
+    outline: none;
+}
+
+.input-field:focus,
+.input-field:valid {
+    border-bottom: 2px solid var(--primary);
+}
+
+.input-group label {
+    position: absolute;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    top: 25px;
+    left: 5px;
+    transition: 0.3s;
+}
+
+.input-field:focus ~ label,
+.input-field:valid ~ label {
+    top: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.password-group {
+    position: relative;
+    transition: calc(0.4s);
+
+    .show-hide-btn {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .input-field:focus + label + .show-hide-btn {
+        opacity: 1;
+    }
+}
+
+.check-remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    .check-remember {
+        display: flex;
+        align-items: center;
+
+        input {
+            margin-right: 5px;
+        }
+
+        label {
+            font-size: 1.2rem;
+        }
+    }
+
+    .forgot-pass {
+        margin-bottom: 0;
+        align-items: end;
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.2rem;
+
+            &:hover {
+                color: var(--steamColorWhite);
+                text-shadow: var(--steamTextShadow);
+            }
+        }
+    }
+}
+
+.input-submit {
+    height: 40px;
+    font-size: 1.6rem;
+    border-radius: var(--steamBoder);
+    border: none;
+    color: var(--steamColorWhite);
+    background: var(--primary);
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.4s ease-out;
+
+    &:hover {
+        box-shadow: var(--steamBoxShadowHover);
+    }
+}
+
+.qr-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    font-weight: 300;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: calc(0.4s);
+
+    &:hover {
+        text-decoration: underline;
+        transition: calc(0.2s);
+    }
+}
+
+.title-qr {
+    margin-bottom: 10px;
+}
+
+.qr-section {
+    opacity: 0;
+    width: 0px;
+    z-index: -1;
+    transform: translateX(-300px);
+    transition: 0.5s ease-in;
+
+    &.visible {
+        width: 220px;
+        opacity: 1;
+        margin-left: -10px;
+        transform: translateX(0);
+        box-shadow: var(--steamBoxShadow);
+        animation: leftToRight 5s;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+        text-align: center;
+        color: #181a21;
+        background: white;
+    }
+}
+
+@keyframes leftToRight {
+    from {
+        left: -300px;
+    }
+    to {
+        right: 0px;
     }
 }
