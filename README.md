@@ -1,5 +1,5 @@
 
-# README SteamClone 2.0
+# README SteamClone 1.0
 
 + Dự án này được tạo ra để người dùng dễ dàng mua game và trải nghiệm những tựa game mà người dùng muốn.
 + Đặc điểm chính của Web này là UI thân thiện và có vài chức năng tương tự Steam 
