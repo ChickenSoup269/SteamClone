@@ -1,14 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const { getGamesByGenresController ,getGenresController,insertGenreController} = require('../controller/genresController');
+const { getGamesByGenresController, getGenresController,
+  insertGenreController, deleteGenresController,updateGenresController } = require('../controller/genresController');
 // route detail
-//[GET]
-router.get('/genres',getGamesByGenresController)
 //[POST]
 router.post('/insert', insertGenreController)
-router.get('/', getGenresController);
 //[Delete]
+router.delete('/delete/:genre_id',deleteGenresController)
 //[Update]
+router.put('/update/:genre_id',updateGenresController)
+//[GET]
+router.get('/genres',getGamesByGenresController)
+router.get('/', getGenresController);
+
 
 // export
 module.exports = router;
