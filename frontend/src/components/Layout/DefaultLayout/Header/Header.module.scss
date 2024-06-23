@@ -197,21 +197,7 @@ li a {
     border-radius: 50%;
 }
 
-.libary-game {
-    // font-size: 1.4rem;
-    // font-weight: 500;
-    // padding: 4px 8px;
-    // border-radius: var(--steamBoder);
-
-    // transition: calc(0.4s);
-
-    // &:hover {
-    //     box-shadow: var(--steamBoxShadow);
-    //     transition: 0.2s all ease-in;
-    // }
-}
 //action
-
 .actions {
     display: flex;
     align-items: center;
@@ -228,6 +214,58 @@ li a {
     &:hover {
         box-shadow: var(--steamBoxShadowHover);
     }
+}
+
+// Toggle switch day * night
+.switch[type='checkbox'] {
+    appearance: none;
+    width: 52px;
+    height: 25px;
+    background: var(--steamColorWhite);
+    border-radius: 18px;
+    margin-left: 5px;
+    position: relative;
+    outline: 0;
+    cursor: pointer;
+}
+
+.switch[type='checkbox']:before,
+.switch[type='checkbox']:after {
+    position: absolute;
+    content: '';
+    transition: all 0.25s;
+}
+
+.switch[type='checkbox']:before {
+    width: 12px;
+    height: 12px;
+    background: #e8bd20;
+    border: 5px solid var(--steamColorBlack);
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    box-shadow: rgba(232, 189, 32, 0.35) 0px 5px 15px;
+}
+
+.switch[type='checkbox']:after {
+    width: 12px;
+    height: 12px;
+    background: var(--steamColorBlack);
+    border-radius: 50%;
+    top: 50%;
+    left: 15px;
+    transform: scale(1) translateY(-50%);
+    transform-origin: 50% 50%;
+}
+
+.switch[type='checkbox']:checked:before {
+    left: calc(100% - 25px);
+}
+
+.switch[type='checkbox']:checked:after {
+    left: 75px;
+    transform: scale(0);
 }
 
 /* Responsive Styles */

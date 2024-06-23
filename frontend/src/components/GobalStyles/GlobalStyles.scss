@@ -1,5 +1,4 @@
 @import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 :root {
     --primary: #1a9fff;
     --steamPrice: #beee11;
@@ -32,15 +31,27 @@ html {
     font-size: 62.5%;
 }
 
+[data-theme='light'] {
+    --steamColorWhite: #ffffff;
+    --steamColorBlack: black;
+    --steamFontBackground: #131518;
+}
+[data-theme='dark'] {
+    --steamColorWhite: black;
+    --steamColorBlack: #ffffff;
+    --steamFontBackground: #ececec;
+}
+
 body {
+    font-family: 'Motiva Sans', sans-serif;
     display: block;
-    font-family: 'Roboto', sans-serif;
     font-size: 1.6rem;
     font-style: normal;
     color: var(--steamColorWhite);
     background-color: var(--steamBackground);
     overflow-x: hidden;
 }
+
 // custom scroll bar
 ::-webkit-scrollbar {
     height: 12px;
@@ -49,9 +60,11 @@ body {
     z-index: 12;
     overflow: visible;
 }
+
 ::-webkit-scrollbar-corner {
     background: #202020;
 }
+
 ::-webkit-scrollbar-thumb {
     width: 10px;
     background-color: #434953;
@@ -64,6 +77,7 @@ body {
     min-height: 32px;
     min-width: 32px;
 }
+
 ::selection {
     background: #54a5d4;
     text-shadow: 1px 1px 2px #000000aa;
@@ -85,17 +99,54 @@ input,
     border: none;
 }
 
-// custom tippy tooltip
+// Fonts steam
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Black.ttf');
+    font-weight: 900;
+}
 
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Thin.ttf');
+    font-weight: 100;
+}
+
+// custom tippy tooltip
 body {
     .tippy-box {
         font-weight: 500;
         font-size: 1.5rem;
         line-height: 2rem;
-        background-color: var(--steamFontBackground);
+        color: var(--steamFontBackground);
+        background-color: white;
     }
 
     .tippy-arrow {
-        color: var(--steamFontBackground);
+        color: var(--steamColorWhite);
     }
 }

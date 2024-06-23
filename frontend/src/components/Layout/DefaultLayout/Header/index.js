@@ -7,10 +7,7 @@ import {
     faXmark,
     faCaretDown,
     faLanguage,
-    faCircleHalfStroke,
     faBasketShopping,
-    faSun,
-    faMoon,
     faBell,
     faUser,
     faSignOut,
@@ -18,7 +15,9 @@ import {
     faDollarSign,
     faBoxArchive,
     faGift,
+    faAngleRight,
 } from '@fortawesome/free-solid-svg-icons'
+
 import Tippy from '@tippyjs/react/'
 import HeadlessTippy from '@tippyjs/react/headless'
 import 'tippy.js/dist/tippy.css'
@@ -29,13 +28,19 @@ import { NavLink } from 'react-router-dom'
 import styles from './Header.module.scss'
 import GameItem from '~/components/GameItem'
 import Menu from '~/components/Popper/Menu'
+import Image from '~/components/Image'
 
 const cx = classNames.bind(styles)
 
 const MENU_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faLanguage} />,
-        title: 'Tiếng Việt',
+        title: (
+            <>
+                Tiếng Việt [BETA] &nbsp;&nbsp;
+                <FontAwesomeIcon icon={faAngleRight} />
+            </>
+        ),
         children: {
             title: 'Ngôn ngữ',
             data: [
@@ -52,35 +57,6 @@ const MENU_ITEMS = [
             ],
         },
     },
-    {
-        icon: <FontAwesomeIcon icon={faCircleHalfStroke} />,
-        title: 'Giao diện: Tối',
-        children: {
-            title: 'Giao diện',
-            data: [
-                {
-                    type: 'LightUI',
-                    code: 'day',
-                    title: (
-                        <>
-                            <FontAwesomeIcon icon={faSun} />
-                            &nbsp; Giao diện sáng
-                        </>
-                    ),
-                },
-                {
-                    type: 'LightUI',
-                    code: 'night',
-                    title: (
-                        <>
-                            <FontAwesomeIcon icon={faMoon} />
-                            &nbsp; Giao diện tối
-                        </>
-                    ),
-                },
-            ],
-        },
-    },
 ]
 
 const usserMenu = [
@@ -92,7 +68,7 @@ const usserMenu = [
     {
         icon: <FontAwesomeIcon icon={faDollarSign} />,
         title: 'Nạp tiền',
-        to: '/recharge',
+        to: '/#',
     },
     {
         icon: <FontAwesomeIcon icon={faWallet} />,
@@ -101,23 +77,38 @@ const usserMenu = [
                 Ví: <span style={{ color: 'var(--steamPrice)' }}>1.000.000vnđ</span>
             </span>
         ),
-        to: '/wallet',
+        to: '/#',
     },
     {
         icon: <FontAwesomeIcon icon={faBoxArchive} />,
-        title: 'Kho đồ',
-        to: '/inventory',
+        title: 'Kho game',
+        to: '/#',
     },
     {
         icon: <FontAwesomeIcon icon={faGift} />,
         title: 'Tặng quà',
-        to: '/gift',
+        to: '/#',
+        children: {
+            title: 'Tặng quà',
+            data: [
+                {
+                    type: 'gift',
+                    code: 'gift-game',
+                    title: 'Tặng game',
+                },
+                {
+                    type: 'gift',
+                    code: 'gift-money',
+                    title: 'Tặng tiền',
+                },
+            ],
+        },
     },
     ...MENU_ITEMS,
     {
         icon: <FontAwesomeIcon icon={faSignOut} />,
         title: 'Đăng xuất',
-        to: '/logout',
+        to: '/#',
         line: true,
     },
 ]
@@ -212,12 +203,10 @@ function Header() {
                         </button>
                     </div>
                 </HeadlessTippy>
+
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <Button primary className={cx('libary-game')}>
-                                Kho game
-                            </Button>
                             <NavLink to="/cart">
                                 <Tippy content="Thông báo" placement="bottom">
                                     <button className={cx('notification-btn')}>
@@ -247,15 +236,14 @@ function Header() {
                             </button>
                         </Tippy>
                     </NavLink>
+                    <Tippy content="Màu giao diện">
+                        <input className={cx('switch')} type="checkbox" data-theme-toggle />
+                    </Tippy>
                     <Menu items={currentUser ? usserMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {({ isAnimating }) =>
                             currentUser ? (
-                                <Tippy content="Thông tin cá nhân" placement="bottom">
-                                    <img
-                                        src="https://pro2-bar-s3-cdn-cf.myportfolio.com/dddb0c1b4ab622854dd81280840458d3/baffc96f5eccbde6402befe0_rw_600.png?h=cc45688ebccb59201761f059f3f4e5e3"
-                                        className={cx('user-avatar')}
-                                        alt="Tran Phuoc Thien"
-                                    />
+                                <Tippy content="Tài khoản" placement="bottom">
+                                    <Image src="" className={cx('user-avatar')} alt="Tran Phuoc Thien" />
                                 </Tippy>
                             ) : (
                                 <button className={cx('more-btn', { 'is-animating': isAnimating })}>
