@@ -58,14 +58,43 @@ const fetchDataAndSaveToMongo = async () => {
         for (const game of limitedGames) {
             if (game.name && game.name.trim() !== "") {
                 const gameDetails = await fetchAppDetail(game.appid);
-                if (gameDetails && gameDetails.genres) {
+                if (gameDetails && gameDetails.genres && gameDetails.package_groups) {
                     const genres = gameDetails.genres || [];
-                    const genre_ids = genres.map(genre => genre.id); // get genre_ids
+                    const genre_ids = genres.map(genre => genre.id); 
+                    let title = '';
+                    let selectionText = '';
+                    let optionTexts = [];
+                    let percentSavings = [];
+                    let releaseDate = '';
+                    if (gameDetails.release_date && gameDetails.release_date.date) {
+                        releaseDate = gameDetails.release_date.date;
+                    }
+                    if (gameDetails.package_groups) {
+                        for (const group of gameDetails.package_groups) {
+                            if (group.title) {
+                                title = group.title;
+                            }
+                            if (group.selection_text) {
+                                selectionText = group.selection_text;
+                            }
+                            if (group.subs) {
+                                optionTexts = group.subs.map(sub => sub.option_text);
+                            }
+                            if (group.subs) {
+                                percentSavings = group.subs.map(sub => sub.percent_savings_text);
+                            }
+                        }
+                    }
                     const transformedGame = {
                         game_id: game.appid,
                         game_name: game.name,
                         header_image: gameDetails.header_image,
-                        genre_ids: genre_ids // add genre_ids to transformedGame
+                        genre_ids: genre_ids,
+                        title: title,
+                        selection_text: selectionText,
+                        subs: optionTexts,
+                        release_date: releaseDate,
+                        sale : percentSavings
                     };
                     await collection.updateOne(
                         { game_id: transformedGame.game_id },
