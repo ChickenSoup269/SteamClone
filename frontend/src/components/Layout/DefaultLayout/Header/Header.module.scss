@@ -73,82 +73,6 @@ li a {
     }
 }
 
-.search {
-    position: relative;
-    width: 385px;
-    height: var(--search-height);
-    padding-left: 16px;
-    display: flex;
-    background-color: var(--steamColorWhite);
-    border: 1.2px solid var(--steamHoverPopUp);
-    border-radius: 6px;
-    transition: calc(0.2s);
-    box-shadow: var(--steamBoxShadow);
-
-    input {
-        flex: 1;
-        height: 100%;
-        color: var(--steamColorBlack);
-        font-size: 1.6rem;
-        caret-color: var(--primary);
-        background-color: var(--steamColorWhite);
-    }
-
-    input:not(:placeholder-shown) ~ .search-btn {
-        color: var(--steamColorWhite);
-        background-color: var(--primary);
-    }
-
-    &:hover {
-        transition: calc(0.2s);
-        border: 1px solid var(--primary);
-        box-shadow: var(--steamBoxShadowHover);
-    }
-
-    &::after {
-        content: '';
-        position: absolute;
-        top: var(--search-top-spacer);
-        right: 50px;
-        width: 1.2px;
-        height: calc(var(--search-height) - var(--search-top-spacer) * 2);
-        background-color: var(--primary);
-    }
-}
-
-.search-result {
-    width: 445px;
-}
-
-.clear,
-.loading {
-    position: absolute;
-    right: calc(var(--search-button-width) + 16px);
-    top: 50%;
-    font-size: 1.6rem;
-    color: var(--primary);
-    background-color: transparent;
-    transform: translateY(-50%);
-}
-
-.search-btn {
-    width: var(--search-button-width);
-    height: 100%;
-    font-size: 1.6rem;
-    transition: calc(0.4s);
-    color: var(--primary);
-    background-color: var(--steamColorWhite);
-    border-top-right-radius: var(--search-boder);
-    border-bottom-right-radius: var(--search-boder);
-
-    &:hover {
-        cursor: pointer;
-        transition: calc(0.2s);
-        color: var(--steamBoxShadow);
-        background-color: var(--primary);
-    }
-}
-
 .more-btn {
     cursor: pointer;
     font-size: 2rem;
@@ -222,7 +146,7 @@ li a {
     width: 52px;
     height: 25px;
     background: var(--steamColorWhite);
-    border-radius: 18px;
+    border-radius: 50px;
     margin-left: 5px;
     position: relative;
     outline: 0;
@@ -260,7 +184,7 @@ li a {
 }
 
 .switch[type='checkbox']:checked:before {
-    left: calc(100% - 25px);
+    left: calc(100% - 27px);
 }
 
 .switch[type='checkbox']:checked:after {
@@ -269,12 +193,6 @@ li a {
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 1200px) {
-    .search {
-        width: 300px;
-    }
-}
-
 @media screen and (max-width: 992px) {
     .wrapper {
         height: 60px;
@@ -282,10 +200,6 @@ li a {
 
     .wrapper.scrolled {
         height: 58px;
-    }
-
-    .search {
-        width: 250px;
     }
 
     .more-btn,

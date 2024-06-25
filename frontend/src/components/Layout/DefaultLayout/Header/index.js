@@ -2,9 +2,6 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-    faSpinner,
-    faSearch,
-    faXmark,
     faCaretDown,
     faLanguage,
     faBasketShopping,
@@ -14,21 +11,19 @@ import {
     faWallet,
     faDollarSign,
     faBoxArchive,
-    faGift,
     faAngleRight,
+    faKeyboard,
 } from '@fortawesome/free-solid-svg-icons'
 
 import Tippy from '@tippyjs/react/'
-import HeadlessTippy from '@tippyjs/react/headless'
 import 'tippy.js/dist/tippy.css'
 
 import Button from '~/components/Button'
-import { Wrapper as PopperWrapper } from '~/components/Popper'
 import { NavLink } from 'react-router-dom'
 import styles from './Header.module.scss'
-import GameItem from '~/components/GameItem'
 import Menu from '~/components/Popper/Menu'
 import Image from '~/components/Image'
+import Search from '../../Search'
 
 const cx = classNames.bind(styles)
 
@@ -57,6 +52,10 @@ const MENU_ITEMS = [
             ],
         },
     },
+    {
+        icon: <FontAwesomeIcon icon={faKeyboard} />,
+        title: 'Phím tắt',
+    },
 ]
 
 const usserMenu = [
@@ -84,26 +83,6 @@ const usserMenu = [
         title: 'Kho game',
         to: '/#',
     },
-    {
-        icon: <FontAwesomeIcon icon={faGift} />,
-        title: 'Tặng quà',
-        to: '/#',
-        children: {
-            title: 'Tặng quà',
-            data: [
-                {
-                    type: 'gift',
-                    code: 'gift-game',
-                    title: 'Tặng game',
-                },
-                {
-                    type: 'gift',
-                    code: 'gift-money',
-                    title: 'Tặng tiền',
-                },
-            ],
-        },
-    },
     ...MENU_ITEMS,
     {
         icon: <FontAwesomeIcon icon={faSignOut} />,
@@ -123,11 +102,10 @@ const navLinkStyles = ({ isActive }) => {
 }
 
 function Header() {
-    const [searchResult, setSearchResult] = useState([])
     const [isScrolled, setIsScrolled] = useState(false)
 
     // khi đăng nhập
-    const currentUser = true
+    const currentUser = false
 
     useEffect(() => {
         const handleScroll = () => {
@@ -142,12 +120,6 @@ function Header() {
         return () => {
             window.removeEventListener('scroll', handleScroll)
         }
-    }, [])
-
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([])
-        }, 0)
     }, [])
 
     // Handel logic
@@ -178,31 +150,8 @@ function Header() {
                         </li>
                     </ul>
                 </div>
-                <HeadlessTippy
-                    visible={searchResult.length > 0}
-                    render={(attrs) => (
-                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                            <PopperWrapper>
-                                <GameItem />
-                                <GameItem />
-                                <GameItem />
-                                <GameItem />
-                            </PopperWrapper>
-                        </div>
-                    )}
-                >
-                    <div className={cx('search')}>
-                        <input placeholder="Tìm kiếm" spellCheck={false} />
-                        <button className={cx('clear')}>
-                            <FontAwesomeIcon icon={faXmark} />
-                        </button>
-                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
 
-                        <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faSearch} />
-                        </button>
-                    </div>
-                </HeadlessTippy>
+                <Search />
 
                 <div className={cx('actions')}>
                     {currentUser ? (
