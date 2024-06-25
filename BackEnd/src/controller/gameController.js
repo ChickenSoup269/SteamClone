@@ -3,6 +3,9 @@ const { getGamesFromMongo } = require('../services/gameServices');
 const getGames = async (req, res) => {
     try {
         const games = await getGamesFromMongo();
+        if (!games) {
+            return res.status(404).json({ error: 'Games not found' });
+        }
         res.json(games);
     } catch (error) {
         console.error('Error while getting games from MongoDB ', error);
@@ -10,6 +13,7 @@ const getGames = async (req, res) => {
     }
 };
 //
+
 
 module.exports = {
     getGames
