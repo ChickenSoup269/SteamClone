@@ -44,6 +44,9 @@ a {
     background-color: var(--primary);
     border: 1.2px solid var(--primary);
     box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
+    &:active {
+        background-color: rgb(37, 114, 246);
+    }
 }
 
 // .changeColorBtn {
@@ -55,6 +58,10 @@ a {
     color: var(--steamColorWhite);
     border: 1.2px solid currentColor;
     box-shadow: rgba(255, 255, 255, 0.46) 0px 3px 8px;
+    &:active {
+        color: var(--steamColorBlack);
+        background-color: rgb(255, 255, 255);
+    }
 }
 
 // Button size [small, large]

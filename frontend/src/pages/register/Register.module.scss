@@ -21,7 +21,7 @@
 .register-box {
     position: relative;
     min-width: 350px;
-    height: 535px;
+    height: 400px;
     background: #181a21;
     color: #fff;
     padding: 20px 30px 25px 30px;
@@ -43,14 +43,14 @@
 }
 
 .input-group {
-    width: 280px;
+    width: 300px;
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
 .input-field {
-    width: 280px;
+    width: 300px;
     height: 45px;
     background: transparent;
     color: #fff;
@@ -64,7 +64,6 @@
 .input-field:focus,
 .input-field:valid {
     border-bottom: 2px solid var(--primary);
-    filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(17, 168, 255, 0.5));
 }
 
 .input-group label {
@@ -114,10 +113,109 @@
     background: var(--primary);
     margin-top: 20px;
     font-weight: bold;
+
     cursor: pointer;
     transition: 0.4s ease-out;
 
     &:hover {
         box-shadow: var(--steamBoxShadowHover);
+    }
+    &:active {
+        background-color: aqua;
+    }
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.291);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.form-info-user {
+    position: relative;
+    width: 345px;
+    background-color: var(--steamBackground);
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: var(--steamBoder);
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.input-code {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #ccc;
+}
+
+// Code Email
+.inputs {
+    width: 300px;
+}
+
+.title-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.input-code {
+    width: 30px;
+    height: 35px;
+    border: none;
+    color: var(--steamColorWhite);
+    background-color: transparent;
+    color: #181a21;
+    border-bottom: 3px solid rgb(0, 0, 0);
+    margin: 0 10px;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.4rem;
+
+    &:focus {
+        border-bottom: 3px solid var(--primary);
+        outline: none;
+    }
+
+    &:active {
+        border-bottom: 3px solid var(--primary);
+    }
+}
+
+.qr-section {
+    opacity: 0;
+    width: 0px;
+    transform: translateX(-300px);
+    transition: 0.5s ease-in;
+
+    &.visible {
+        width: 340px;
+        opacity: 1;
+        margin-left: -10px;
+        transform: translateY(-30px);
+        box-shadow: var(--steamBoxShadow);
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+        text-align: center;
+        color: #181a21;
+        background: white;
     }
 }

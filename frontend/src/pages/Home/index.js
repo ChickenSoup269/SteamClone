@@ -128,6 +128,7 @@ function Home() {
                             <div className={cx('steam-price')}>
                                 <p className={cx('steam-price-old')}>990.000.00đ</p>
                                 <p className={cx('steam-price-new')}>300.000.00đ</p>
+                                <div className={cx('steam-percent-change')}>50%</div>
                             </div>
                         </div>
                     </div>

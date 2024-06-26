@@ -153,6 +153,10 @@
     &:hover {
         box-shadow: var(--steamBoxShadowHover);
     }
+
+    &:active {
+        background-color: aqua;
+    }
 }
 
 .qr-text {
@@ -187,21 +191,11 @@
         margin-left: -10px;
         transform: translateX(0);
         box-shadow: var(--steamBoxShadow);
-        animation: leftToRight 5s;
         padding: 20px;
         border-radius: 8px;
         max-width: 400px;
         text-align: center;
         color: #181a21;
         background: white;
-    }
-}
-
-@keyframes leftToRight {
-    from {
-        left: -300px;
-    }
-    to {
-        right: 0px;
     }
 }

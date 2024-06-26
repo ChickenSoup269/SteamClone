@@ -130,16 +130,58 @@
     }
 }
 
+.add-btn-card {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    padding: 0.8rem 1.5rem;
+    margin-top: 1.2rem;
+    color: var(--steamColorWhite);
+    background-color: var(--secondary);
+    transform: scale(0.9);
+    transition: calc(0.3s);
+    box-shadow: var(--steamBoxShadow);
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1);
+        transition: calc(0.2s);
+        box-shadow: var(--steamBoxShadowHover);
+    }
+}
+
+.steam-price {
+    width: 150px;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--steamBackgroundPrice);
+
+    .steam-price-old {
+        font-size: 1.2rem;
+        color: #b0b0b0;
+        text-decoration: line-through;
+    }
+
+    .steam-price-new {
+        font-size: 1.8rem;
+        color: var(--steamPrice);
+        font-weight: bold;
+    }
+}
+
 .discount-badge {
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 0;
     right: 13px;
-    width: 100px;
-    height: 50px;
-    clip-path: polygon(100% 0, 0 0, 100% 55%);
+    width: 50px;
+    height: 25px;
+    opacity: 0.95;
+    border-radius: 5px 5px 0px 5px;
     color: var(--steamPrice);
     background-color: var(--steamBackgroundPrice);
     font-weight: 700;
