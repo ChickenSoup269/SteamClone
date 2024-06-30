@@ -1,7 +1,7 @@
 // import library 
 const express = require('express');
 const morgan = require("morgan"); 
-const { fetchDataAndSaveToMongo } = require('./services/gameServices');
+const { fetchDataAndSaveToMongo } = require('./utils/apiUtils');
 const path = require('path');
 // import structure
 const config = require('./config/mongodb');  
@@ -10,6 +10,7 @@ const app = express()
 app.use(express.static(path.join(__dirname,'public')))// xử lý static file nằm trong public 
 // req HTTP  
 app.use(morgan('combined'))
+app.use(express.json());
 // import routes 
 const userRoutes = require('./routes/appRoutes');
 // Routes init
