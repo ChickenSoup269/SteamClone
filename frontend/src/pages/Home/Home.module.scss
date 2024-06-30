@@ -13,7 +13,7 @@
 
 .full-screen-slider::after {
     background: linear-gradient(
-        90deg,
+        80deg,
         #181818 10%,
         hsla(0, 0%, 9%, 0.98) 20%,
         hsla(0, 0%, 9%, 0.97) 25%,
@@ -36,7 +36,7 @@
     content: '';
     left: 0;
     position: absolute;
-    right: 550px;
+    right: 650px;
     top: 0;
     height: 550px;
     z-index: 0;
@@ -51,7 +51,7 @@
 
 .full-screen-content {
     position: absolute;
-    top: 35%;
+    top: 25%;
     margin-left: 5vw;
     z-index: 100;
 
@@ -102,32 +102,74 @@
 
 .swiper-slide {
     display: flex;
+    position: relative;
     transition: all 300ms ease-in-out;
     border-radius: 5px;
     justify-content: center;
     align-items: flex-start;
 }
 
-.swiper-slide-active {
-    filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(3, 157, 253, 0.5));
-}
+// .swiper-slide .img-header-games-active {
+// --border-angle: 0turn;
+// --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
+// border: solid 2px transparent;
+// --gradient-border: conic-gradient(
+//     from var(--border-angle),
+//     transparent 25%,
+//     rgb(0, 121, 157),
+//     var(--primary) 99%,
+//     transparent
+// );
+// background: var(--main-bg) padding-box, var(--gradient-border) border-box, var(--main-bg) border-box;
+// background-position: center center;
+// -webkit-animation: bg-spin 3s linear infinite;
+// animation: bg-spin 3s linear infinite;
+// }
+
+// @-webkit-keyframes bg-spin {
+//     to {
+//         --border-angle: 1turn;
+//     }
+// }
+// @keyframes bg-spin {
+//     to {
+//         --border-angle: 1turn;
+//     }
+// }
+
+// @property --border-angle {
+//     syntax: '<angle>';
+//     inherits: true;
+//     initial-value: 0turn;
+// }
 
 .swiper-slide img {
-    width: 210px;
-    height: 110px;
-    border-radius: 5px;
+    position: absolute;
+    width: 220px;
+    height: 115px;
+    border-radius: 10px;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
-}
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    transition: all ease 0.28s 0.01s;
+    transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
 
-.swiper-slide:hover {
-    transform: scale(1.1);
-    filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(255, 255, 255, 0.5));
-    transition: all 0.2s ease-in-out;
-    z-index: 1;
-
-    img {
+    &:hover,
+    &:focus {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transform: perspective(222px) translate3d(0px, 0px, 8px) rotateX(3deg);
+        transform-origin: center;
+        box-shadow: 0 14px 16px -2px rgba(0, 0, 0, 0.5);
         cursor: pointer;
     }
+
+    &:active {
+        filter: brightness(80%) contrast(110%);
+    }
+}
+
+.glow {
+    z-index: -1;
+    filter: blur(30px) saturate(5);
 }
 
 .add-btn-card {
@@ -177,13 +219,14 @@
     align-items: center;
     position: absolute;
     top: 0;
-    right: 13px;
+    right: 9px;
     width: 50px;
     height: 25px;
     opacity: 0.95;
-    border-radius: 5px 5px 0px 5px;
+    border-radius: 10px 10px 0px 10px;
     color: var(--steamPrice);
     background-color: var(--steamBackgroundPrice);
+    transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
     font-weight: 700;
     font-size: 1.4rem;
 }

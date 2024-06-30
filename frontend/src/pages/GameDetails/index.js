@@ -1,5 +1,14 @@
-function Home() {
-    return <h2>GameDeatails</h2>
+import classNames from 'classnames/bind'
+import styles from './GameDetails.scss'
+
+const cx = classNames.bind(styles)
+
+function GameDetails() {
+    return (
+        <header className={cx('wrapper')}>
+            <div className={cx('game_background_img')}></div>
+        </header>
+    )
 }
 
-export default Home
+export default GameDetails

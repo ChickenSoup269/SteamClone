@@ -164,21 +164,38 @@ function Home() {
                 >
                     {slides.map((slide, index) => (
                         <SwiperSlide
-                            className={cx('swiper-slide', { 'swiper-slide-active': index === currentIndex })}
+                            className={cx('swiper-slide')}
                             key={index}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
                             <img
-                                className={cx('img-header-games')}
+                                className={cx('img-header-games', {
+                                    'img-header-games-active': index === currentIndex,
+                                })}
                                 src={slide.headerImg}
-                                alt=""
+                                alt="GamePicture"
                                 onClick={() => handleThumbnailClick(index)}
                             />
+                            <img className={cx('glow')} src={slide.headerImg} alt="" />
                             <div className={cx('discount-badge')}>{slide.Sale}</div>
                         </SwiperSlide>
                     ))}
                 </Swiper>
+            </div>
+            <div className={cx('swiper-category')}>
+                <h2>xin chao</h2>
+                <h2>xin chao</h2>
+                <h2>xin chao</h2>
+                <h2>xin chao</h2>
+                <h2>xin chao</h2>
+            </div>
+            <div className={cx('swiper-game-category')}>
+                <h3>xin chao</h3>
+                <h3>xin chao</h3>
+                <h3>xin chao</h3>
+                <h3>xin chao</h3>
+                <h3>xin chao</h3>
             </div>
         </header>
     )

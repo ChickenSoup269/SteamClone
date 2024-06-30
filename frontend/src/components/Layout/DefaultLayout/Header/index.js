@@ -139,7 +139,12 @@ function Header() {
                         </li>
                         <li>
                             <NavLink style={navLinkStyles} to="/profile">
-                                Thể loại game
+                                Trò chuyện
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink style={navLinkStyles} to="/gameDetails">
+                                Thể loại
                             </NavLink>
                         </li>
 

@@ -1,41 +1,57 @@
 import { useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash, faEye, faTimes } from '@fortawesome/free-solid-svg-icons'
 import ReCAPTCHA from 'react-google-recaptcha'
+import emailjs from '@emailjs/browser'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import classNames from 'classnames/bind'
 import styles from './Register.module.scss'
-
-// 6LeF5AEqAAAAAJ6SwrkROCsXMWDxpn1Tt3HoGxHr [key recaptcha]
 
 const cx = classNames.bind(styles)
 
 function Register() {
     const [passwordVisible, setPasswordVisible] = useState(false)
     const [infoUserVisible, setinfoUserVisible] = useState(false)
-    const [qrVisible, setQrVisible] = useState(false)
-    const inputRefs = useRef([])
+    const [codeEmailVisible, setCodeEmailVisible] = useState(false)
+    const [email, setEmail] = useState('')
+    const [confirmEmail, setConfirmEmail] = useState('')
+    const [verificationCodes, setVerificationCodes] = useState({})
+    const [generatedCode, setGeneratedCode] = useState('')
+    const [message, setMessage] = useState('')
+    const [captchaVerified, setCaptchaVerified] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [emailSent, setEmailSent] = useState(false)
+    const [userEnteredCode, setUserEnteredCode] = useState('')
 
-    const toggleinfoUserVisibility = () => {
-        setinfoUserVisible(!infoUserVisible)
-    }
+    const inputRefs = useRef([])
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible)
     }
-
+    const toggleinfoUserVisibility = () => {
+        setinfoUserVisible(!infoUserVisible)
+    }
     const toggleQrVisibility = () => {
-        setQrVisible(!qrVisible)
+        setCodeEmailVisible(!codeEmailVisible)
     }
 
     const handleInput = (e, index) => {
         const target = e.target
-        const val = target.value
+        let val = target.value
 
-        if (isNaN(val)) {
+        // Validate input: allow only alphanumeric characters
+        if (!/^[A-Za-z0-9]$/.test(val)) {
             target.value = ''
             return
         }
+
+        setUserEnteredCode((prev) => {
+            const codeArray = [...prev]
+            codeArray[index] = val
+            return codeArray.join('')
+        })
 
         if (val !== '') {
             const next = inputRefs.current[index + 1]
@@ -51,44 +67,135 @@ function Register() {
 
         if (key === 'backspace' || key === 'delete') {
             target.value = ''
+            setUserEnteredCode((prev) => {
+                const codeArray = [...prev]
+                codeArray[index] = ''
+                return codeArray.join('')
+            })
+
             const prev = inputRefs.current[index - 1]
             if (prev) {
                 prev.focus()
             }
-            return
         }
     }
 
+    const generateCode = () => {
+        return Math.random().toString(36).substring(2, 8).toUpperCase()
+    }
+
+    const sendEmail = (e) => {
+        e.preventDefault()
+        if (isSubmitting || emailSent) return
+
+        if (!captchaVerified) {
+            toast.warning('Vui lòng xác nhận google CAPTCHA.', {
+                className: 'toast-notifications ',
+            })
+            return
+        }
+        if (email !== confirmEmail) {
+            toast.warning('Email không khớp.', {
+                className: 'toast-notifications ',
+            })
+            return
+        }
+
+        setIsSubmitting(true)
+
+        const code = generateCode()
+        setGeneratedCode(code)
+        const updatedVerificationCodes = { ...verificationCodes, [email]: code }
+        setVerificationCodes(updatedVerificationCodes)
+
+        const templateParams = {
+            to_email: email,
+            code: code,
+            message: message,
+        }
+
+        emailjs
+            .send('service_f6bh43steamClone', 'template_raisw6u', templateParams, 'erYbq0WRLJU4cn7wW')
+            .then((response) => {
+                console.log('Email sent successfully!', response.status, response.text)
+                setEmailSent(true)
+                toggleQrVisibility()
+            })
+            .catch((error) => {
+                console.error('Failed to send email:', error)
+            })
+            .finally(() => {
+                setIsSubmitting(false)
+            })
+    }
+
+    const onCaptchaChange = (value) => {
+        setCaptchaVerified(!!value)
+    }
+
+    const verifyCode = () => {
+        if (userEnteredCode === generatedCode) {
+            toast.success('Xác thực email thành công!', {
+                className: 'toast-notifications ',
+            })
+            toggleinfoUserVisibility()
+        } else {
+            toast.error('Code email không chính xác.', {
+                className: 'toast-notifications ',
+            })
+        }
+    }
     return (
         <header className={cx('wrapper')}>
             <div className={cx('full-background')}>
-                <form className={cx('container-register')}>
-                    <div className={cx('register-box')}>
+                <div className={cx('container-register')}>
+                    <form className={cx('register-box')} onSubmit={sendEmail}>
                         <div className={cx('header-text')}>
                             <p>Đăng ký</p>
                         </div>
                         <div className={cx('input-group')}>
-                            <input type="text" className={cx('input-field')} id="email" required />
+                            <input
+                                type="email"
+                                className={cx('input-field')}
+                                id="email"
+                                required
+                                value={email}
+                                disabled={emailSent}
+                                style={{ cursor: isSubmitting || emailSent ? 'not-allowed' : 'text' }}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                             <label htmlFor="email">Nhập email</label>
                         </div>
                         <div className={cx('input-group')}>
-                            <input type="text" className={cx('input-field')} id="confirm-email" required />
+                            <input
+                                type="email"
+                                className={cx('input-field')}
+                                id="confirm-email"
+                                value={confirmEmail}
+                                disabled={emailSent}
+                                style={{ cursor: isSubmitting || emailSent ? 'not-allowed' : 'text' }}
+                                onChange={(e) => setConfirmEmail(e.target.value)}
+                                required
+                            />
                             <label htmlFor="confirm-email">Xác nhận lại email</label>
                         </div>
 
-                        <ReCAPTCHA
-                            sitekey="6LeF5AEqAAAAAJ6SwrkROCsXMWDxpn1Tt3HoGxHr"
-                            // onChange={}
-                        />
+                        <ReCAPTCHA sitekey="6LeF5AEqAAAAAJ6SwrkROCsXMWDxpn1Tt3HoGxHr" onChange={onCaptchaChange} />
 
-                        <div className={cx('input-group')} onClick={toggleQrVisibility}>
-                            <button className={cx('input-submit')}>Xác nhận email </button>
+                        <div className={cx('input-group')}>
+                            <button
+                                className={cx('input-submit')}
+                                type="submit"
+                                disabled={isSubmitting || emailSent}
+                                style={{ cursor: isSubmitting || emailSent ? 'not-allowed' : 'pointer' }}
+                            >
+                                {isSubmitting ? 'Đang xử lý...' : 'Xác nhận email'}
+                            </button>
                         </div>
-                    </div>
-                    <div className={cx('qr-section', { visible: qrVisible })}>
-                        {/* Get code from mail 6 num */}
+                    </form>
+                    <ToastContainer />
+                    <div className={cx('qr-section', { visible: codeEmailVisible })}>
                         <div id="code-email" className={cx('inputs')}>
-                            {/* Icon X */}
                             <FontAwesomeIcon className={cx('close-btn')} icon={faTimes} onClick={toggleQrVisibility} />
                             <h4 className={cx('title-code')}>Nhập code email</h4>
                             {[...Array(6)].map((_, index) => (
@@ -96,7 +203,6 @@ function Register() {
                                     key={index}
                                     className={cx('input-code')}
                                     type="text"
-                                    inputMode="numeric"
                                     maxLength="1"
                                     ref={(el) => (inputRefs.current[index] = el)}
                                     onInput={(e) => handleInput(e, index)}
@@ -105,14 +211,13 @@ function Register() {
                             ))}
                         </div>
                         <div className={cx('input-group')}>
-                            <button className={cx('input-submit')} onClick={toggleinfoUserVisibility}>
+                            <button className={cx('input-submit')} onClick={verifyCode}>
                                 Xác nhận
                             </button>
                         </div>
                     </div>
-                </form>
+                </div>
 
-                {/* Popup info user form */}
                 {infoUserVisible && (
                     <div className={cx('popup-overlay')}>
                         <form className={cx('form-info-user')}>
