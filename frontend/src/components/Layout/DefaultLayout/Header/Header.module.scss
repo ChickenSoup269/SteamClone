@@ -1,0 +1,221 @@
+.wrapper {
+    --search-boder: 5px;
+    --search-height: 35px;
+    --search-top-spacer: 9px;
+    --search-button-width: 52px;
+
+    background-color: transparent;
+    border-radius: 0px 0px 5px 5px;
+    height: var(--default-layout-header-height, 70px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: 0.4s;
+}
+
+// header thay dổi khi cuộn
+.wrapper.scrolled {
+    height: 68px;
+    transition: 0.2s;
+    background-color: var(--steamFontBackground);
+    box-shadow: var(--steamBoxShadow);
+
+    .change-btn-color {
+        transform: scale(0.89);
+        transition: calc(0.4s);
+        color: var(--primary);
+        border: 1.2px solid currentColor;
+        box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
+
+        &:hover {
+            transform: scale(1);
+            transition: calc(0.2s);
+        }
+    }
+}
+
+.inner {
+    height: 100%;
+    margin: 0 auto;
+    width: 99%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    text-align: center;
+    padding: 12px 14px;
+    text-decoration: none;
+    border-radius: var(--steamBoder);
+    transition: calc(0.4s);
+
+    &:hover {
+        text-decoration: underline;
+        text-underline-offset: 10px;
+        text-shadow: var(--steamTextShadow);
+        transition: calc(0.2s);
+    }
+}
+
+.more-btn {
+    cursor: pointer;
+    font-size: 2rem;
+    margin-left: 8px;
+    padding: 4px 8px;
+    color: var(--steamColorWhite);
+    background-color: transparent;
+    transform: rotate(180deg);
+    transition: transform 0.5s ease;
+
+    &.is-animating {
+        transform: rotate(0deg);
+        transition: transform 0.5s ease;
+    }
+}
+
+.cart-btn,
+.notification-btn {
+    cursor: pointer;
+    font-size: 2.2rem;
+    margin-left: 8px;
+    padding: 4px 10px;
+    color: var(--steamColorWhite);
+    transform: scale(0.89);
+    transition: calc(0.3s);
+    background-color: transparent;
+
+    &:hover {
+        transform: scale(1);
+        transition: calc(0.2s);
+    }
+}
+
+.badge {
+    position: absolute;
+    top: -10px;
+    font-size: 1.5rem;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    background: red;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+//action
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 20px;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: var(--steamBoxShadowHover);
+    }
+}
+
+// Toggle switch day * night
+.switch[type='checkbox'] {
+    appearance: none;
+    width: 52px;
+    height: 25px;
+    background: var(--steamColorWhite);
+    border-radius: 50px;
+    margin-left: 5px;
+    position: relative;
+    outline: 0;
+    cursor: pointer;
+}
+
+.switch[type='checkbox']:before,
+.switch[type='checkbox']:after {
+    position: absolute;
+    content: '';
+    transition: all 0.25s;
+}
+
+.switch[type='checkbox']:before {
+    width: 12px;
+    height: 12px;
+    background: #e8bd20;
+    border: 5px solid var(--steamColorBlack);
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    box-shadow: rgba(232, 189, 32, 0.35) 0px 5px 15px;
+}
+
+.switch[type='checkbox']:after {
+    width: 12px;
+    height: 12px;
+    background: var(--steamColorBlack);
+    border-radius: 50%;
+    top: 50%;
+    left: 15px;
+    transform: scale(1) translateY(-50%);
+    transform-origin: 50% 50%;
+}
+
+.switch[type='checkbox']:checked:before {
+    left: calc(100% - 27px);
+}
+
+.switch[type='checkbox']:checked:after {
+    left: 75px;
+    transform: scale(0);
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 992px) {
+    .wrapper {
+        height: 60px;
+    }
+
+    .wrapper.scrolled {
+        height: 58px;
+    }
+
+    .more-btn,
+    .cart-btn {
+        font-size: 1.8rem;
+        padding: 4px 6px;
+    }
+
+    li a {
+        font-size: 1.6rem;
+        padding: 10px 12px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .inner {
+        display: none;
+    }
+}

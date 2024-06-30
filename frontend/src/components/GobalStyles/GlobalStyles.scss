@@ -1,0 +1,168 @@
+@import 'normalize.css';
+:root {
+    --primary: #1a9fff;
+    --steamPrice: #beee11;
+    --steamBackgroundPrice: #4c6b22;
+    --steamOldPrice: #354554;
+    --steamBackground: #171a21;
+    --steamColorWhite: #ffffff;
+    --steamColorBlack: black;
+    --steamFontNavBar: #7a8b9d;
+    --steamFontBackground: #131518;
+    --steamPopUpSearch: #242830;
+    --steamHoverPopUp: #dcdedf;
+    --steamColorSearch: #eeeeee;
+    --steamTextShadow: 2px 3px 13px rgba(255, 255, 255, 0.63);
+    --steamBoder: 5px;
+    --steamBoxShadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    --steamBoxShadowWhite: rgba(255, 255, 255, 0.35) 0px 5px 15px;
+    --steamBoxShadowPrimary: rgba(26, 159, 255, 0.35) 0px 5px 15px;
+    --steamBoxShadowHover: rgba(32, 173, 255, 0.35) 0px 5px 15px;
+    --default-layout-header-height: 70px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+[data-theme='light'] {
+    --SteamHeaderColor: var(--steamColorWhite);
+    --steamTextColor: var(--steamColorBlack);
+}
+[data-theme='dark'] {
+    --SteamHeaderColor: var(--steamBackground);
+    --steamTextColor: var(--steamColorWhite);
+}
+
+body {
+    font-family: 'Motiva Sans', sans-serif;
+    display: block;
+    font-size: 1.6rem;
+    font-style: normal;
+    color: var(--steamColorWhite);
+    background-color: var(--steamBackground);
+    overflow-x: hidden;
+}
+
+// custom scroll bar
+::-webkit-scrollbar {
+    height: 12px;
+    width: 14px;
+    background: transparent;
+    z-index: 12;
+    overflow: visible;
+}
+
+::-webkit-scrollbar-corner {
+    background: #202020;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 10px;
+    background-color: #434953;
+    border-radius: 10px;
+    z-index: 12;
+    border: 4px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    transition: background-color 0.32s ease-in-out;
+    margin: 4px;
+    min-height: 32px;
+    min-width: 32px;
+}
+
+::selection {
+    background: #54a5d4;
+    text-shadow: 1px 1px 2px #000000aa;
+    color: #fff;
+}
+
+// Remmove background paste chrome
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px #23232329;
+}
+
+a [href] {
+    color: var(--steamColorWhite);
+    text-decoration: none;
+}
+a:-webkit-any-link {
+    text-decoration: none;
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+// Fonts steam
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Black.ttf');
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Motiva Sans';
+    src: url('/assets/Fonts/MotivaSans-Thin.ttf');
+    font-weight: 100;
+}
+
+// custom tippy tooltip
+body {
+    .tippy-box {
+        font-weight: 500;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        color: var(--steamFontBackground);
+        background-color: white;
+    }
+
+    .tippy-arrow {
+        color: var(--steamColorWhite);
+    }
+}
+
+// Css Totas
+.toast-notifications {
+    font-weight: 700;
+    color: black;
+    font-size: 12px;
+}
