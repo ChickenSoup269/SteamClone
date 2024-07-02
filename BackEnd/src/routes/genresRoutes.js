@@ -10,8 +10,8 @@ router.delete('/delete/:genre_id',deleteGenresController)
 //[Update]
 router.put('/update/:genre_id',updateGenresController)
 //[GET]
-router.get('/genres',getGamesByGenresController)
-router.get('/', getGenresController);
+router.get('/genres',getGenresController)
+router.get('/', getGamesByGenresController);
 
 
 // export
