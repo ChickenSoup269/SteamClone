@@ -23,7 +23,7 @@ const insertGenreController = async (req, res) => {
   try {
     // get data body req
     const { genre_id, description } = req.body;
-    if (!genre_id || !description) {
+    if (!genre_id) {
       return res.status(400).json({ error: 'genre_id and description are required.' });
     }
     const genreData = { genre_id, description };
