@@ -1,0 +1,10 @@
+.wrapper {
+    width: 100%;
+    pointer-events: auto;
+    max-height: min((100vh - 96px) - 60px, 734px);
+    min-height: 100px;
+    padding-top: 8px;
+    border-radius: 5px;
+    background: var(--steamPopUpSearch);
+    box-shadow: var(--steamBoxShadow);
+}

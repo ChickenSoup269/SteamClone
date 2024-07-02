@@ -1,0 +1,88 @@
+.wrapper {
+    min-height: 100vh;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    padding-bottom: 100px;
+    width: 100%;
+}
+
+.footer-bottom {
+    display: flex;
+    background: #000;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px 5px 0px 0px;
+
+    color: var(--steamColorSearch);
+    background-color: var(--steamFontBackground);
+
+    &.footer-bottom p {
+        margin: 0; /* Ensuring no default margin interferes */
+        font-size: 14px;
+        word-spacing: 2px;
+        text-transform: capitalize;
+    }
+
+    &.footer-bottom p a {
+        color: var(--primary);
+        font-size: 16px;
+        padding: 4px 8px;
+        font-weight: bold;
+        border-radius: var(--steamBoder);
+        text-decoration: none;
+        transition: calc(0.4s);
+
+        &:hover {
+            text-shadow: var(--steamBoxShadowPrimary);
+            transition: calc(0.2s);
+        }
+    }
+
+    &.footer-bottom h1 {
+        cursor: pointer;
+        padding: 4px 8px;
+        transition: calc(0.4s);
+        transform: scale(0.9);
+        border-radius: var(--steamBoder);
+
+        &:hover {
+            transform: scale(1);
+            transition: 0.2s ease-in;
+            text-shadow: 0px 2px 7px rgba(26, 159, 255, 0.64);
+            box-shadow: blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px,
+                rgba(255, 255, 255, 0.2) 20px -20px 0px -3px, rgb(255, 217, 19) 20px -20px,
+                rgba(255, 255, 255, 0.2) 30px -30px 0px -3px, rgb(255, 156, 85) 30px -30px,
+                rgba(255, 255, 255, 0.2) 40px -40px 0px -3px, rgb(255, 85, 85) 40px -40px;
+        }
+    }
+
+    &.footer-bottom span {
+        font-weight: 500;
+        color: var(--steamColorWhite);
+        cursor: pointer;
+        transition: calc(0.2s);
+
+        &:hover {
+            color: var(--primary);
+            transition: calc(0.2s);
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .footer-bottom {
+        display: flex;
+        flex-direction: column; /* For vertical alignment on small screens */
+        align-items: center;
+        margin-top: 10px;
+
+        .footer-bottom h1 {
+            width: 200px;
+        }
+    }
+}

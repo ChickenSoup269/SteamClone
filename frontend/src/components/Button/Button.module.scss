@@ -1,0 +1,76 @@
+.wrapper {
+    font-family: 'Motiva Sans', sans-serif;
+    min-width: 100px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--steamColorWhite);
+    background-color: transparent;
+    border: 1px solid transparent;
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    &:hover {
+        transform: scale(1);
+        transition: calc(0.2s);
+    }
+}
+
+.icon + .title,
+.title + .icon {
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.icon {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+a {
+    color: var(--steamColorWhite);
+}
+
+// Button type
+.primary {
+    transform: scale(0.89);
+    transition: calc(0.4s);
+    background-color: var(--primary);
+    border: 1.2px solid var(--primary);
+    box-shadow: rgba(0, 149, 248, 0.46) 0px 3px 8px;
+    &:active {
+        background-color: rgb(37, 114, 246);
+    }
+}
+
+// .changeColorBtn {
+// }
+
+.outline {
+    transform: scale(0.89);
+    transition: calc(0.4s);
+    color: var(--steamColorWhite);
+    border: 1.2px solid currentColor;
+    box-shadow: rgba(255, 255, 255, 0.46) 0px 3px 8px;
+    &:active {
+        color: var(--steamColorBlack);
+        background-color: rgb(255, 255, 255);
+    }
+}
+
+// Button size [small, large]
+.small {
+    min-width: 88px;
+    padding: 4px 16px;
+}
+
+.large {
+    min-width: 150px;
+    padding: 14px 16px;
+}
