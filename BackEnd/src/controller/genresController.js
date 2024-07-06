@@ -23,7 +23,7 @@ const insertGenreController = async (req, res) => {
   try {
     // get data body req
     const { genre_id, description } = req.body;
-    if (!genre_id) {
+    if (!genre_id || !description) {
       return res.status(400).json({ error: 'genre_id and description are required.' });
     }
     const genreData = { genre_id, description };
@@ -46,7 +46,7 @@ const insertGenreController = async (req, res) => {
 //[Delete]
 const deleteGenresController = async (req, res) => {
   try {
-    const { genre_id } = req.body; 
+    const { genre_id } = req.params; 
     if (!genre_id) {
       return res.status(400).json({ error: 'genre_id is required.' });
     }
@@ -72,9 +72,7 @@ const updateGenresController = async (req, res) => {
 
   try {
     // Gọi service để cập nhật genre trong MongoDB
-    const updatedGenre = await updateGenresById(genre_id, updateData);
-
-    // Trả về kết quả thành công
+    const updatedGenre = await updateGenresById(genre_id, updateData)
     res.status(200).json({ message: 'Genre updated successfully.', genre: updatedGenre });
   } catch (error) {
     // Xử lý lỗi từ service

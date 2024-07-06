@@ -12,7 +12,7 @@ const fetchAppList = async () => {
   }
 };
 // Helper function to add retry logic
-const fetchWithRetry = async (url, retries = 8, delay = 6000) => {
+const fetchWithRetry = async (url, retries = 10, delay = 6000) => {
     for (let i = 0; i < retries; i++) {
       try {
         const response = await axios.get(url, { timeout: 20000 });
@@ -292,17 +292,22 @@ const fetchDataAndSaveToMongo = async () => {
         const db = client.db(config.dbName);
         const collection = db.collection('games');
         const collectionGenres = db.collection('genres');
-        
+        // check mongodb if = 50 data break 
+        const gamesCount = await collection.countDocuments();
+        if (gamesCount >= 50) {
+            console.log(`Đã có ${gamesCount} game trong cơ sở dữ liệu. Dừng việc thêm game.`);
+            return;
+        }
         const appList = await fetchAppList();
         console.log(`Fetched ${appList.length} games from API`);
-
+        
         const fetchedGames = [];
         let count = 0;
 
         for (const game of appList) {
             if (game.name && game.name.trim() !== "") {
                 const gameDetails = await fetchAppDetail(game.appid);
-                if (gameDetails && gameDetails.genres && gameDetails.package_groups) {
+                if (gameDetails && gameDetails.genres && gameDetails.package_groups && gameDetails.package_groups.length > 0) {
                     fetchedGames.push({ game, gameDetails });
                     count++;
                 } else {
@@ -323,17 +328,14 @@ const fetchDataAndSaveToMongo = async () => {
             const genres = gameDetails.genres || [];
             const genre_ids = genres.map(genre => genre.id);
             let releaseDate = '';
-            let initial_formatted = '';
-            let final_formatted = '';
             let saleDuration = 0;
             let saleEndDate = null;
-            let optionTexts = [];
-            let percentSavings = [];
             let screenshots = [];
             let videos = [];
             let isFree = false;
             let dlc = [];
-            let prices_discounted = [];
+            let subs = [];
+            let percentSavings = [];
 
             if (gameDetails.release_date && gameDetails.release_date.date) {
                 releaseDate = gameDetails.release_date.date;
@@ -352,69 +354,44 @@ const fetchDataAndSaveToMongo = async () => {
             } else {
                 console.log(`Invalid or missing dlc for game ${game.appid}`);
             }
-
-            if (gameDetails.price_overview) {
-                if (gameDetails.price_overview.initial_formatted) {
-                    initial_formatted = gameDetails.price_overview.initial_formatted;
-                } else {
-                    console.log(`Invalid or missing initial_formatted for game ${game.appid}`);
-                }
-                if (gameDetails.price_overview.final_formatted) {
-                    final_formatted = gameDetails.price_overview.final_formatted;
-                } else {
-                    console.log(`Invalid or missing final_formatted for game ${game.appid}`);
-                }
-            } else {
-                console.log(`Invalid or missing price_overview for game ${game.appid}`);
-            }
-
+            // filter optionText, percentSavings, priceDiscounted from package_group
             if (gameDetails.package_groups) {
                 for (const group of gameDetails.package_groups) {
                     if (group.subs) {
-                        optionTexts = group.subs.map(sub => sub.option_text);
-                        percentSavings = group.subs.map(sub => {
-                            if (sub.percent_savings_text && sub.percent_savings_text.trim() !== "") {
-                                const savings = parseInt(sub.percent_savings_text.replace('%', '').trim(), 10);
-                                if (!isNaN(savings)) {
-                                    return savings;
-                                } else {
-                                    console.log(`Invalid percent_savings_text: ${sub.percent_savings_text}`);
-                                    return null;
-                                }
-                            } else {
-                                console.log(`Invalid percent_savings_text format: ${typeof sub.percent_savings_text}`);
-                                return null;
-                            }
-                        });
-                        prices_discounted = group.subs.map(sub => {
-                            if (sub.price_in_cents_with_discount) {
-                                return sub.price_in_cents_with_discount;
-                            } else {
-                                console.log(`Invalid price_in_cents_with_discount format: ${typeof sub.price_in_cents_with_discount}`);
-                                return null;
-                            }
-                        });
+                        subs = group.subs.map(sub => ({
+                            optionText: sub.option_text,
+                            percentSavings: (sub.percent_savings_text && sub.percent_savings_text.trim() !== "") ?
+                                parseInt(sub.percent_savings_text.replace('%', '').trim(), 10) : null,
+                            priceDiscounted: sub.price_in_cents_with_discount,
+                            rentalPrice: sub.price_in_cents_with_discount * 0.5
+                        }));
+                        // Get value percent from sub assign percentSavings contains percentSavings from subs 
+                        percentSavings = percentSavings.concat(subs);
                     }
+                    percentSavings = percentSavings.filter(savings => savings.percentSavings !== null && savings.percentSavings !== undefined);
                 }
             } else {
                 console.log(`Invalid or missing package_groups for game ${game.appid}`);
             }
-
-            if (gameDetails.screenshots && gameDetails.screenshots.length > 0) {
-                const firstScreenshot = gameDetails.screenshots[0];
-                screenshots.push({
-                    path_full: firstScreenshot.path_full,
-                    id: firstScreenshot.id,
-                    path_thumbnail: firstScreenshot.path_thumbnail
+            if (percentSavings.length > 0) {
+                saleDuration = 7;
+                const saleStartDate = new Date();
+                saleEndDate = new Date(saleStartDate.getTime() + (saleDuration * 24 * 60 * 60 * 1000));
+                saleEndDate = saleEndDate.toISOString().split('T')[0];
+            }
+             // screenshots
+             if (gameDetails.screenshots && gameDetails.screenshots.length > 0) {
+                screenshots = gameDetails.screenshots.map(screenshot => {
+                    return {
+                        id: screenshot.id,
+                        path_thumbnail: screenshot.path_thumbnail,
+                        path_full: screenshot.path_full
+                    };
                 });
-                screenshots = screenshots.concat(gameDetails.screenshots.slice(1).map(screenshot => ({
-                    id: screenshot.id,
-                    path_thumbnail: screenshot.path_thumbnail
-                })));
             } else {
                 console.log(`Invalid or missing screenshots for game ${game.appid}`);
-            }
 
+            }
             if (gameDetails.movies) {
                 videos = gameDetails.movies.reduce((acc, movie) => {
                     if (movie.webm && movie.webm.max) {
@@ -423,27 +400,13 @@ const fetchDataAndSaveToMongo = async () => {
                     return acc;
                 }, []);
             }
-
-            percentSavings = percentSavings.filter(savings => savings !== null && savings !== undefined);
-
-            if (percentSavings.length > 0) {
-                saleDuration = 7;
-                const saleStartDate = new Date();
-                saleEndDate = new Date(saleStartDate.getTime() + (saleDuration * 24 * 60 * 60 * 1000));
-                saleEndDate = saleEndDate.toISOString().split('T')[0];
-            }
-
             const transformedGame = {
                 game_id: game.appid,
                 game_name: game.name,
                 description: gameDetails.short_description || '',
                 header_image: gameDetails.header_image,
                 genre_ids: genre_ids,
-                sale: percentSavings,
-                initial_price: initial_formatted,
-                final_price: final_formatted,
-                option: optionTexts,
-                price_cent_discount: prices_discounted,
+                option: subs,
                 movies: videos,
                 screenshots: screenshots,
                 release_Date: releaseDate,
@@ -475,7 +438,7 @@ const fetchDataAndSaveToMongo = async () => {
                 console.log(`Giảm giá cho game ${game.name} đã hết hiệu lực.`);
                 await collection.updateOne(
                     { game_id: transformedGame.game_id },
-                    { $unset: { sale: "0", sale_end_date: "0" } }
+                    { $unset: { sale: "", sale_end_date: "" } }
                 );
             } else {
                 console.log(`Giảm giá cho game ${game.name} vẫn còn hiệu lực.`);
