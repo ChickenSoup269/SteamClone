@@ -1,4 +1,4 @@
-const { MongoClient,ObjectId  } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const config = require('../config/mongodb');
 //Method [GET] ALL from Mongo
 const getAllGenres = async () => {

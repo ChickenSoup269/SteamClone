@@ -292,17 +292,23 @@ const fetchDataAndSaveToMongo = async () => {
         const db = client.db(config.dbName);
         const collection = db.collection('games');
         const collectionGenres = db.collection('genres');
-        
+        //Check MongoDB if = 50 data break
+        const gamesCount = await collection.countDocuments();
+        if (gamesCount >= 5) {
+            console.log(`Đã có ${gamesCount} game trong cơ sở dữ liệu. Dừng việc thêm game.`)
+            return;
+        }
         const appList = await fetchAppList();
         console.log(`Fetched ${appList.length} games from API`);
 
         const fetchedGames = [];
         let count = 0;
+        let rentalPrice = 0
 
         for (const game of appList) {
             if (game.name && game.name.trim() !== "") {
                 const gameDetails = await fetchAppDetail(game.appid);
-                if (gameDetails && gameDetails.genres && gameDetails.package_groups) {
+                if (gameDetails && gameDetails.genres && gameDetails.package_groups && gameDetails.package_groups.length > 0) {
                     fetchedGames.push({ game, gameDetails });
                     count++;
                 } else {
@@ -312,7 +318,7 @@ const fetchDataAndSaveToMongo = async () => {
                 console.log(`Skipped game with appid ${game.appid} due to empty name`);
             }
 
-            if (count >= 50) {
+            if (count >= 5) {
                 break;
             }
         }
@@ -388,12 +394,15 @@ const fetchDataAndSaveToMongo = async () => {
                         });
                         prices_discounted = group.subs.map(sub => {
                             if (sub.price_in_cents_with_discount) {
+                                rentalPrice = sub.price_in_cents_with_discount * 0.5
                                 return sub.price_in_cents_with_discount;
                             } else {
                                 console.log(`Invalid price_in_cents_with_discount format: ${typeof sub.price_in_cents_with_discount}`);
                                 return null;
                             }
+                            
                         });
+                        
                     }
                 }
             } else {
@@ -449,7 +458,8 @@ const fetchDataAndSaveToMongo = async () => {
                 release_Date: releaseDate,
                 sale_end_date: saleEndDate || '',
                 is_free: isFree,
-                dlc: dlc
+                dlc: dlc,
+                rentalPrice
             };
 
             if (gameDetails.developers && gameDetails.developers.length > 0) {

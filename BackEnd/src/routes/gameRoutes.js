@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { getGames,getGamesOnSaleController } = require('../controller/gameController');
-// route detail
+const GameController = require('../controller/gameController')
+
 router.get('/', getGames);
 router.get('/gameOnsale', getGamesOnSaleController);
-//[POST]
+router.post('/create', GameController.createGame)
+router.put('/update/:id', GameController.updateGame)
 
 router.get('/detail/:id');
 // export
