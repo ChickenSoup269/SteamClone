@@ -105,7 +105,7 @@ function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
 
     // khi đăng nhập
-    const currentUser = false
+    const currentUser = true
 
     useEffect(() => {
         const handleScroll = () => {

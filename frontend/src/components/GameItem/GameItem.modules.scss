@@ -1,11 +1,10 @@
-.wrapper {
+.search_box_game {
     display: flex;
     padding: 5px 15px;
     align-items: center;
     pointer-events: auto;
     transition: 0.2s;
     cursor: pointer;
-
     &:hover {
         color: var(--steamFontBackground);
         box-shadow: var(--steamBoxShadow);

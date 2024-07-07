@@ -95,12 +95,12 @@
 // .add-btn-card {
 // }
 
-.swiper-container {
+.game-swiper-container {
     padding-top: 500px;
     overflow: visible;
 }
 
-.swiper-slide {
+.game-swiper-slide {
     display: flex;
     position: relative;
     transition: all 300ms ease-in-out;
@@ -109,7 +109,7 @@
     align-items: flex-start;
 }
 
-// .swiper-slide .img-header-games-active {
+// .game-swiper-slide .img-header-games-active {
 // --border-angle: 0turn;
 // --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
 // border: solid 2px transparent;
@@ -143,7 +143,7 @@
 //     initial-value: 0turn;
 // }
 
-.swiper-slide img {
+.game-swiper-slide img {
     position: absolute;
     width: 220px;
     height: 115px;
@@ -239,13 +239,13 @@
         width: 200px;
     }
 
-    .swiper-slide img {
+    .game-swiper-slide img {
         max-width: 14rem;
     }
 }
 
 @media screen and (max-width: 400px) {
-    .swiper-slide img {
+    .game-game-swiper-slide img {
         max-width: 10.5rem;
         border-radius: 2px;
     }

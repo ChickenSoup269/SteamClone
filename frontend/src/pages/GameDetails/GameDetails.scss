@@ -1,0 +1,248 @@
+.game_detail {
+    // background: url('https://cdn.akamai.steamstatic.com/store/promo/summer2024/summer2024_tile_bg.png');
+}
+.card-wrapper {
+    max-width: 1100px;
+    height: 600px;
+    margin: 0 auto;
+}
+.swiper-slide {
+    width: 100%;
+    z-index: 1;
+
+    video {
+        width: 100%;
+        height: 360px;
+        position: absolute;
+    }
+}
+
+.product-imgs {
+    height: 500px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    background-color: rgba(255, 255, 255, 0.37);
+    padding: 8px 16px;
+    border-radius: 100%;
+    color: red;
+}
+.swiper-pagination-bullet {
+    width: 30px;
+    border-radius: 2px;
+    background-color: var(--steamColorWhite);
+}
+.swiper-custom-pagination {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+img {
+    width: 100%;
+    display: block;
+}
+
+.img-display {
+    overflow: hidden;
+    width: 640px;
+    height: 355px;
+    border-radius: var(--steamBoder);
+    box-shadow: var(--steamBoxShadow);
+}
+
+.img-showcase {
+    display: flex;
+    justify-self: end;
+    width: 640px;
+    transition: all 0.5s ease;
+}
+.img-showcase img {
+    width: 640px;
+}
+.img-select {
+    margin-top: 10px;
+    width: 64rem;
+
+    img {
+        border-radius: var(--steamBoder);
+        transition: calc(0.3s);
+        border: 2px solid transparent;
+
+        &:hover {
+            transition: calc(0.3s);
+            border: 2px solid var(--steamColorWhite);
+
+            cursor: pointer;
+        }
+    }
+}
+
+// column left
+
+.header_image_game {
+    width: 345px;
+
+    img {
+        box-shadow: var(--steamBoxShadow);
+        border-radius: var(--steamBoder);
+        box-shadow: var(--steamBoxShadowWhite);
+    }
+}
+
+.product-content {
+    width: 445px;
+    height: 550px;
+    padding: 2rem 1rem;
+    margin-top: 22px;
+}
+
+.product-rating {
+    padding: 1rem 0rem;
+    color: #ffc107;
+}
+
+.product-rating span {
+    font-weight: 600;
+    color: var(--steamColorWhite);
+}
+
+.product-price {
+    margin: 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.product-price span {
+    font-weight: 400;
+}
+
+.last-price {
+    font-weight: 400;
+    strike {
+        text-decoration: none;
+        position: relative;
+        color: #ffffff7e;
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
+
+    strike::before {
+        top: 50%; /*tweak this to adjust the vertical position if it's off a bit due to your font family */
+        background: #3c4752; /*this is the color of the line*/
+        content: '';
+        width: 100%;
+        position: absolute;
+        height: 0.1em;
+        left: -1%;
+        white-space: nowrap;
+        display: block;
+        transform: rotate(-6deg);
+    }
+}
+
+.new-price {
+    font-weight: 400;
+    span {
+        color: var(--steamPrice);
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
+}
+
+.product-detail p {
+    width: 300px;
+    font-size: 1.3rem;
+
+    font-weight: 300;
+    color: var(--steamColorWhite);
+}
+
+.product-detail .game_author_date {
+    width: 300px;
+    font-size: 1.2rem;
+}
+.product-detail ul li {
+    margin: 0;
+    list-style: none;
+    background-size: 18px;
+    padding-left: 1.8rem;
+    margin: 0.4rem 0;
+    font-weight: 600;
+    opacity: 0.9;
+}
+.product-detail ul li span {
+    font-weight: 300;
+}
+.purchase-info {
+    margin: 1.5rem 0;
+}
+.purchase-info input,
+.purchase-info .btn {
+    border-radius: var(--steamBoder);
+    text-align: center;
+    padding: 0.5rem 1rem;
+    outline: 0;
+    margin-right: 0.2rem;
+    margin-bottom: 1rem;
+}
+.purchase-info input {
+    width: 60px;
+}
+.purchase-info .btn {
+    cursor: pointer;
+    color: #fff;
+}
+.purchase-info .btn:first-of-type {
+    color: #d2efa9;
+    background: var(--steamBackgroundPrice);
+}
+.purchase-info .btn:last-of-type {
+    background: var(--primary);
+}
+.purchase-info .btn:hover {
+    opacity: 0.9;
+    color: var(--steamColorWhite);
+}
+
+.select_game_edition {
+    width: 332px;
+    height: 31px;
+    border-radius: var(--steamBoder);
+
+    cursor: pointer;
+
+    .chosse_edition_game_title {
+        font-weight: 700;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    option {
+        color: var(--steamColorWhite);
+        background-color: black;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .card {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1.5rem;
+    }
+    .card-wrapper {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .product-imgs {
+        display: flex;
+
+        flex-direction: column;
+        justify-content: center;
+    }
+    .product-content {
+        padding-top: 0;
+    }
+}

@@ -19,7 +19,7 @@ function Register() {
     const [confirmEmail, setConfirmEmail] = useState('')
     const [verificationCodes, setVerificationCodes] = useState({})
     const [generatedCode, setGeneratedCode] = useState('')
-    const [message, setMessage] = useState('')
+    const message = useState()
     const [captchaVerified, setCaptchaVerified] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [emailSent, setEmailSent] = useState(false)
