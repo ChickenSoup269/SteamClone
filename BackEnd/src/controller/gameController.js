@@ -1,6 +1,7 @@
-const { getGamesFromMongo, getGamesOnSale
-    , insertGame, deleteGame,updateGame } = require('../services/gameServices');
-//render in [localhost]
+const { getGamesFromMongo, getGamesOnSale,searchGames
+    , insertGame, deleteGame,updateGame ,getGameDetails} = require('../services/gameServices');
+//render in localhost
+// [GET] All
 const getGames = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 2;
@@ -17,8 +18,34 @@ const getGames = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };  
+// [GET] Detail
+const getGameDetailsController = async (req, res) => {
+    const { game_id, game_slug } = req.params;
+    try {
+        const game = await getGameDetails(game_id);
+        
+        const decodedGameSlug = decodeURIComponent(game_slug).toLowerCase();
+        const decodedGameName = decodeURIComponent(game.game_name).toLowerCase();
+        
+        console.log('game_slug:', game_slug);
+        console.log('game.game_name:', game.game_name);
+        console.log('decodedGameSlug:', decodedGameSlug);
+        console.log('decodedGameName:', decodedGameName);
+        
+        if (!game || decodedGameSlug !== decodedGameName) {
+            return res.status(404).json({ message: 'Game not found.' });
+        }
+        
+        res.status(200).json(game);
+    } catch (error) {
+        console.error('Error in getGameDetailsController:', error);
+        res.status(500).json({ error: 'Failed to get game details.' });
+    }
+};
 
-//  GET gameOnsale
+
+
+// [GET] GameOnsale
 const getGamesOnSaleController = async (req, res) => {
     try {
         const gamesOnSale = await getGamesOnSale();
@@ -29,6 +56,21 @@ const getGamesOnSaleController = async (req, res) => {
     } catch (error) {
         console.error('Error while getting games on sale from MongoDB:', error);
         res.status(500).send('Internal server error ');
+    }
+};
+// [GET] Search
+const searchGamesController = async (req, res) => {
+    try {
+        const { query } = req.query; 
+        console.log(query);
+        if (!query) {
+            return res.status(400).json({ error: 'Query parameter is required.' });
+        }
+        const games = await searchGames(query);
+        res.status(200).json(games);
+    } catch (error) {
+        console.error('Error in searchGamesController:', error);
+        res.status(500).json({ error: 'Failed to search games.' });
     }
 };
 // [POST] games
@@ -50,7 +92,7 @@ const insertGameController = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
-// Method [Delete]
+// [Delete]
 const deleteGamesController = async (req, res) => {
     try {
         const { game_id } = req.params;
@@ -68,7 +110,7 @@ const deleteGamesController = async (req, res) => {
         res.status(500).json({ error: 'Failed to delete game.' });
     }
 };
-// Method [Update]
+// [Update]
 const updateGamesController = async (req, res) => {
     const {game_id} = req.params;
     const updateData = req.body;
@@ -88,10 +130,12 @@ const updateGamesController = async (req, res) => {
     }
 }
 
-// Method [Search]
+// [Search]
 
 module.exports = {
     getGames,
+    searchGamesController,
+    getGameDetailsController,
     getGamesOnSaleController,
     insertGameController,
     deleteGamesController,

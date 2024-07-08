@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const config = require('../config/mongodb');
-//Method [GET] All from Mongo
+//Method 
+// [GET] All
 const getGamesFromMongo = async (page,limit) => {
     let client;
     try {
@@ -23,7 +24,50 @@ const getGamesFromMongo = async (page,limit) => {
         }
     }
 };
-//Method [GET] gamebysale
+// [GET] Search
+const searchGames = async (query) => {
+    let client;
+    try {
+        client = new MongoClient(config.mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db(config.dbName);
+        const collection = db.collection('games');
+        const filter = { game_name: { $regex: `^${query}`, $options: 'i' } };
+        const games = await collection.find(filter).toArray();
+        return games;
+    } catch (error) {
+        console.error('Error searching games:', error);
+        throw error;
+    } finally {
+        if (client) {
+            await client.close();
+            console.log('Closed MongoDB connection');
+        }
+    }
+};
+// [GET] Detail
+const getGameDetails = async (game_id) => {
+    let client;
+    try {
+        client = new MongoClient(config.mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db(config.dbName);
+        const collection = db.collection('games');
+        const game = await collection.findOne({ game_id: parseInt(game_id) });
+        return game;
+    } catch (error) {
+        console.error('Error getting game details:', error);
+        throw error;
+    } finally {
+        if (client) {
+            await client.close();
+            console.log('Closed MongoDB connection');
+        }
+    }
+};
+// [GET] 
 const getGamesOnSale = async () => {
     let client;
     try {
@@ -43,7 +87,7 @@ const getGamesOnSale = async () => {
         }
     }
 }
-// Method [POST] Insert
+// [POST]
 const insertGame = async  (game) => {
     let client;
     try {
@@ -71,7 +115,7 @@ const insertGame = async  (game) => {
     }
 };
 
-// Method [Delete]
+// [Delete]
 const deleteGame = async (game_id) => {
     let client;
     try {
@@ -101,7 +145,7 @@ const deleteGame = async (game_id) => {
     }
 };
 
-// Method [Update]
+// [Update]
 const updateGame = async (game_id, updateData) => {
     let client;
   try {
@@ -135,10 +179,12 @@ const updateGame = async (game_id, updateData) => {
     }
   }
 }
-// Method [Search]
+// [Search]
 
 module.exports = {
     getGamesFromMongo,
+    getGameDetails,
+    searchGames,
     getGamesOnSale,
     insertGame,
     deleteGame,
