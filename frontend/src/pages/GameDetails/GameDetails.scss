@@ -6,14 +6,13 @@
     height: 600px;
     margin: 0 auto;
 }
+
 .swiper-slide {
     width: 100%;
-    z-index: 1;
 
     video {
         width: 100%;
         height: 360px;
-        position: absolute;
     }
 }
 
@@ -25,8 +24,25 @@
 .swiper-button-prev {
     background-color: rgba(255, 255, 255, 0.37);
     padding: 8px 16px;
-    border-radius: 100%;
-    color: red;
+    border-radius: var(--steamBoder);
+    color: rgb(255, 255, 255);
+    transition: calc(0.4s);
+
+    &:hover {
+        transition: calc(0.2s);
+        box-shadow: var(--steamBoxShadow);
+        background-color: var(--steamColorWhite);
+        color: var(--steamColorBlack);
+    }
+
+    &:active {
+        background-color: #c5c5c5;
+    }
+}
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-weight: 700;
+    font-size: 1.8rem;
 }
 .swiper-pagination-bullet {
     width: 30px;
@@ -44,11 +60,21 @@ img {
 }
 
 .img-display {
+    position: relative;
     overflow: hidden;
     width: 640px;
     height: 355px;
     border-radius: var(--steamBoder);
-    box-shadow: var(--steamBoxShadow);
+    z-index: 1;
+}
+
+.img-display-glow {
+    position: absolute;
+    width: 640px;
+    height: 450px;
+    border-radius: var(--steamBoder);
+    filter: blur(30px) saturate(5);
+    z-index: -1;
 }
 
 .img-showcase {
@@ -64,6 +90,14 @@ img {
     margin-top: 10px;
     width: 64rem;
 
+    // Code không cho người dùng bôi đen ảnh
+    -moz-user-select: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
     img {
         border-radius: var(--steamBoder);
         transition: calc(0.3s);
@@ -72,21 +106,72 @@ img {
         &:hover {
             transition: calc(0.3s);
             border: 2px solid var(--steamColorWhite);
-
             cursor: pointer;
         }
+
+        &:active {
+            opacity: 0.5;
+        }
     }
+}
+
+// css cho swiper là thumbnail video
+.thumbnail-container {
+    position: relative;
+    display: inline-block;
+}
+
+.thumbnail-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.thumbnail-container .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--steamBoder);
+    background: rgba(0, 0, 0, 0.5); /* Background mờ */
+    border: 2px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.thumbnail-container .overlay .play-icon {
+    font-size: 3rem;
+    color: white;
+}
+
+.thumbnail-container:hover .overlay {
+    cursor: pointer;
+    transition: calc(0.3s);
+    border: 2px solid var(--steamColorWhite);
 }
 
 // column left
 
 .header_image_game {
+    position: relative;
     width: 345px;
 
     img {
         box-shadow: var(--steamBoxShadow);
         border-radius: var(--steamBoder);
-        box-shadow: var(--steamBoxShadowWhite);
+    }
+    .glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        filter: blur(30px) saturate(5);
     }
 }
 
@@ -150,30 +235,35 @@ img {
     }
 }
 
-.product-detail p {
-    width: 300px;
-    font-size: 1.3rem;
+.sale_price_percent {
+    padding: 5px;
+    box-shadow: var(--steamBoxShadow);
+    border-radius: var(--steamBoder);
+    background-color: var(--steamBackgroundPrice);
+}
 
+.product-detail p {
+    width: 330px;
+    font-size: 1.3rem;
     font-weight: 300;
+    line-height: 1.4rem;
+    padding-top: 10px;
     color: var(--steamColorWhite);
 }
 
-.product-detail .game_author_date {
-    width: 300px;
-    font-size: 1.2rem;
+.game_author_date {
+    width: 120px;
+    font-size: 1.3rem;
+    p {
+        color: #a6a6a6;
+    }
+    span {
+        color: var(--steamColorWhite);
+        font-weight: 300;
+        padding-left: 10px;
+    }
 }
-.product-detail ul li {
-    margin: 0;
-    list-style: none;
-    background-size: 18px;
-    padding-left: 1.8rem;
-    margin: 0.4rem 0;
-    font-weight: 600;
-    opacity: 0.9;
-}
-.product-detail ul li span {
-    font-weight: 300;
-}
+
 .purchase-info {
     margin: 1.5rem 0;
 }
@@ -183,19 +273,23 @@ img {
     text-align: center;
     padding: 0.5rem 1rem;
     outline: 0;
-    margin-right: 0.2rem;
+    margin-right: 0.5rem;
     margin-bottom: 1rem;
 }
 .purchase-info input {
-    width: 60px;
+    width: 20px;
 }
 .purchase-info .btn {
     cursor: pointer;
     color: #fff;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
 .purchase-info .btn:first-of-type {
     color: #d2efa9;
-    background: var(--steamBackgroundPrice);
+    background: #6fa720;
+    background: -webkit-linear-gradient(top, #6fa720 5%, #588a1b 95%);
+    background: linear-gradient(to bottom, #6fa720 5%, #588a1b 95%);
+    background: linear-gradient(to right, #75b022 5%, #588a1b 95%);
 }
 .purchase-info .btn:last-of-type {
     background: var(--primary);
@@ -205,25 +299,126 @@ img {
     color: var(--steamColorWhite);
 }
 
+// css chọn bản game
 .select_game_edition {
-    width: 332px;
-    height: 31px;
-    border-radius: var(--steamBoder);
+    --arrow-bg: rgba(255, 255, 255, 0.3);
+    --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
+    --option-bg: white;
+    --select-bg: rgba(255, 255, 255, 0.2);
 
+    appearance: none;
+    border: 0;
+    outline: 0;
+    color: var(--steamColorWhite);
+    width: 32rem;
+    padding: 1rem 4rem 1rem 1rem;
+    background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
+        linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+    border-radius: 0.25em;
+    box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
 
-    .chosse_edition_game_title {
-        font-weight: 700;
-        text-align: center;
-        text-transform: uppercase;
+    &::-ms-expand {
+        display: none;
+    }
+
+    &:focus {
+        outline: none;
     }
 
     option {
-        color: var(--steamColorWhite);
-        background-color: black;
+        background-color: var(--option-bg);
+        color: var(--steamColorBlack);
     }
 }
 
+// css review
+$max-tab-count: 5;
+$tab-wrap-border-radius: 6px;
+.tab-wrap {
+    transition: 0.3s box-shadow ease;
+    border-radius: $tab-wrap-border-radius;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    list-style: none;
+    background-color: #fff;
+    margin: 40px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    &:hover {
+        box-shadow: 0 12px 23px rgba(0, 0, 0, 0.23), 0 10px 10px rgba(0, 0, 0, 0.19);
+    }
+}
+
+.tab {
+    display: none;
+    @for $i from 1 through $max-tab-count {
+        &:checked:nth-of-type(#{$i}) ~ .tab__content:nth-of-type(#{$i}) {
+            opacity: 1;
+            transition: 0.5s opacity ease-in, 0.8s transform ease;
+            position: relative;
+            top: -20;
+            z-index: 100;
+            transform: translateY(0px);
+            text-shadow: 0 0 0;
+        }
+    }
+    &:first-of-type:not(:last-of-type) + label {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    &:not(:first-of-type):not(:last-of-type) + label {
+        border-radius: 0;
+    }
+    &:last-of-type:not(:first-of-type) + label {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    &:checked + label {
+        background-color: #fff;
+        box-shadow: 0 -1px 0 #fff inset;
+        cursor: default;
+        &:hover {
+            box-shadow: 0 -1px 0 #fff inset;
+            background-color: #fff;
+        }
+    }
+    + label {
+        box-shadow: 0 -1px 0 #eee inset;
+        border-radius: $tab-wrap-border-radius $tab-wrap-border-radius 0 0;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        color: #333;
+        flex-grow: 3;
+        text-align: center;
+        background-color: #f2f2f2;
+        user-select: none;
+        text-align: center;
+        transition: 0.3s background-color ease, 0.3s box-shadow ease;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 15px;
+        &:hover {
+            background-color: #f9f9f9;
+            box-shadow: 0 1px 0 #f4f4f4 inset;
+        }
+    }
+    &__content {
+        padding: 10px 25px;
+        background-color: transparent;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        opacity: 0;
+        left: 0;
+        transform: translateY(-3px);
+        border-radius: $tab-wrap-border-radius;
+    }
+}
+
+// reponsive
 @media screen and (min-width: 992px) {
     .card {
         display: grid;
