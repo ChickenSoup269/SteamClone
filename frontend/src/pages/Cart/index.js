@@ -3,6 +3,8 @@ import styles from './Cart.module.scss'
 
 const cx = classNames.bind(styles)
 
-function Cart() {}
+function Cart() {
+    return <div className={cx('cart')}></div>
+}
 
 export default Cart

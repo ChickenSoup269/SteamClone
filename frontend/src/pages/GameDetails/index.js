@@ -15,7 +15,6 @@ import 'swiper/css/thumbs'
 
 import classNames from 'classnames/bind'
 import styles from './GameDetails.scss'
-import { type } from '@testing-library/user-event/dist/type'
 
 const cx = classNames.bind(styles)
 
@@ -24,10 +23,6 @@ function GameDetails() {
         {
             headerImg:
                 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/header.jpg?t=1699976365',
-            // video: {
-            //     vidId0: 'https://cdn.akamai.steamstatic.com/steam/apps/256751447/movie_max.webm?t=1558620943',
-            //     vidId1: 'https://cdn.akamai.steamstatic.com/steam/apps/256742849/movie_max.webm?t=1549970399',
-            // },
 
             media: [
                 {
@@ -200,6 +195,24 @@ function GameDetails() {
         }
     }, [currentMediaUrl])
 
+    const [showModal, setShowModal] = useState(false)
+    const [isClosing, setIsClosing] = useState(false)
+    const [largeImageUrl, setLargeImageUrl] = useState('')
+
+    const openModal = (url) => {
+        setLargeImageUrl(url)
+        setShowModal(true)
+    }
+
+    const closeModal = () => {
+        setIsClosing(true)
+        setTimeout(() => {
+            setShowModal(false)
+            setIsClosing(false)
+            setLargeImageUrl('')
+        }, 200)
+    }
+
     return (
         <div className={cx('game_detail')}>
             <div className={cx('card-wrapper')}>
@@ -214,7 +227,11 @@ function GameDetails() {
                                             Your browser does not support HTML video.
                                         </video>
                                     ) : (
-                                        <img src={currentMediaUrl} alt="Main Media" />
+                                        <img
+                                            src={currentMediaUrl}
+                                            alt="Main Media"
+                                            onClick={() => openModal(currentMediaUrl)}
+                                        />
                                     )}
                                 </SwiperSlide>
                             </Swiper>
@@ -270,6 +287,19 @@ function GameDetails() {
                                 ))}
                             </Swiper>
                             <div className="swiper-custom-pagination" />
+                            {showModal && (
+                                <div className={cx('modal')} onClick={closeModal}>
+                                    <div
+                                        className={cx('modal-content', { 'zoom-out': isClosing })}
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <span className={cx('close-modal')} onClick={closeModal}>
+                                            &times;
+                                        </span>
+                                        <img src={largeImageUrl} alt="Large Media" className={cx('modal-media')} />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

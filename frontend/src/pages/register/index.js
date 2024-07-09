@@ -39,7 +39,7 @@ function Register() {
     const inputRefs = useRef([])
 
     const mutation = useMutationHooks((data) => UserService.signupUser(data))
-    const { data, isSuccess, isError } = mutation
+    const { isSuccess, isError } = mutation
 
     const handleNavigateLogin = () => {
         navigate('/login')
@@ -52,7 +52,7 @@ function Register() {
         } else if (isError) {
             messageRegister.error('Đăng ký thất bại')
         }
-    }, [isSuccess, isError])
+    })
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible)
