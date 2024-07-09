@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { NavLink, useNavigate } from 'react-router-dom'
 import QRCode from 'qrcode.react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import classNames from 'classnames/bind'
 import styles from './Login.module.scss'
@@ -16,79 +18,85 @@ import { updateUser } from '../../redux/slides/userSlide'
 const cx = classNames.bind(styles)
 
 function Login() {
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const [qrVisible, setQrVisible] = useState(false);
-    const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const dispatch = useDispatch();
+    const [passwordVisible, setPasswordVisible] = useState(false)
+    const [qrVisible, setQrVisible] = useState(false)
+    const navigate = useNavigate()
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [rememberMe, setRememberMe] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const dispatch = useDispatch()
 
-    const mutation = useMutationHooks((data) => UserService.loginUser(data));
-    const { data, isSuccess, isError } = mutation;
+    const mutation = useMutationHooks((data) => UserService.loginUser(data))
+    const { data, isSuccess, isError } = mutation
 
     useEffect(() => {
-        const rememberedUsername = localStorage.getItem('username');
-        const rememberedPassword = localStorage.getItem('password');
-        const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
+        const rememberedUsername = localStorage.getItem('username')
+        const rememberedPassword = localStorage.getItem('password')
+        const rememberMeChecked = localStorage.getItem('rememberMe') === 'true'
 
         if (rememberedUsername && rememberedPassword && rememberMeChecked) {
-            setUsername(rememberedUsername);
-            setPassword(rememberedPassword);
-            setRememberMe(true);
+            setUsername(rememberedUsername)
+            setPassword(rememberedPassword)
+            setRememberMe(true)
         }
 
         if (isSuccess) {
-            message.success('Đăng nhập thành công!');
-            navigate('/');
-            localStorage.setItem('access_token', JSON.stringify(data?.access_token));
+            message.success('Đăng nhập thành công!')
+            navigate('/')
+            localStorage.setItem('access_token', JSON.stringify(data?.access_token))
             if (data?.access_token) {
-                const decoded = jwtDecode(data?.access_token);
+                const decoded = jwtDecode(data?.access_token)
                 if (decoded?.id) {
-                    handleGetDetailsUser(decoded?.id, data?.access_token);
+                    handleGetDetailsUser(decoded?.id, data?.access_token)
                 }
             }
         } else if (isError) {
-            message.error('Đăng nhập thất bại!');
+            message.error('Đăng nhập không thành công!')
         }
-    }, [isSuccess, isError]);
+    }, [isSuccess, isError])
 
     const handleGetDetailsUser = async (id, token) => {
-        const res = await UserService.getDetailsUser(id, token);
-        dispatch(updateUser({ ...res?.data, access_token: token }));
-    };
+        const res = await UserService.getDetailsUser(id, token)
+        dispatch(updateUser({ ...res?.data, access_token: token }))
+    }
 
     const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-    };
+        setPasswordVisible(!passwordVisible)
+    }
 
     const toggleQrVisibility = () => {
-        setQrVisible(!qrVisible);
-    };
+        setQrVisible(!qrVisible)
+    }
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-        setErrorMessage('');
+        e.preventDefault()
+        setErrorMessage('')
         try {
             await mutation.mutateAsync({
                 username,
                 password,
-            });
+            })
         } catch (error) {
-            setErrorMessage(error.message);
+            setErrorMessage(error.message)
+        }
+        if (!username || !password) {
+            toast.warning('Vui lòng không bỏ trống.', {
+                className: 'toast-notifications',
+            })
+            return
         }
 
         if (rememberMe) {
-            localStorage.setItem('username', username);
-            localStorage.setItem('password', password);
-            localStorage.setItem('rememberMe', rememberMe.toString());
+            localStorage.setItem('username', username)
+            localStorage.setItem('password', password)
+            localStorage.setItem('rememberMe', rememberMe.toString())
         } else {
-            localStorage.removeItem('username');
-            localStorage.removeItem('password');
-            localStorage.removeItem('rememberMe');
+            localStorage.removeItem('username')
+            localStorage.removeItem('password')
+            localStorage.removeItem('rememberMe')
         }
-    };
+    }
 
     return (
         <header className={cx('wrapper')}>
@@ -164,8 +172,9 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </header>
-    );
+    )
 }
 
-export default Login;
+export default Login

@@ -27,7 +27,7 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [verificationCodes, setVerificationCodes] = useState({})
     const [generatedCode, setGeneratedCode] = useState('')
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
     const message = useState()
     const [captchaVerified, setCaptchaVerified] = useState(false)
@@ -174,18 +174,24 @@ function Register() {
     }
 
     const handleRegister = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
+        if (password !== confirmPassword) {
+            toast.error('Mật khẩu không khớp.', {
+                className: 'toast-notifications',
+            })
+            return
+        }
         try {
             await mutation.mutateAsync({
                 email,
                 username,
                 password,
                 confirmPassword,
-            });
+            })
         } catch (error) {
-            setErrorMessage(error.message);
+            setErrorMessage(error.message)
         }
-    };
+    }
     return (
         <header className={cx('wrapper')}>
             <div className={cx('full-background')}>
@@ -317,7 +323,9 @@ function Register() {
 
                             <div className={cx('input-group')}>
                                 {errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>}
-                                <button className={cx('input-submit')} onClick={handleRegister}>Đăng ký</button>
+                                <button className={cx('input-submit')} onClick={handleRegister}>
+                                    Đăng ký
+                                </button>
                             </div>
                         </form>
                     </div>
