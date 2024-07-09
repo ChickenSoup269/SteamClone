@@ -1,4 +1,4 @@
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient,ObjectId  } = require('mongodb');
 const config = require('../config/mongodb');
 //Method [GET] ALL from Mongo
 const getAllGenres = async () => {
@@ -23,42 +23,30 @@ const getAllGenres = async () => {
     }
   }
 };
-
-// [GET] List Genres with Games
-const getGamesByGenres = async () => {
+// [GET] Detail
+const getDetailgenres = async(genre_id) => {
   let client;
   try {
-    client = new MongoClient(config.mongoUrl);
-    await client.connect();
-    console.log('Connected to MongoDB');
-    const db = client.db(config.dbName);
-    const collectionGames = db.collection('games');
-    const collectionGenres = db.collection('genres');
-
-    // Get list genres from collection 'genres'
-    const genres = await collectionGenres.find({}).toArray();
-    const genresWithGames = await Promise.all(genres.map(async (genre) => {
-      const games = await collectionGames.find({ genre_ids: genre.genre_id }).toArray();
-      return {
-          genre_name: genre.description, 
-          games: games.map(game => ({
-              game_name: game.game_name,
-              header_image: game.header_image
-          }))
-      };
-  }));
-    console.log('Genres with games:', genresWithGames);
-    return genresWithGames;
+      client = new MongoClient(config.mongoUrl);
+      await client.connect();
+      console.log('Connected to MongoDB');
+      const db = client.db(config.dbName);
+      const collection = db.collection('games');
+      const games = await collection.find(
+        { genre_ids: genre_id },
+        { projection: { game_name: 1, header_image: 1, 'option.rentalPrice': 1 } }
+      ).toArray();
+      return games;
   } catch (error) {
-    console.error('Error fetching genres with games:', error);
-    throw error;
+      console.error('Error getting games by genre:', error);
+      throw error;
   } finally {
-    if (client) {
-      await client.close();
-      console.log('Closed MongoDB connection');
-    }
+      if (client) {
+          await client.close();
+          console.log('Closed MongoDB connection');
+      }
   }
-};
+}
 //[POST]
 const insertGenres = async (genre) => {
   let client;
@@ -163,7 +151,7 @@ const updateGenresById = async (genre_id, updateData) => {
 
 module.exports = {
   getAllGenres,
-  getGamesByGenres,
+  getDetailgenres,
   insertGenres,
   deleteGenres,
   updateGenresById
