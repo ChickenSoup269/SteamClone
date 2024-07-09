@@ -11,10 +11,6 @@ router.delete('/delete/:genre_id',deleteGenresController)
 router.put('/update/:genre_id',updateGenresController)
 //[GET]
 router.get('/detail/:genre_id',getDetailController)
-
 router.get('/', getGenresController);
-
-
-
 // export
 module.exports = router;
