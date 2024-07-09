@@ -1,10 +1,10 @@
 import { message } from 'antd'
 
-const success = (mes = 'Success') => {
+const success = (mes) => {
     message.success(mes)
 }
 
-const error = (mes = 'Error') => {
+const error = (mes) => {
     message.error(mes)
 }
 
