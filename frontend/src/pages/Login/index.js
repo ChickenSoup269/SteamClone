@@ -1,20 +1,31 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import QRCode from 'qrcode.react'
 
 import classNames from 'classnames/bind'
 import styles from './Login.module.scss'
+import * as UserService from '../../services/UserService'
+import { useMutationHooks } from '~/hooks/useMutationHook'
+import * as message from '../../components/Message/Message'
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../redux/slides/userSlide";
 
 const cx = classNames.bind(styles)
 
 function Login() {
     const [passwordVisible, setPasswordVisible] = useState(false)
     const [qrVisible, setQrVisible] = useState(false)
+    const navigate = useNavigate();
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [rememberMe, setRememberMe] = useState(false)
+    const dispatch = useDispatch();
+
+    const mutation = useMutationHooks((data) => UserService.loginUser(data))
+    const { data, isSuccess, isError } = mutation
 
     useEffect(() => {
         const rememberedUsername = localStorage.getItem('username')
@@ -26,7 +37,26 @@ function Login() {
             setPassword(rememberedPassword)
             setRememberMe(true)
         }
-    }, [])
+
+        if (isSuccess) {
+            message.success()
+            navigate('/')
+            localStorage.setItem('access_token', JSON.stringify(data?.access_token))
+            if (data?.access_token) {
+                const decoded = jwtDecode(data?.access_token)
+                if (decoded?.id) {
+                    handleGetDetailsUser(decoded?.id, data?.access_token)
+                }
+            }
+        } else if (isError) {
+            message.error()
+        }
+    }, [isSuccess, isError])
+
+    const handleGetDetailsUser = async (id, token) => {
+        const res = await UserService.getDetailsUser(id, token)
+        dispatch(updateUser({ ...res?.data, access_token: token }))
+    }
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible)
@@ -48,6 +78,10 @@ function Login() {
         }
 
         // xử lý logic login
+        mutation.mutate({
+            username,
+            password,
+        })
     }
 
     return (
