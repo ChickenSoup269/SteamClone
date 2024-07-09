@@ -18,7 +18,7 @@
 .wrapper.scrolled {
     height: 68px;
     transition: 0.2s;
-    background: url('https://cdn.akamai.steamstatic.com/store/promo/summer2024/summer2024_tile_bg.png');
+    background-color: var(--steamFontBackground);
     box-shadow: var(--steamBoxShadow);
 
     .change-btn-color {

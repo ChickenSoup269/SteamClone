@@ -333,87 +333,89 @@ function GameDetails() {
                     </div>
                 </div>
             </div>
-            <div className={cx('tab-wrap')}>
-                {/* active tab on page load gets checked attribute */}
-                <input type="radio" id="tab1" name="tabGroup1" className={cx('tab')} defaultChecked />
-                <label htmlFor="tab1">Đánh giá</label>
+            <div className={cx('about_game')}>
+                <div className={cx('tab-wrap')}>
+                    {/* active tab on page load gets checked attribute */}
+                    <input type="radio" id="tab1" name="tabGroup1" className={cx('tab')} defaultChecked />
+                    <label htmlFor="tab1">Đánh giá</label>
 
-                <input type="radio" id="tab2" name="tabGroup1" className={cx('tab')} />
-                <label htmlFor="tab2">Nội dung game</label>
+                    <input type="radio" id="tab2" name="tabGroup1" className={cx('tab')} />
+                    <label htmlFor="tab2">Nội dung game</label>
 
-                <input type="radio" id="tab3" name="tabGroup1" className={cx('tab')} />
-                <label htmlFor="tab3">Ngôn ngữ hỗ trợ</label>
-                <input type="radio" id="tab4" name="tabGroup1" className={cx('tab')} />
-                <label htmlFor="tab4">Hehe</label>
+                    <input type="radio" id="tab3" name="tabGroup1" className={cx('tab')} />
+                    <label htmlFor="tab3">Ngôn ngữ hỗ trợ</label>
+                    <input type="radio" id="tab4" name="tabGroup1" className={cx('tab')} />
+                    <label htmlFor="tab4">Hehe</label>
 
-                <div className={cx('tab__content')}>
-                    <h3>Đánh giá game</h3>
-                    <p>
-                        Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget,
-                        lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo,
-                        fringilla vel, aliquet nec, vulputate eget, arcu.
-                    </p>
-                </div>
+                    <div className={cx('tab__content')}>
+                        <h3>Đánh giá game</h3>
+                        <p>
+                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
+                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
+                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+                        </p>
+                    </div>
 
-                <div className={cx('tab__content')}>
-                    <h3>Medium Section</h3>
-                    <p>
-                        Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget,
-                        lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo,
-                        fringilla vel, aliquet nec, vulputate eget, arcu.
-                    </p>
-                    <p>
-                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper velit.
-                        Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl a purus
-                        blandit viverra.
-                    </p>
-                </div>
+                    <div className={cx('tab__content')}>
+                        <h3>Medium Section</h3>
+                        <p>
+                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
+                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
+                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+                        </p>
+                        <p>
+                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
+                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
+                            a purus blandit viverra.
+                        </p>
+                    </div>
 
-                <div className={cx('tab__content')}>
-                    <h3>Long Section</h3>
-                    <p>
-                        Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget,
-                        lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo,
-                        fringilla vel, aliquet nec, vulputate eget, arcu.
-                    </p>
-                    <p>
-                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper velit.
-                        Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl a purus
-                        blandit viverra.
-                    </p>
-                    <p>
-                        Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget,
-                        lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo,
-                        fringilla vel, aliquet nec, vulputate eget, arcu.
-                    </p>
-                    <p>
-                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper velit.
-                        Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl a purus
-                        blandit viverra.
-                    </p>
-                </div>
-                <div className={cx('tab__content')}>
-                    <h3>Hehe Section</h3>
-                    <p>
-                        Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget,
-                        lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo,
-                        fringilla vel, aliquet nec, vulputate eget, arcu.
-                    </p>
-                    <p>
-                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper velit.
-                        Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl a purus
-                        blandit viverra.
-                    </p>
-                    <p>
-                        Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget,
-                        lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo,
-                        fringilla vel, aliquet nec, vulputate eget, arcu.
-                    </p>
-                    <p>
-                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper velit.
-                        Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl a purus
-                        blandit viverra.
-                    </p>
+                    <div className={cx('tab__content')}>
+                        <h3>Long Section</h3>
+                        <p>
+                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
+                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
+                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+                        </p>
+                        <p>
+                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
+                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
+                            a purus blandit viverra.
+                        </p>
+                        <p>
+                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
+                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
+                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+                        </p>
+                        <p>
+                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
+                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
+                            a purus blandit viverra.
+                        </p>
+                    </div>
+                    <div className={cx('tab__content')}>
+                        <h3>Hehe Section</h3>
+                        <p>
+                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
+                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
+                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+                        </p>
+                        <p>
+                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
+                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
+                            a purus blandit viverra.
+                        </p>
+                        <p>
+                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
+                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
+                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+                        </p>
+                        <p>
+                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
+                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
+                            a purus blandit viverra.
+                        </p>
+                    </div>
                 </div>
             </div>
             <ToastContainer />

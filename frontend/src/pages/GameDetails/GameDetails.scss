@@ -1,6 +1,7 @@
-.game_detail {
-    // background: url('https://cdn.akamai.steamstatic.com/store/promo/summer2024/summer2024_tile_bg.png');
-}
+// .game_detail {
+// background: url('https://cdn.akamai.steamstatic.com/store/promo/summer2024/summer2024_tile_bg.png');
+// z-index: -10;
+// }
 .card-wrapper {
     max-width: 1100px;
     height: 600px;
@@ -332,6 +333,16 @@ img {
 }
 
 // css review
+
+.about_game {
+    margin: 0 auto;
+    display: block;
+    max-width: 135rem;
+    > *:not(.tab-wrap) {
+        padding: 0 80px;
+    }
+}
+
 $max-tab-count: 5;
 $tab-wrap-border-radius: 6px;
 .tab-wrap {
@@ -342,7 +353,7 @@ $tab-wrap-border-radius: 6px;
     flex-wrap: wrap;
     position: relative;
     list-style: none;
-    background-color: #fff;
+    background-color: var(--steamFontBackground);
     margin: 40px 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     &:hover {
@@ -357,8 +368,8 @@ $tab-wrap-border-radius: 6px;
             opacity: 1;
             transition: 0.5s opacity ease-in, 0.8s transform ease;
             position: relative;
-            top: -20;
-            z-index: 100;
+            top: -50;
+            z-index: 1;
             transform: translateY(0px);
             text-shadow: 0 0 0;
         }
