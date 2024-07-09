@@ -292,17 +292,10 @@ const fetchDataAndSaveToMongo = async () => {
         const db = client.db(config.dbName);
         const collection = db.collection('games');
         const collectionGenres = db.collection('genres');
-<<<<<<< HEAD
-        //Check MongoDB if = 50 data break
-        const gamesCount = await collection.countDocuments();
-        if (gamesCount >= 5) {
-            console.log(`Đã có ${gamesCount} game trong cơ sở dữ liệu. Dừng việc thêm game.`)
-=======
         // check mongodb if = 50 data break 
         const gamesCount = await collection.countDocuments();
         if (gamesCount >= 50) {
             console.log(`Đã có ${gamesCount} game trong cơ sở dữ liệu. Dừng việc thêm game.`);
->>>>>>> fb91cda30efabe8edf8b108bbaa56ed4f23db063
             return;
         }
         const appList = await fetchAppList();
@@ -310,7 +303,6 @@ const fetchDataAndSaveToMongo = async () => {
         
         const fetchedGames = [];
         let count = 0;
-        let rentalPrice = 0
 
         for (const game of appList) {
             if (game.name && game.name.trim() !== "") {
@@ -325,7 +317,7 @@ const fetchDataAndSaveToMongo = async () => {
                 console.log(`Skipped game with appid ${game.appid} due to empty name`);
             }
 
-            if (count >= 5) {
+            if (count >= 50) {
                 break;
             }
         }
@@ -366,34 +358,6 @@ const fetchDataAndSaveToMongo = async () => {
             if (gameDetails.package_groups) {
                 for (const group of gameDetails.package_groups) {
                     if (group.subs) {
-<<<<<<< HEAD
-                        optionTexts = group.subs.map(sub => sub.option_text);
-                        percentSavings = group.subs.map(sub => {
-                            if (sub.percent_savings_text && sub.percent_savings_text.trim() !== "") {
-                                const savings = parseInt(sub.percent_savings_text.replace('%', '').trim(), 10);
-                                if (!isNaN(savings)) {
-                                    return savings;
-                                } else {
-                                    console.log(`Invalid percent_savings_text: ${sub.percent_savings_text}`);
-                                    return null;
-                                }
-                            } else {
-                                console.log(`Invalid percent_savings_text format: ${typeof sub.percent_savings_text}`);
-                                return null;
-                            }
-                        });
-                        prices_discounted = group.subs.map(sub => {
-                            if (sub.price_in_cents_with_discount) {
-                                rentalPrice = sub.price_in_cents_with_discount * 0.5
-                                return sub.price_in_cents_with_discount;
-                            } else {
-                                console.log(`Invalid price_in_cents_with_discount format: ${typeof sub.price_in_cents_with_discount}`);
-                                return null;
-                            }
-                            
-                        });
-                        
-=======
                         subs = group.subs.map(sub => ({
                             optionText: sub.option_text,
                             percentSavings: (sub.percent_savings_text && sub.percent_savings_text.trim() !== "") ?
@@ -403,7 +367,6 @@ const fetchDataAndSaveToMongo = async () => {
                         }));
                         // Get value percent from sub assign percentSavings contains percentSavings from subs 
                         percentSavings = percentSavings.concat(subs);
->>>>>>> fb91cda30efabe8edf8b108bbaa56ed4f23db063
                     }
                     percentSavings = percentSavings.filter(savings => savings.percentSavings !== null && savings.percentSavings !== undefined);
                 }
@@ -449,8 +412,7 @@ const fetchDataAndSaveToMongo = async () => {
                 release_Date: releaseDate,
                 sale_end_date: saleEndDate || '',
                 is_free: isFree,
-                dlc: dlc,
-                rentalPrice
+                dlc: dlc
             };
 
             if (gameDetails.developers && gameDetails.developers.length > 0) {

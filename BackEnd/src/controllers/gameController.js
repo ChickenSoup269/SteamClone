@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-const { getGamesFromMongo , getGamesOnSale} = require('../services/gameServices');
-const GameService = require('../services/gameServices')
-const { ObjectId } = require('mongodb');
-=======
-const { getGamesFromMongo, getGamesOnSale
-    , insertGame, deleteGame,updateGame } = require('../services/gameServices');
->>>>>>> fb91cda30efabe8edf8b108bbaa56ed4f23db063
-//render in [localhost]
+const { getGamesFromMongo, getGamesOnSale,searchGames
+    , insertGame, deleteGame,updateGame ,getGameDetails} = require('../services/gameServices');
+//render in localhost
+// [GET] All
 const getGames = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 2;
@@ -23,8 +18,34 @@ const getGames = async (req, res) => {
         res.status(500).send('Internal server error');
     }
 };  
+// [GET] Detail
+const getGameDetailsController = async (req, res) => {
+    const { game_id, game_slug } = req.params;
+    try {
+        const game = await getGameDetails(game_id);
+        
+        const decodedGameSlug = decodeURIComponent(game_slug).toLowerCase();
+        const decodedGameName = decodeURIComponent(game.game_name).toLowerCase();
+        
+        console.log('game_slug:', game_slug);
+        console.log('game.game_name:', game.game_name);
+        console.log('decodedGameSlug:', decodedGameSlug);
+        console.log('decodedGameName:', decodedGameName);
+        
+        if (!game || decodedGameSlug !== decodedGameName) {
+            return res.status(404).json({ message: 'Game not found.' });
+        }
+        
+        res.status(200).json(game);
+    } catch (error) {
+        console.error('Error in getGameDetailsController:', error);
+        res.status(500).json({ error: 'Failed to get game details.' });
+    }
+};
 
-//  GET gameOnsale
+
+
+// [GET] GameOnsale
 const getGamesOnSaleController = async (req, res) => {
     try {
         const gamesOnSale = await getGamesOnSale();
@@ -37,96 +58,21 @@ const getGamesOnSaleController = async (req, res) => {
         res.status(500).send('Internal server error ');
     }
 };
-<<<<<<< HEAD
-
-const createGame = async (req, res) => {
+// [GET] Search
+const searchGamesController = async (req, res) => {
     try {
-        const {
-            game_id,
-            game_name,
-            description = "",
-            developers = [],
-            dlc = [],
-            final_price = "",
-            genre_ids = [],
-            header_image = "",
-            initial_price = "",
-            is_free = false,
-            movies = [],
-            option = [],
-            price_cent_discount = [],
-            publishers = [],
-            release_Date = "",
-            rentalPrice = 0,
-            sale = [],
-            sale_end_date = "",
-            screenshots = []
-        } = req.body;
-
-        // Kiểm tra nếu game_id hoặc game_name rỗng
-        if (!game_id || !game_name) {
-            return res.status(400).json({ error: 'game_id và game_name không được để trống' });
+        const { query } = req.query; 
+        console.log(query);
+        if (!query) {
+            return res.status(400).json({ error: 'Query parameter is required.' });
         }
-
-        const game = {
-            game_id: parseInt(game_id),
-            game_name,
-            description,
-            developers,
-            dlc,
-            final_price,
-            genre_ids,
-            header_image,
-            initial_price,
-            is_free,
-            movies,
-            option,
-            price_cent_discount,
-            publishers,
-            release_Date,
-            rentalPrice,
-            sale,
-            sale_end_date,
-            screenshots
-        };
-
-        const newGame = await GameService.createGame(game);
-        res.status(201).json(newGame);
+        const games = await searchGames(query);
+        res.status(200).json(games);
     } catch (error) {
-        if (error.message === 'Game ID already exists') {
-            res.status(400).json({ error: error.message });
-        } else {
-            console.error('Error while creating game:', error);
-            res.status(500).send('Internal server error');
-        }
+        console.error('Error in searchGamesController:', error);
+        res.status(500).json({ error: 'Failed to search games.' });
     }
 };
-
-const updateGame = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const data = req.body;
-
-        if (!id) {
-            return res.status(400).json({ error: 'The id is required' });
-        }
-
-        const objectId = new ObjectId(id);
-        if (data.game_id) {
-            data.game_id = parseInt(data.game_id);
-        }
-        const updatedGame = await GameService.updateGame(objectId, data);
-        res.status(200).json(updatedGame);
-    } catch (error) {
-        if (error.message === 'Game does not exist' || error.message === 'Game ID already exists') {
-            res.status(400).json({ error: error.message });
-        } else {
-            console.error('Error while updating game:', error);
-            res.status(500).send('Internal server error');
-        }
-    }
-};
-=======
 // [POST] games
 const insertGameController = async (req, res) => {
     const { game_id, game_name } = req.body;
@@ -146,7 +92,7 @@ const insertGameController = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
-// Method [Delete]
+// [Delete]
 const deleteGamesController = async (req, res) => {
     try {
         const { game_id } = req.params;
@@ -164,7 +110,7 @@ const deleteGamesController = async (req, res) => {
         res.status(500).json({ error: 'Failed to delete game.' });
     }
 };
-// Method [Update]
+// [Update]
 const updateGamesController = async (req, res) => {
     const {game_id} = req.params;
     const updateData = req.body;
@@ -184,18 +130,14 @@ const updateGamesController = async (req, res) => {
     }
 }
 
-// Method [Search]
->>>>>>> fb91cda30efabe8edf8b108bbaa56ed4f23db063
+// [Search]
 
 module.exports = {
     getGames,
+    searchGamesController,
+    getGameDetailsController,
     getGamesOnSaleController,
-<<<<<<< HEAD
-    createGame,
-    updateGame
-=======
     insertGameController,
     deleteGamesController,
     updateGamesController
->>>>>>> fb91cda30efabe8edf8b108bbaa56ed4f23db063
 };
