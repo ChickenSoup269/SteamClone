@@ -413,6 +413,7 @@ $tab-wrap-border-radius: 6px;
         z-index: -1;
         opacity: 0;
         left: 0;
+        color: var(--steamColorBlack);
         transform: translateY(-3px);
         border-radius: $tab-wrap-border-radius;
     }

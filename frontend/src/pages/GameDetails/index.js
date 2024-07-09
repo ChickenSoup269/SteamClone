@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faShoppingBasket, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -145,6 +145,9 @@ function GameDetails() {
     const [currentIndex] = useState(0)
     const [currentMediaUrl, setCurrentMediaUrl] = useState(initialMediaUrl)
 
+    const mainVideoRef = useRef(null)
+    const canvasVideoRef = useRef(null)
+
     const addCartSuccess = () => {
         toast.success('Thêm vào giỏ hàng thành công!', {
             className: 'toast-notifications',
@@ -172,6 +175,31 @@ function GameDetails() {
         setCurrentSalePrice(gameDetails[currentIndex].sale[selectedEditionIndex])
     }
 
+    useEffect(() => {
+        const mainVideo = mainVideoRef.current
+        const canvasVideo = canvasVideoRef.current
+
+        if (mainVideo && canvasVideo) {
+            const syncVideo = (event) => {
+                const { currentTime, paused } = event.target
+                canvasVideo.currentTime = currentTime
+                if (paused) {
+                    canvasVideo.pause()
+                }
+            }
+
+            mainVideo.addEventListener('play', syncVideo)
+            mainVideo.addEventListener('pause', syncVideo)
+            mainVideo.addEventListener('timeupdate', syncVideo)
+
+            return () => {
+                mainVideo.removeEventListener('play', syncVideo)
+                mainVideo.removeEventListener('pause', syncVideo)
+                mainVideo.removeEventListener('timeupdate', syncVideo)
+            }
+        }
+    }, [currentMediaUrl])
+
     return (
         <div className={cx('game_detail')}>
             <div className={cx('card-wrapper')}>
@@ -182,7 +210,7 @@ function GameDetails() {
                             <Swiper spaceBetween={10} slidesPerView={1} className={cx('img-showcase')}>
                                 <SwiperSlide key="media">
                                     {currentMediaUrl.match('.movie_max.webm') ? (
-                                        <video controls src={currentMediaUrl} alt="Main Video">
+                                        <video controls src={currentMediaUrl} ref={mainVideoRef} alt="Main Video">
                                             Your browser does not support HTML video.
                                         </video>
                                     ) : (
@@ -191,11 +219,12 @@ function GameDetails() {
                                 </SwiperSlide>
                             </Swiper>
                         </div>
+                        {/* Phần loan màu */}
                         <div className={cx('img-display-glow')}>
                             <Swiper spaceBetween={10} slidesPerView={1} className={cx('img-showcase')}>
-                                {currentMediaUrl.endsWith('.webm') ? (
+                                {currentMediaUrl.match('.webm') ? (
                                     <SwiperSlide key="video">
-                                        <video controls src={currentMediaUrl} alt="Main Video">
+                                        <video src={currentMediaUrl} ref={canvasVideoRef} alt="background Video">
                                             Your browser does not support HTML video.
                                         </video>
                                     </SwiperSlide>
@@ -316,7 +345,7 @@ function GameDetails() {
                 <label htmlFor="tab3">Long</label>
 
                 <div className={cx('tab__content')}>
-                    <h3>Short Section</h3>
+                    <h3>Đánh giá game</h3>
                     <p>
                         Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet eget,
                         lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede justo,
