@@ -139,6 +139,9 @@ function GameDetails() {
     const [currentSalePrice, setCurrentSalePrice] = useState(gameDetails[0].sale[0])
     const [currentIndex] = useState(0)
     const [currentMediaUrl, setCurrentMediaUrl] = useState(initialMediaUrl)
+    const [showModal, setShowModal] = useState(false)
+    const [isClosing, setIsClosing] = useState(false)
+    const [largeImageUrl, setLargeImageUrl] = useState('')
 
     const mainVideoRef = useRef(null)
     const canvasVideoRef = useRef(null)
@@ -170,6 +173,20 @@ function GameDetails() {
         setCurrentSalePrice(gameDetails[currentIndex].sale[selectedEditionIndex])
     }
 
+    const openModal = (url) => {
+        setLargeImageUrl(url)
+        setShowModal(true)
+    }
+
+    const closeModal = () => {
+        setIsClosing(true)
+        setTimeout(() => {
+            setShowModal(false)
+            setIsClosing(false)
+            setLargeImageUrl('')
+        }, 200)
+    }
+
     useEffect(() => {
         const mainVideo = mainVideoRef.current
         const canvasVideo = canvasVideoRef.current
@@ -194,24 +211,6 @@ function GameDetails() {
             }
         }
     }, [currentMediaUrl])
-
-    const [showModal, setShowModal] = useState(false)
-    const [isClosing, setIsClosing] = useState(false)
-    const [largeImageUrl, setLargeImageUrl] = useState('')
-
-    const openModal = (url) => {
-        setLargeImageUrl(url)
-        setShowModal(true)
-    }
-
-    const closeModal = () => {
-        setIsClosing(true)
-        setTimeout(() => {
-            setShowModal(false)
-            setIsClosing(false)
-            setLargeImageUrl('')
-        }, 200)
-    }
 
     return (
         <div className={cx('game_detail')}>

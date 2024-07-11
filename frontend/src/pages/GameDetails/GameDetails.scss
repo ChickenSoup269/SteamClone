@@ -242,7 +242,6 @@ img {
 }
 
 // column left
-
 .header_image_game {
     position: relative;
     width: 345px;
@@ -251,6 +250,7 @@ img {
         box-shadow: var(--steamBoxShadow);
         border-radius: var(--steamBoder);
     }
+
     .glow {
         position: absolute;
         top: 0;
@@ -283,10 +283,10 @@ img {
     margin: 1rem 0;
     font-size: 1.5rem;
     font-weight: 700;
-}
 
-.product-price span {
-    font-weight: 400;
+    span {
+        font-weight: 400;
+    }
 }
 
 .last-price {
@@ -301,7 +301,7 @@ img {
 
     strike::before {
         top: 50%; /*tweak this to adjust the vertical position if it's off a bit due to your font family */
-        background: #3c4752; /*this is the color of the line*/
+        background: #939393; /*this is the color of the line*/
         content: '';
         width: 100%;
         position: absolute;

@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import classNames from 'classnames/bind'
 import styles from './Register.module.scss'
+
+// BE
 import * as UserService from '../../services/UserService'
 import { useMutationHooks } from '~/hooks/useMutationHook'
 import * as messageRegister from '../../components/Message/Message'
@@ -39,7 +41,7 @@ function Register() {
     const inputRefs = useRef([])
 
     const mutation = useMutationHooks((data) => UserService.signupUser(data))
-    const { isSuccess, isError } = mutation
+    const { data, isSuccess, isError } = mutation
 
     const handleNavigateLogin = () => {
         navigate('/login')
@@ -52,7 +54,7 @@ function Register() {
         } else if (isError) {
             messageRegister.error('Đăng ký thất bại')
         }
-    })
+    }, [[isSuccess, isError]])
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible)
