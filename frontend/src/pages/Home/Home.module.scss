@@ -317,6 +317,10 @@
     padding-top: 200px;
 }
 
+.swiper_game_genres {
+    background-color: white;
+}
+
 .title_poster_game {
     padding: 20px;
 }
@@ -324,8 +328,8 @@
 .swiper_poster_game {
     overflow: visible;
     text-align: center;
-
-    height: 2 90px;
+    width: 135rem;
+    height: 290px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -333,9 +337,9 @@
     img {
         position: relative;
         display: block;
-        width: 185px;
-        height: 270px;
-        margin-left: 20px;
+        width: 180px;
+        height: 250px;
+        margin-left: 10px;
         object-fit: fill;
         border-radius: var(--steamBoder);
         box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
@@ -355,30 +359,6 @@
         &:active {
             filter: brightness(80%) contrast(110%);
         }
-    }
-
-    .glow_poster {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 180px;
-        height: 260px;
-        z-index: -1;
-        transition: calc(0.4s);
-        animation: slideInFromLeft 0.4s;
-        filter: blur(30px) saturate(5);
-    }
-}
-
-// animation cho game fullscreen
-@keyframes slideInFromLeft {
-    from {
-        transform: translateY(100px);
-        transition: calc(0.4s);
-    }
-    to {
-        transform: translateY(0);
-        transition: calc(0.4s);
     }
 }
 

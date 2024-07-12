@@ -41,6 +41,7 @@ function Register() {
     const inputRefs = useRef([])
 
     const mutation = useMutationHooks((data) => UserService.signupUser(data))
+    // eslint-disable-next-line no-unused-vars
     const { data, isSuccess, isError } = mutation
 
     const handleNavigateLogin = () => {
@@ -54,6 +55,7 @@ function Register() {
         } else if (isError) {
             messageRegister.error('Đăng ký thất bại')
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [[isSuccess, isError]])
 
     const togglePasswordVisibility = () => {

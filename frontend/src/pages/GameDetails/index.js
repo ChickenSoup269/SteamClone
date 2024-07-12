@@ -261,7 +261,6 @@ function GameDetails() {
                                 pagination={{ el: '.swiper-custom-pagination', clickable: true }}
                                 freeMode
                                 watchSlidesProgress
-                                thumbs={true}
                             >
                                 {gameDetails[0].media.map((media, index) => (
                                     <SwiperSlide key={index}>

@@ -1,8 +1,15 @@
 import React, { useState, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
+
 import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
+import 'swiper/css/thumbs'
 import 'swiper/css/autoplay'
 
 import classNames from 'classnames/bind'
@@ -228,6 +235,31 @@ const categoriesPoster = [
                 alt: 'Horror Game 1',
             },
             {
+                id: '1',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
+                alt: 'Horror Game 1',
+            },
+            {
+                id: '1',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
+                alt: 'Horror Game 1',
+            },
+            {
+                id: '1',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
+                alt: 'Horror Game 1',
+            },
+            {
+                id: '1',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
+                alt: 'Horror Game 1',
+            },
+            {
+                id: '1',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
+                alt: 'Horror Game 1',
+            },
+            {
                 id: '2',
                 src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
                 alt: 'Horror Game 2',
@@ -272,8 +304,8 @@ function Home() {
         shortDescription: slides[0].shortDescription,
     })
     const [currentIndex, setCurrentIndex] = useState(0)
+    // eslint-disable-next-line no-unused-vars
     const [slideInClass, setSlideInClass] = useState('')
-    const [hoverGlowPoster, setHoverGlowPoster] = useState(false)
 
     const swiperRef = useRef(null)
 
@@ -295,6 +327,7 @@ function Home() {
     const handleSlideChange = () => {
         const swiper = swiperRef.current.swiper
         const slideIndex = swiper.realIndex
+
         setSlideInClass('')
         setTimeout(() => {
             setSlideInClass('slide-in')
@@ -413,6 +446,21 @@ function Home() {
                         <SwiperSlide>
                             <img src="" alt="thể loại game" />
                         </SwiperSlide>
+                        <SwiperSlide>
+                            <img src="" alt="thể loại game" />
+                        </SwiperSlide>{' '}
+                        <SwiperSlide>
+                            <img src="" alt="thể loại game" />
+                        </SwiperSlide>{' '}
+                        <SwiperSlide>
+                            <img src="" alt="thể loại game" />
+                        </SwiperSlide>{' '}
+                        <SwiperSlide>
+                            <img src="" alt="thể loại game" />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img src="" alt="thể loại game" />
+                        </SwiperSlide>
                     </Swiper>
                 </div>
 
@@ -422,22 +470,16 @@ function Home() {
                         <div key={index} className={cx('swiper_background_poster_game')}>
                             <h2 className={cx('title_poster_game')}>{`Thể loại - ${category.type}`}</h2>
                             <Swiper
+                                modules={[Navigation, Pagination]}
                                 slidesPerView={7}
-                                spaceBetween={10}
+                                spaceBetween={15}
+                                navigation={true}
                                 pagination={{ clickable: true }}
                                 className={cx('swiper_poster_game')}
                             >
                                 {category.games.map((game, idx) => (
                                     <SwiperSlide key={idx} className={cx('swiper_slide_poster')}>
-                                        <img
-                                            src={game.src}
-                                            alt={game.alt}
-                                            onMouseEnter={() => setHoverGlowPoster(idx)}
-                                            onMouseLeave={() => setHoverGlowPoster(false)}
-                                        />
-                                        {hoverGlowPoster === idx && (
-                                            <img src={game.src} alt={game.alt} className={cx('glow_poster')} />
-                                        )}
+                                        <img src={game.src} alt={game.alt} />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>

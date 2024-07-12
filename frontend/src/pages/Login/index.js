@@ -103,6 +103,7 @@ function Login() {
             message.error('Đăng nhập không thành công!')
         }
         setIsSubmitting(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, isError])
 
     return (
