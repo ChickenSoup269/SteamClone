@@ -92,20 +92,26 @@ const usserMenu = [
     },
 ]
 
-const navLinkStyles = ({ isActive }) => {
-    return {
-        fontWeight: isActive ? '700' : '500',
-        background: isActive ? 'var(--steamColorWhite)' : 'none',
-        color: isActive ? 'var(--primary)' : 'var(--steamColorWhite)',
-        transform: isActive ? ' scale(0.9)' : 'none',
-    }
-}
-
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
 
     // khi đăng nhập
     const currentUser = false
+
+    // điều chỉnh header theme
+    const navLinkStyles = ({ isActive }) => {
+        const textColorLight = isActive ? 'var(--activePrimary)' : isScrolled ? '#000000' : '#ffffff'
+        const textColorDark = isActive ? 'var(--activePrimary)' : '#ffffff'
+        const textColor = theme === 'light' ? textColorLight : textColorDark
+
+        return {
+            fontWeight: isActive ? '700' : '500',
+            background: isActive ? 'var(--activeNavLink)' : 'none',
+            color: textColor,
+            transform: isActive ? ' scale(0.9)' : 'none',
+        }
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -122,9 +128,20 @@ function Header() {
         }
     }, [])
 
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme)
+        localStorage.setItem('theme', theme)
+    }, [theme])
+
     // Handel logic
     const handleMenuChange = (menuItem) => {
         console.log(menuItem)
+    }
+
+    // theme light/dark
+    const handleThemeChange = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light'
+        setTheme(newTheme)
     }
 
     return (
@@ -191,7 +208,12 @@ function Header() {
                         </Tippy>
                     </NavLink>
                     <Tippy content="Màu giao diện">
-                        <input className={cx('switch')} type="checkbox" data-theme-toggle />
+                        <input
+                            className={cx('switch')}
+                            type="checkbox"
+                            checked={theme === 'light'}
+                            onChange={handleThemeChange}
+                        />
                     </Tippy>
                     <Menu items={currentUser ? usserMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {({ isAnimating }) =>

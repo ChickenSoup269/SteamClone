@@ -51,7 +51,7 @@
 
 .full-screen-content {
     position: absolute;
-    top: 4%;
+    top: 8rem;
     margin-left: 5vw;
     z-index: 100;
 
@@ -72,7 +72,7 @@
 }
 
 .game_swiper_container {
-    position: relative;
+    position: sticky;
     padding-top: 500px;
     overflow: visible;
 }
@@ -309,16 +309,56 @@
     filter: blur(30px) saturate(5);
 }
 
-.swiper_background_poster_game {
-    margin-top: 20px;
-}
-
 .content_game_poster {
     padding-top: 200px;
 }
 
+// css thể loại game | thể loại đại diện game
+.swiper_background_genres {
+    margin: 0px 0px 50px 50px;
+}
+
 .swiper_game_genres {
-    background-color: white;
+    overflow: hidden;
+    text-align: center;
+    width: 120rem;
+    height: 300px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        position: relative;
+        display: block;
+        width: 260px;
+        height: 260px;
+        margin-left: 10px;
+        object-fit: fill;
+        border-radius: var(--steamBoder);
+        box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        transition: all ease 0.28s 0.01s;
+        transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
+
+        &:hover,
+        &:focus {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transform: perspective(222px) translate3d(0px, 0px, 14px) rotateX(2deg);
+            transform-origin: center;
+            box-shadow: 0 14px 16px -2px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        &:active {
+            filter: brightness(80%) contrast(110%);
+        }
+    }
+}
+
+// css poster game | game đại diện thể loại
+.swiper_background_poster_game {
+    margin-top: 20px;
 }
 
 .title_poster_game {

@@ -72,8 +72,8 @@ const slides = [
         headerImg: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322330/header.jpg?t=1718840328',
         poster: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
         title: "Don't Starve Together",
-        oldPrice: '50.000vnđ',
-        price: '100.000vnđ',
+        oldPrice: '5.000.000vnđ',
+        price: '1.000.000vnđ',
         shortDescription:
             "Fight, Farm, Build and Explore Together in the standalone multiplayer expansion to the uncompromising wilderness survival game, Don't Starve.",
         sale: '90%',
@@ -84,8 +84,8 @@ const slides = [
         headerImg: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2420110/header.jpg?t=1717622622',
         poster: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
         title: 'Horizon Forbidden West™ Complete Edition',
-        oldPrice: '50.000vnđ',
-        price: '100.000vnđ',
+        oldPrice: '52.000vnđ',
+        price: '200.000vnđ',
         shortDescription:
             'Experience the epic Horizon Forbidden West™ in its entirety with bonus content and the Burning Shores expansion included. The Burning Shores add-on contains additional content for Aloy’s adventure, including new storylines, characters, and experiences in a stunning yet hazardous new area.',
         sale: '100%',
@@ -97,13 +97,41 @@ const slides = [
             'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2303350/header_alt_assets_3.jpg?t=1719248291',
         poster: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
         title: 'Sticky Business',
-        oldPrice: '50.000vnđ',
-        price: '100.000vnđ',
+        oldPrice: '10.000vnđ',
+        price: '140.000vnđ',
         shortDescription:
             'Experience the joy of running your own cozy small business: Create stickers, pack orders and hear your customers’ stories. Time to build the cutest shop on the internet!',
         sale: '25%',
     },
 ]
+
+// const categories = [
+//     {
+//         type: 'giải đố',
+//         id: '01',
+//         src: 'https://store.steampowered.com/categories/homepageimage/category/rogue_like_rogue_lite?cc=us&l=vietnamese',
+//     },
+//     {
+//         type: 'anime',
+//         id: '02',
+//         src: 'https://store.steampowered.com/categories/homepageimage/category/anime?cc=us&l=vietnamese',
+//     },
+//     {
+//         type: 'kinh dị',
+//         id: '03',
+//         src: 'https://store.steampowered.com/categories/homepageimage/category/horror?cc=us&l=vietnamese',
+//     },
+//     {
+//         type: 'chơi miễn phí',
+//         id: '04',
+//         src: 'https://store.steampowered.com/categories/homepageimage/category/casual?cc=us&l=vietnamese',
+//     },
+//     {
+//         type: 'đơn giản',
+//         id: '05',
+//         src: 'https://store.steampowered.com/categories/homepageimage/category/fighting_martial_arts?cc=us&l=vietnamese',
+//     },
+// ]
 
 const categoriesPoster = [
     {
@@ -111,6 +139,46 @@ const categoriesPoster = [
         games: [
             {
                 id: '1',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
+                alt: 'Horror Game 1',
+            },
+            {
+                id: '2',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
+                alt: 'Horror Game 2',
+            },
+            {
+                id: '3',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
+                alt: 'Horror Game 3',
+            },
+            {
+                id: '4',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
+                alt: 'Horror Game 4',
+            },
+            {
+                id: '5',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
+                alt: 'Horror Game 5',
+            },
+            {
+                id: '6',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
+                alt: 'Horror Game 6',
+            },
+            {
+                id: '6',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
+                alt: 'Horror Game 6',
+            },
+        ],
+    },
+    {
+        type: 'Anime',
+        games: [
+            {
+                id: '2',
                 src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
                 alt: 'Horror Game 1',
             },
@@ -348,7 +416,7 @@ function Home() {
     }
 
     return (
-        <header className={cx('wrapper')}>
+        <div className={cx('wrapper')}>
             <div className={cx('full-screen-slider')}>
                 <div className={cx('full-screen-img-container')}>
                     <img className={cx('full-screen-img')} id="mainImage" src={mainImage} alt="BackgroundGameImg" />
@@ -393,21 +461,6 @@ function Home() {
                         delay: 10000,
                         paginationClickable: true,
                     }}
-                    breakpoints={{
-                        320: {
-                            slidesPerView: 2,
-                        },
-                        // when window width is >= 480px
-                        480: {
-                            slidesPerView: 3,
-                        },
-                        640: {
-                            slidesPerView: 4,
-                        },
-                        900: {
-                            slidesPerView: 6,
-                        },
-                    }}
                     loop={true}
                     onSlideChange={handleSlideChange}
                     ref={swiperRef}
@@ -433,15 +486,93 @@ function Home() {
                     ))}
                 </Swiper>
             </div>
+
             <div className={cx('content_game_poster')}>
                 {/* Slide thể loại */}
                 <div className={cx('swiper_background_genres')}>
+                    <h2>Duyện theo thể loại</h2>
                     <Swiper
-                        slidesPerView={5}
+                        modules={[Navigation, Pagination]}
+                        slidesPerView={4}
+                        spaceBetween={15}
+                        navigation={true}
+                        pagination={{ clickable: true }}
+                        className={cx('swiper_game_genres')}
+                    >
+                        <SwiperSlide>
+                            <img
+                                src="https://store.steampowered.com/categories/homepageimage/category/action?cc=us&l=vietnamese"
+                                alt="thể loại game"
+                            />
+                            <h3>Sinh tồn</h3>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img
+                                src="https://store.steampowered.com/categories/homepageimage/category/rogue_like_rogue_lite?cc=us&l=vietnamese"
+                                alt="thể loại game"
+                            />
+                            <h3>hành động</h3>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img
+                                src="https://store.steampowered.com/categories/homepageimage/category/anime?cc=us&l=vietnamese"
+                                alt="thể loại game"
+                            />
+                            <h3> khoa học viễn tưởng</h3>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img
+                                src="https://store.steampowered.com/categories/homepageimage/category/horror?cc=us&l=vietnamese"
+                                alt="thể loại game"
+                            />
+                            <h3>Đua tốc độ</h3>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img
+                                src="https://store.steampowered.com/categories/homepageimage/category/casual?cc=us&l=vietnamese"
+                                alt="thể loại game"
+                            />
+                            <h3>Nhập vai</h3>
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <img
+                                src="https://store.steampowered.com/categories/homepageimage/category/fighting_martial_arts?cc=us&l=vietnamese"
+                                alt="thể loại game"
+                            />
+                            <h3>Đối kháng</h3>
+                        </SwiperSlide>
+                    </Swiper>
+                </div>
+
+                {/* Slide thể loại đại diện game */}
+                {categoriesPoster.map((category, index) => (
+                    <div key={index} className={cx('swiper_background_poster_game')}>
+                        <h2 className={cx('title_poster_game')}>{`Thể loại - ${category.type}`}</h2>
+                        <Swiper
+                            modules={[Navigation, Pagination]}
+                            slidesPerView={7}
+                            spaceBetween={15}
+                            navigation={true}
+                            pagination={{ clickable: true }}
+                            className={cx('swiper_poster_game')}
+                        >
+                            {category.games.map((game, idx) => (
+                                <SwiperSlide key={idx} className={cx('swiper_slide_poster')}>
+                                    <img src={game.src} alt={game.alt} />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                ))}
+
+                {/* Slide ưa đãi card */}
+                {/* <div className={cx('swiper_card_sale')}>
+                    <Swiper
+                        slidesPerView={4}
                         pagination={{
                             clickable: true,
                         }}
-                        className={cx('swiper_game_genres')}
+                        className={cx('swiper_card_game_sale')}
                     >
                         <SwiperSlide>
                             <img src="" alt="thể loại game" />
@@ -459,35 +590,13 @@ function Home() {
                             <img src="" alt="thể loại game" />
                         </SwiperSlide>
                         <SwiperSlide>
+                            <p>ưu đãi cuối tuần</p>
                             <img src="" alt="thể loại game" />
                         </SwiperSlide>
                     </Swiper>
-                </div>
-
-                {/* Slide thể loại đại diện game */}
-                <div className={cx('swiper_background_poster_game')}>
-                    {categoriesPoster.map((category, index) => (
-                        <div key={index} className={cx('swiper_background_poster_game')}>
-                            <h2 className={cx('title_poster_game')}>{`Thể loại - ${category.type}`}</h2>
-                            <Swiper
-                                modules={[Navigation, Pagination]}
-                                slidesPerView={7}
-                                spaceBetween={15}
-                                navigation={true}
-                                pagination={{ clickable: true }}
-                                className={cx('swiper_poster_game')}
-                            >
-                                {category.games.map((game, idx) => (
-                                    <SwiperSlide key={idx} className={cx('swiper_slide_poster')}>
-                                        <img src={game.src} alt={game.alt} />
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        </div>
-                    ))}
-                </div>
+                </div> */}
             </div>
-        </header>
+        </div>
     )
 }
 

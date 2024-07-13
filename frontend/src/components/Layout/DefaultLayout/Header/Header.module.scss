@@ -18,7 +18,8 @@
 .wrapper.scrolled {
     height: 68px;
     transition: 0.2s;
-    background-color: var(--steamFontBackground);
+
+    background-color: var(--bgTheme);
     box-shadow: var(--steamBoxShadow);
 
     .change-btn-color {
@@ -42,34 +43,34 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
 
-li {
-    float: left;
-}
+    li {
+        float: left;
+    }
 
-li a {
-    display: block;
-    font-size: 1.8rem;
-    text-transform: capitalize;
-    text-align: center;
-    padding: 12px 14px;
-    text-decoration: none;
-    border-radius: var(--steamBoder);
-    transition: calc(0.4s);
+    li a {
+        display: block;
+        font-size: 1.8rem;
+        text-transform: capitalize;
+        text-align: center;
+        padding: 12px 14px;
+        text-decoration: none;
+        border-radius: var(--steamBoder);
+        transition: calc(0.4s);
 
-    &:hover {
-        text-decoration: underline;
-        text-underline-offset: 10px;
-        text-shadow: var(--steamTextShadow);
-        transition: calc(0.2s);
+        &:hover {
+            text-decoration: underline;
+            text-underline-offset: 10px;
+            text-shadow: var(--hoverTextLight);
+            transition: calc(0.2s);
+        }
     }
 }
 
@@ -78,7 +79,7 @@ li a {
     font-size: 2rem;
     margin-left: 8px;
     padding: 4px 8px;
-    color: var(--steamColorWhite);
+    color: var(--activeText);
     background-color: transparent;
     transform: rotate(180deg);
     transition: transform 0.5s ease;
@@ -95,10 +96,12 @@ li a {
     font-size: 2.2rem;
     margin-left: 8px;
     padding: 4px 10px;
-    color: var(--steamColorWhite);
+    color: var(--activeText);
     transform: scale(0.89);
     transition: calc(0.3s);
-    background-color: transparent;
+    background-color: var(--bgTran);
+    border-radius: var(--steamBoder);
+    box-shadow: var(--steamBoxShadow);
 
     &:hover {
         transform: scale(1);
@@ -109,22 +112,25 @@ li a {
 .badge {
     position: absolute;
     top: -10px;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     right: -5px;
     width: 20px;
     height: 20px;
+    font-weight: 500;
     background: red;
     color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+    box-shadow: var(--steamBoxShadow);
 }
 
 //action
 .actions {
     display: flex;
     align-items: center;
+    padding: 0px 10px 0px 0px;
 }
 
 .user-avatar {
@@ -132,6 +138,7 @@ li a {
     height: 32px;
     object-fit: cover;
     border-radius: 50%;
+    box-shadow: var(--steamBoxShadow);
     margin-left: 20px;
     cursor: pointer;
 
@@ -145,7 +152,8 @@ li a {
     appearance: none;
     width: 52px;
     height: 25px;
-    background: var(--steamColorWhite);
+    box-shadow: var(--steamBoxShadow);
+    background: var(--activeText);
     border-radius: 50px;
     margin-left: 5px;
     position: relative;
@@ -164,7 +172,7 @@ li a {
     width: 12px;
     height: 12px;
     background: #e8bd20;
-    border: 5px solid var(--steamColorBlack);
+    border: 5px solid var(--activeSwitch);
     border-radius: 50%;
     top: 50%;
     left: 5px;
@@ -175,7 +183,7 @@ li a {
 .switch[type='checkbox']:after {
     width: 12px;
     height: 12px;
-    background: var(--steamColorBlack);
+    background: var(--activeSwitch);
     border-radius: 50%;
     top: 50%;
     left: 15px;

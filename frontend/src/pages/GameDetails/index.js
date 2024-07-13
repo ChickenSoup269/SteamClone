@@ -352,7 +352,7 @@ function GameDetails() {
 
                             <select className="select_game_edition" onChange={handleEditionChange}>
                                 {Object.entries(gameDetails[currentIndex].gameEdition).map(([key, edition]) => (
-                                    <option className={cx('options')} key={key} value={key}>
+                                    <option key={key} value={key}>
                                         {edition}
                                     </option>
                                 ))}

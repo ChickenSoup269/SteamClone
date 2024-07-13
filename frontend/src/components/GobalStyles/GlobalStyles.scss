@@ -13,6 +13,7 @@
     --steamHoverPopUp: #dcdedf;
     --steamColorSearch: #eeeeee;
     --steamTextShadow: 2px 3px 13px rgba(255, 255, 255, 0.63);
+    --steamTextShadowBlack: 2px 3px 13px rgba(39, 135, 244, 0.63);
     --steamBoder: 5px;
     --steamBoxShadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     --steamBoxShadowWhite: rgba(255, 255, 255, 0.35) 0px 5px 15px;
@@ -32,12 +33,28 @@ html {
 }
 
 [data-theme='light'] {
-    --SteamHeaderColor: var(--steamColorWhite);
-    --steamTextColor: var(--steamColorBlack);
+    --bgTheme: #ffffff;
+    --bgTran: rgb(255, 255, 255);
+    --bgContent: var(--steamOldPrice);
+
+    --activeNavLink: var(--primary);
+    --activeText: var(--steamColorBlack);
+    --activePrimary: #ffffff;
+    --activeSwitch: #ffffff;
+
+    --hoverTextLight: var(--steamTextShadowBlack);
 }
 [data-theme='dark'] {
-    --SteamHeaderColor: var(--steamBackground);
-    --steamTextColor: var(--steamColorWhite);
+    --bgTheme: var(--steamFontBackground);
+    --bgTran: rgb(0, 0, 0);
+    --bgContent: var(--steamBackground);
+
+    --activeNavLink: #ffffff;
+    --activeText: var(--steamColorWhite);
+    --activePrimary: var(--primary);
+    --activeSwitch: #131518;
+
+    --hoverTextLight: var(--steamTextShadow);
 }
 
 body {
@@ -46,7 +63,7 @@ body {
     font-size: 1.6rem;
     font-style: normal;
     color: var(--steamColorWhite);
-    background-color: var(--steamBackground);
+    background-color: var(--bgContent);
     overflow-x: hidden;
 }
 

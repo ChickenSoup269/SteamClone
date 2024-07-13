@@ -390,7 +390,6 @@ img {
 .select_game_edition {
     --arrow-bg: rgba(255, 255, 255, 0.3);
     --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
-    --option-bg: white;
     --select-bg: rgba(255, 255, 255, 0.2);
 
     appearance: none;
@@ -410,17 +409,22 @@ img {
     }
 
     &:focus {
+        background-color: #000;
         outline: none;
     }
 
-    option {
-        background-color: var(--option-bg);
+    option:checked {
+        background-color: var(--steamColorWhite);
         color: var(--steamColorBlack);
+    }
+
+    option {
+        background-color: var(--steamBackground);
+        color: var(--steamColorWhite);
     }
 }
 
 // css review
-
 .about_game {
     margin: 0 auto;
     display: block;
