@@ -10,7 +10,7 @@
     --steamFontNavBar: #7a8b9d;
     --steamFontBackground: #131518;
     --steamPopUpSearch: #242830;
-    --steamHoverPopUp: #dcdedf;
+    --steamHoverPopUp: #e7e7e7f1;
     --steamColorSearch: #eeeeee;
     --steamTextShadow: 2px 3px 13px rgba(255, 255, 255, 0.63);
     --steamTextShadowBlack: 2px 3px 13px rgba(39, 135, 244, 0.63);
@@ -34,25 +34,30 @@ html {
 
 [data-theme='light'] {
     --bgTheme: #ffffff;
-    --bgTran: rgb(255, 255, 255);
-    --bgContent: var(--steamOldPrice);
+    --bgTran: rgba(0, 0, 0, 0.548);
+    --bgContent: #325474;
 
     --activeNavLink: var(--primary);
-    --activeText: var(--steamColorBlack);
     --activePrimary: #ffffff;
     --activeSwitch: #ffffff;
+    --activeLight: var(--primary);
+    --activeLight: linear-gradient(to right, rgba(255, 255, 255, 0.493), rgb(0, 153, 255));
+    --activeScrollBar: var(--steamColorWhite);
+    --activeFilter: none;
 
     --hoverTextLight: var(--steamTextShadowBlack);
 }
 [data-theme='dark'] {
     --bgTheme: var(--steamFontBackground);
-    --bgTran: rgb(0, 0, 0);
+    --bgTran: transparent;
     --bgContent: var(--steamBackground);
 
     --activeNavLink: #ffffff;
-    --activeText: var(--steamColorWhite);
     --activePrimary: var(--primary);
     --activeSwitch: #131518;
+    --activeLight: linear-gradient(to left, rgba(71, 71, 71, 0.493), rgba(0, 0, 0, 0.709));
+    --activeScrollBar: #434953;
+    --activeFilter: blur(30px) saturate(5);
 
     --hoverTextLight: var(--steamTextShadow);
 }
@@ -82,7 +87,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
     width: 10px;
-    background-color: #434953;
+    background-color: var(--activeScrollBar);
     border-radius: 10px;
     z-index: 12;
     border: 4px solid rgba(0, 0, 0, 0);

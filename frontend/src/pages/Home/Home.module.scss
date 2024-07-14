@@ -306,7 +306,7 @@
 
 .glow {
     z-index: -1;
-    filter: blur(30px) saturate(5);
+    filter: var(--activeFilter);
 }
 
 .content_game_poster {

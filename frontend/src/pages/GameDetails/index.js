@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faShoppingBasket, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -19,143 +20,37 @@ import styles from './GameDetails.scss'
 const cx = classNames.bind(styles)
 
 function GameDetails() {
-    const gameDetails = [
-        {
-            headerImg:
-                'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/header.jpg?t=1699976365',
+    const location = useLocation()
+    const { imageInfo } = location.state || { imageInfo: [] }
 
-            media: [
-                {
-                    type: 'video',
-                    vid: 'https://cdn.akamai.steamstatic.com/steam/apps/256751447/movie_max.webm?t=1558620943',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256751447/movie.293x165.jpg?t=1558620943s',
-                },
-                {
-                    type: 'video',
-                    vid: 'https://cdn.akamai.steamstatic.com/steam/apps/256742849/movie_max.webm?t=1549970399',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/256750788/movie.293x165.jpg?t=1558620997',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_b367c99f566ecfc3def17673e9015c80e7e3a8d3.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_fe3108d8affd7a9f7e72959602e49cb5fa105910.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_16346541350f29271399420bffda0da34c8d5ea1.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_82b431d0e99eff54583fb4abe17bf805d1fa1a03.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_15164c8bb033b1c570865ab264ccaaab8131f564.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_28c87c4d21ad066b22c823484d8d4a4b1ad4baef.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_87965bbf0f820468817d690a77d623da491aa1f1.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_1704c59def00896435add8c140e6e6980ae534d4.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_b6f8b370506ba4fdfa8f0cdb012b27675a4174d2.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_37f12b05302c5d75bd2b0b0aaed635472662a757.1920x1080.jpg?t=1699976365',
-                },
-                {
-                    type: 'image',
-                    url: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/779340/ss_2c75b7b68ec1b908fbdeabf97fc505e1833abf17.1920x1080.jpg?t=1699976365',
-                },
-            ],
-
-            shortDescription:
-                'Total War: THREE KINGDOMS is the first in the award-winning series to recreate epic conflict across ancient China. Combining a gripping turn-based campaign of empire-building & conquest with stunning real-time battles, THREE KINGDOMS redefines the series in an age of heroes & legends.',
-            price: {
-                0: '100.000vnđ',
-                1: '500.000vnđ',
-                2: '990.000vnđ',
-                3: '1.200.000vnđ',
-                4: '3.500.000vnđ',
-            },
-            oldPrice: {
-                0: '500.000vnđ',
-                1: '1.000.000vnđ',
-                2: '3.990.000vnđ',
-                3: '4.200.000vnđ',
-                4: '15.500.000vnđ',
-            },
-            sale: { 0: '10%', 1: '20%', 2: '30%', 3: '40%', 4: '50%' },
-
-            gameEdition: {
-                0: 'Total War THREE KINGDOMS',
-                1: 'Total War THREE KINGDOMS Deluxe Edition',
-                2: 'Total War THREE KINGDOMS Silver Edition',
-                3: 'Total War THREE KINGDOMS Gold Edition',
-                4: 'Total War THREE KINGDOMS God Edition',
-            },
-
-            date: '29/04/2023',
-            developers: 'Nhà phát triển',
-            publisher: 'Nhà phát hành',
-            start: '4.6',
-            description: 'Đây là phần mô tả game ',
-
-            alt: [
-                {
-                    thumbnailAlt: 'thumbnail',
-                    imgAlt: 'imageAlt',
-                    thumbnailVideoAlt: 'thumbnail_Video',
-                },
-            ],
-        },
-    ]
-    // refest trang nội dung đầu tiên load trong mainImg
-    const initialMediaUrl = gameDetails[0].media[0].vid
-
-    const [gameInfo, setGameInfo] = useState({
-        headerImg: gameDetails[0].headerImg,
-        shortDescription: gameDetails[0].shortDescription,
-        gameEdition: gameDetails[0].gameEdition[0],
-        date: gameDetails[0].date,
-        developers: gameDetails[0].developers,
-        publisher: gameDetails[0].publisher,
+    const [, setGameInfo] = useState({
+        gameEdition: imageInfo?.gameEdition?.[0] || '',
     })
 
-    const [currentPrice, setCurrentPrice] = useState(gameDetails[0].price[0])
-    const [currentOldPrice, setCurrentOldPrice] = useState(gameDetails[0].oldPrice[0])
-    const [currentSalePrice, setCurrentSalePrice] = useState(gameDetails[0].sale[0])
-    const [currentIndex] = useState(0)
-    const [currentMediaUrl, setCurrentMediaUrl] = useState(initialMediaUrl)
+    const [currentPrice, setCurrentPrice] = useState(imageInfo.price?.[0] || '')
+    const [currentOldPrice, setCurrentOldPrice] = useState(imageInfo.oldPrice?.[0] || '')
+    const [currentSalePrice, setCurrentSalePrice] = useState(imageInfo.sale?.[0] || '')
+    const [currentMediaUrl, setCurrentMediaUrl] = useState(imageInfo.media?.[0]?.vid || '')
+
     const [showModal, setShowModal] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
+
     const [largeImageUrl, setLargeImageUrl] = useState('')
 
     const mainVideoRef = useRef(null)
     const canvasVideoRef = useRef(null)
 
-    const addCartSuccess = () => {
-        toast.success('Thêm vào giỏ hàng thành công!', {
-            className: 'toast-notifications',
-        })
-    }
-
-    const addWishListSuccess = () => {
-        toast.success('Thêm vào danh sách ước thành công!', {
-            className: 'toast-notifications',
-        })
+    const addSuccess = (e) => {
+        const { value } = e.target
+        if (value === 'cart') {
+            toast.success('Thêm vào giỏ hàng thành công!', {
+                className: 'toast-notifications',
+            })
+        } else if (value === 'wishList') {
+            toast.success('Thêm vào danh sách ước thành công!', {
+                className: 'toast-notifications',
+            })
+        }
     }
 
     const handleThumbnailClick = (url) => {
@@ -164,13 +59,15 @@ function GameDetails() {
 
     const handleEditionChange = (event) => {
         const selectedEditionIndex = event.target.value
+
         setGameInfo((prevInfo) => ({
             ...prevInfo,
-            gameEdition: gameDetails[currentIndex].gameEdition[selectedEditionIndex],
+            gameEdition: imageInfo.gameEdition[selectedEditionIndex] || {},
         }))
-        setCurrentPrice(gameDetails[currentIndex].price[selectedEditionIndex])
-        setCurrentOldPrice(gameDetails[currentIndex].oldPrice[selectedEditionIndex])
-        setCurrentSalePrice(gameDetails[currentIndex].sale[selectedEditionIndex])
+
+        setCurrentPrice(imageInfo.price?.[selectedEditionIndex] || '')
+        setCurrentOldPrice(imageInfo.oldPrice?.[selectedEditionIndex] || '')
+        setCurrentSalePrice(imageInfo.sale?.[selectedEditionIndex] || '')
     }
 
     const openModal = (url) => {
@@ -187,6 +84,12 @@ function GameDetails() {
         }, 200)
     }
 
+    useEffect(() => {
+        if (imageInfo.length > 0) {
+        }
+    }, [imageInfo])
+
+    // Cho video nằm trên nếu chạy thì video nằm dưới chạy theo
     useEffect(() => {
         const mainVideo = mainVideoRef.current
         const canvasVideo = canvasVideoRef.current
@@ -212,6 +115,10 @@ function GameDetails() {
         }
     }, [currentMediaUrl])
 
+    if (!imageInfo) {
+        return <p>No game details available.</p>
+    }
+
     return (
         <div className={cx('game_detail')}>
             <div className={cx('card-wrapper')}>
@@ -221,7 +128,7 @@ function GameDetails() {
                         <div className={cx('img-display')}>
                             <Swiper spaceBetween={10} slidesPerView={1} className={cx('img-showcase')}>
                                 <SwiperSlide key="media">
-                                    {currentMediaUrl.match('.movie_max.webm') ? (
+                                    {currentMediaUrl.match('.webm') ? (
                                         <video controls src={currentMediaUrl} ref={mainVideoRef} alt="Main Video">
                                             Your browser does not support HTML video.
                                         </video>
@@ -235,6 +142,7 @@ function GameDetails() {
                                 </SwiperSlide>
                             </Swiper>
                         </div>
+
                         {/* Phần loan màu */}
                         <div className={cx('img-display-glow')}>
                             <Swiper spaceBetween={10} slidesPerView={1} className={cx('img-showcase')}>
@@ -252,6 +160,7 @@ function GameDetails() {
                             </Swiper>
                         </div>
 
+                        {/* Phần thumbnail */}
                         <div className={cx('img-select')}>
                             <Swiper
                                 modules={[Navigation, Pagination]}
@@ -262,7 +171,7 @@ function GameDetails() {
                                 freeMode
                                 watchSlidesProgress
                             >
-                                {gameDetails[0].media.map((media, index) => (
+                                {imageInfo.media.map((media, index) => (
                                     <SwiperSlide key={index}>
                                         <div className={cx('thumbnail-container')}>
                                             <img
@@ -304,8 +213,8 @@ function GameDetails() {
                     {/* <!-- game detail column right --> */}
                     <div className={cx('product-content')}>
                         <div className={cx('header_image_game')}>
-                            <img src={gameInfo.headerImg} alt="image_header" />
-                            <img className={cx('glow')} src={gameInfo.headerImg} alt="" />
+                            <img src={imageInfo.headerImg} alt="image_header" />
+                            <img className={cx('glow')} src={imageInfo.headerImg} alt="" />
                         </div>
 
                         <div className={cx('product-rating')}>
@@ -319,39 +228,39 @@ function GameDetails() {
 
                         <div className={cx('product-price')}>
                             <p className={cx('last-price')}>
-                                Giá gốc: <strike>{currentOldPrice}</strike>
+                                Giá gốc: <strike>{currentPrice}</strike>
                             </p>
                             <p className={cx('new-price')}>
-                                Giá giảm còn: <span>{currentPrice}</span>{' '}
+                                Giá giảm còn: <span>{currentOldPrice}</span>{' '}
                                 <span className={cx('sale_price_percent')}>{currentSalePrice}</span>
                             </p>
                         </div>
 
                         <div className={cx('product-detail')}>
-                            <p className={cx('short_description')}>{gameInfo.shortDescription}</p>
+                            <p className={cx('short_description')}>{imageInfo.shortDescription}</p>
                             <p className={cx('game_author_date')}>
                                 <p>
-                                    Ngày phát hành: <span>{gameInfo.date}</span>
+                                    Ngày phát hành: <span>{imageInfo.date}</span>
                                 </p>
                                 <p>
-                                    Nhà phát triển: <span>{gameInfo.developers}</span>
+                                    Nhà phát triển: <span>{imageInfo.developers}</span>
                                 </p>
                                 <p>
-                                    Nhà phát hành: <span>{gameInfo.publisher}</span>
+                                    Nhà phát hành: <span>{imageInfo.publisher}</span>
                                 </p>
                             </p>
                         </div>
 
                         <div className={cx('purchase-info')}>
-                            <button type="button" className="btn" onClick={addCartSuccess}>
+                            <button type="button" value="cart" className="btn" onClick={addSuccess}>
                                 Thêm vào giỏ <FontAwesomeIcon icon={faShoppingBasket} />
                             </button>
-                            <button type="button" className="btn" onClick={addWishListSuccess}>
+                            <button type="button" value="wishList" className="btn" onClick={addSuccess}>
                                 Thêm vào danh sách ước
                             </button>
 
                             <select className="select_game_edition" onChange={handleEditionChange}>
-                                {Object.entries(gameDetails[currentIndex].gameEdition).map(([key, edition]) => (
+                                {Object.entries(imageInfo?.gameEdition || {}).map(([key, edition]) => (
                                     <option key={key} value={key}>
                                         {edition}
                                     </option>
@@ -400,16 +309,6 @@ function GameDetails() {
 
                     <div className={cx('tab__content')}>
                         <h3>Long Section</h3>
-                        <p>
-                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
-                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
-                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        </p>
-                        <p>
-                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
-                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
-                            a purus blandit viverra.
-                        </p>
                         <p>
                             Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
                             eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede

@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faXmark, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import HeadlessTippy from '@tippyjs/react/headless'
 
 import { Wrapper as PopperWrapper } from '~/components/Popper'
@@ -14,14 +14,34 @@ function Search() {
     const [searchValue, setSearchValue] = useState('')
     const [searchResult, setSearchResult] = useState([])
     const [showResult, setShowResult] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const inputRef = useRef()
 
     useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2, 3])
-        }, 0)
-    }, [])
+        if (!searchValue.trim()) {
+            setSearchResult([])
+            return
+        }
+
+        setLoading(true)
+
+        fetch(`http://localhost:3000/search?query=${encodeURIComponent(searchValue)}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                return res.json()
+            })
+            .then((res) => {
+                setSearchResult(res)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.error('Error fetching search results:', error)
+                setLoading(false)
+            })
+    }, [searchValue])
 
     const handleClear = () => {
         setSearchValue('')
@@ -39,10 +59,9 @@ function Search() {
             render={(attrs) => (
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
-                        <GameItem />
-                        <GameItem />
-                        <GameItem />
-                        <GameItem />
+                        {searchResult.map((game) => (
+                            <GameItem key={game.id} data={game} />
+                        ))}
                     </PopperWrapper>
                 </div>
             )}
@@ -57,17 +76,12 @@ function Search() {
                     onChange={(e) => setSearchValue(e.target.value)}
                     onFocus={() => setShowResult(true)}
                 />
-                {!!searchValue && (
-                    <button
-                        className={cx('clear')}
-                        onClick={() => {
-                            handleClear()
-                        }}
-                    >
+                {!!searchValue && !loading && (
+                    <button className={cx('clear')} onClick={handleClear}>
                         <FontAwesomeIcon icon={faXmark} />
                     </button>
                 )}
-                {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
+                {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
 
                 <button className={cx('search-btn')}>
                     <FontAwesomeIcon icon={faSearch} />

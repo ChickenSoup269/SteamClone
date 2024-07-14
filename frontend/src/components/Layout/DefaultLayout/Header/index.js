@@ -143,6 +143,13 @@ function Header() {
         const newTheme = theme === 'light' ? 'dark' : 'light'
         setTheme(newTheme)
     }
+    // cho color Icon đổi màu khi scroll
+    const getIconColor = () => {
+        if (theme === 'light') {
+            return isScrolled ? '#000000' : '#ffffff'
+        }
+        return '#ffffff'
+    }
 
     return (
         <header className={cx('wrapper', { scrolled: isScrolled })}>
@@ -160,7 +167,7 @@ function Header() {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink style={navLinkStyles} to="/gameDetails">
+                            <NavLink style={navLinkStyles} to="/search">
                                 Thể loại
                             </NavLink>
                         </li>
@@ -180,7 +187,7 @@ function Header() {
                         <>
                             <NavLink to="/cart">
                                 <Tippy content="Thông báo" placement="bottom">
-                                    <button className={cx('notification-btn')}>
+                                    <button className={cx('notification-btn')} style={{ color: getIconColor() }}>
                                         <FontAwesomeIcon icon={faBell} />
                                         <span className={cx('badge')}>3</span>
                                     </button>
@@ -201,7 +208,7 @@ function Header() {
                     )}
                     <NavLink to="/cart">
                         <Tippy content="Giỏ hàng" placement="bottom">
-                            <button className={cx('cart-btn')}>
+                            <button className={cx('cart-btn')} style={{ color: getIconColor() }}>
                                 <FontAwesomeIcon icon={faBasketShopping} />
                                 <span className={cx('badge')}>3</span>
                             </button>
@@ -222,7 +229,10 @@ function Header() {
                                     <Image src="" className={cx('user-avatar')} alt="Tran Phuoc Thien" />
                                 </Tippy>
                             ) : (
-                                <button className={cx('more-btn', { 'is-animating': isAnimating })}>
+                                <button
+                                    className={cx('more-btn', { 'is-animating': isAnimating })}
+                                    style={{ color: getIconColor() }}
+                                >
                                     <FontAwesomeIcon icon={faCaretDown} />
                                 </button>
                             )

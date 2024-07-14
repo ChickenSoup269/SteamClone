@@ -42,7 +42,8 @@
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
-        "eject": "react-app-rewired eject"
+        "eject": "react-app-rewired eject",
+        "hack": "node start.js"
     },
     "eslintConfig": {
         "extends": [
@@ -62,5 +63,5 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "http://localhost:3001"
+    "proxy": "http://localhost:3000"
 }

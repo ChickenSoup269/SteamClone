@@ -79,8 +79,9 @@
     font-size: 2rem;
     margin-left: 8px;
     padding: 4px 8px;
-    color: var(--activeText);
     background-color: transparent;
+
+    border-radius: var(--search-boder);
     transform: rotate(180deg);
     transition: transform 0.5s ease;
 
@@ -96,12 +97,11 @@
     font-size: 2.2rem;
     margin-left: 8px;
     padding: 4px 10px;
-    color: var(--activeText);
+
     transform: scale(0.89);
     transition: calc(0.3s);
-    background-color: var(--bgTran);
+    background-color: transparent;
     border-radius: var(--steamBoder);
-    box-shadow: var(--steamBoxShadow);
 
     &:hover {
         transform: scale(1);
@@ -153,7 +153,7 @@
     width: 52px;
     height: 25px;
     box-shadow: var(--steamBoxShadow);
-    background: var(--activeText);
+    background: var(--activeLight);
     border-radius: 50px;
     margin-left: 5px;
     position: relative;

@@ -11,7 +11,7 @@ import Cart from '~/pages/Cart'
 // Cho mọi tài khoản publicRoutes
 const publicRoutes = [
     { path: '/', component: Home },
-    { path: '/gamedetails', component: Gamedetails },
+    { path: '/gamedetails/:id', component: Gamedetails },
     { path: '/search', component: Search },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
