@@ -1,6 +1,7 @@
-.game_detail {
-    // background: url('https://cdn.akamai.steamstatic.com/store/promo/summer2024/summer2024_tile_bg.png');
-}
+// .game_detail {
+// background: url('https://cdn.akamai.steamstatic.com/store/promo/summer2024/summer2024_tile_bg.png');
+// z-index: -10;
+// }
 .card-wrapper {
     max-width: 1100px;
     height: 600px;
@@ -65,9 +66,9 @@ img {
     width: 640px;
     height: 355px;
     border-radius: var(--steamBoder);
-    z-index: 1;
 }
 
+// css cho ảnh loan màu và video
 .img-display-glow {
     position: absolute;
     width: 640px;
@@ -85,6 +86,7 @@ img {
 }
 .img-showcase img {
     width: 640px;
+    cursor: zoom-in;
 }
 .img-select {
     margin-top: 10px;
@@ -154,22 +156,105 @@ img {
     border: 2px solid var(--steamColorWhite);
 }
 
-// column left
+// css cho popup ảnh phóng to
+/* Modal Container */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000; /* Ensure modal is on top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+    overflow: hidden;
+}
 
+/* Modal Content */
+.modal-content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: none;
+    padding: 50px;
+    border-radius: var(--steamBoder);
+    max-width: 85%;
+    max-height: 85%;
+    animation: zoomIn 0.3s ease-out;
+}
+
+.modal-content.zoom-out {
+    animation: zoomOut 0.3s ease-in;
+}
+
+/* Close Button */
+.close-modal {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 4rem;
+    cursor: pointer;
+
+    text-shadow: var(--steamTextShadow);
+    color: var(--steamColorWhite);
+    transition: calc(0.4s);
+
+    &:hover {
+        color: #a6a6a6;
+        transition: calc(0.2s);
+    }
+    &:active {
+        color: #535353;
+    }
+}
+
+/* Media (Image or Video) Inside Modal */
+.modal-media {
+    width: 80%;
+    height: 50%;
+    border: none !important;
+}
+
+/* Optional Animation */
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomOut {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+// column left
 .header_image_game {
     position: relative;
-    width: 345px;
+    width: 320px;
 
     img {
         box-shadow: var(--steamBoxShadow);
         border-radius: var(--steamBoder);
     }
+
     .glow {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
         z-index: -1;
         filter: blur(30px) saturate(5);
     }
@@ -196,10 +281,10 @@ img {
     margin: 1rem 0;
     font-size: 1.5rem;
     font-weight: 700;
-}
 
-.product-price span {
-    font-weight: 400;
+    span {
+        font-weight: 400;
+    }
 }
 
 .last-price {
@@ -214,7 +299,7 @@ img {
 
     strike::before {
         top: 50%; /*tweak this to adjust the vertical position if it's off a bit due to your font family */
-        background: #3c4752; /*this is the color of the line*/
+        background: #939393; /*this is the color of the line*/
         content: '';
         width: 100%;
         position: absolute;
@@ -303,7 +388,6 @@ img {
 .select_game_edition {
     --arrow-bg: rgba(255, 255, 255, 0.3);
     --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
-    --option-bg: white;
     --select-bg: rgba(255, 255, 255, 0.2);
 
     appearance: none;
@@ -323,16 +407,31 @@ img {
     }
 
     &:focus {
+        background-color: #000;
         outline: none;
     }
 
-    option {
-        background-color: var(--option-bg);
+    option:checked {
+        background-color: var(--steamColorWhite);
         color: var(--steamColorBlack);
+    }
+
+    option {
+        background-color: var(--steamBackground);
+        color: var(--steamColorWhite);
     }
 }
 
 // css review
+.about_game {
+    margin: 0 auto;
+    display: block;
+    max-width: 135rem;
+    > *:not(.tab-wrap) {
+        padding: 0 80px;
+    }
+}
+
 $max-tab-count: 5;
 $tab-wrap-border-radius: 6px;
 .tab-wrap {
@@ -343,9 +442,9 @@ $tab-wrap-border-radius: 6px;
     flex-wrap: wrap;
     position: relative;
     list-style: none;
-    background-color: #fff;
+    background-color: var(--steamColorWhite);
     margin: 40px 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    box-shadow: var(--steamBoxShadow);
     &:hover {
         box-shadow: 0 12px 23px rgba(0, 0, 0, 0.23), 0 10px 10px rgba(0, 0, 0, 0.19);
     }
@@ -358,8 +457,8 @@ $tab-wrap-border-radius: 6px;
             opacity: 1;
             transition: 0.5s opacity ease-in, 0.8s transform ease;
             position: relative;
-            top: -20;
-            z-index: 100;
+            top: -50;
+            z-index: 1;
             transform: translateY(0px);
             text-shadow: 0 0 0;
         }
@@ -376,16 +475,16 @@ $tab-wrap-border-radius: 6px;
         border-bottom-left-radius: 0;
     }
     &:checked + label {
-        background-color: #fff;
-        box-shadow: 0 -1px 0 #fff inset;
+        background-color: var(--steamColorBlack);
+        color: var(--steamColorWhite);
+        text-shadow: var(--steamTextShadow);
         cursor: default;
+
         &:hover {
-            box-shadow: 0 -1px 0 #fff inset;
-            background-color: #fff;
+            background-color: var(--steamBackgroundPrice);
         }
     }
     + label {
-        box-shadow: 0 -1px 0 #eee inset;
         border-radius: $tab-wrap-border-radius $tab-wrap-border-radius 0 0;
         cursor: pointer;
         display: block;
@@ -413,6 +512,7 @@ $tab-wrap-border-radius: 6px;
         z-index: -1;
         opacity: 0;
         left: 0;
+        color: var(--steamColorBlack);
         transform: translateY(-3px);
         border-radius: $tab-wrap-border-radius;
     }

@@ -36,7 +36,7 @@
     content: '';
     left: 0;
     position: absolute;
-    right: 650px;
+    right: 500px;
     top: 0;
     height: 550px;
     z-index: 0;
@@ -51,56 +51,33 @@
 
 .full-screen-content {
     position: absolute;
-    top: 25%;
+    top: 8rem;
     margin-left: 5vw;
     z-index: 100;
 
     h2 {
-        font-size: 3.6rem;
+        width: 500px;
+        font-size: 3rem;
         font-weight: 900;
         padding-left: 6px;
     }
 
     p {
-        font-size: 1.4rem;
+        width: 500px;
+        font-size: 1.2rem;
         padding-top: 10px;
-        font-weight: 300;
+        font-weight: 500;
         padding-left: 8px;
     }
 }
 
-// .btn-content {
-// }
-
-.button-detail-game {
-    font-weight: 700;
-    font-size: 1.4rem;
-    border-radius: 5px;
-    padding: 1rem 1.8rem;
-    margin-top: 1.2rem;
-    color: var(--steamColorWhite);
-    background-color: var(--primary);
-    transform: scale(0.9);
-    transition: calc(0.3s);
-    box-shadow: var(--steamBoxShadow);
-
-    &:hover {
-        cursor: pointer;
-        transform: scale(1);
-        transition: calc(0.2s);
-        box-shadow: var(--steamBoxShadowHover);
-    }
-}
-
-// .add-btn-card {
-// }
-
-.game-swiper-container {
+.game_swiper_container {
+    position: sticky;
     padding-top: 500px;
     overflow: visible;
 }
 
-.game-swiper-slide {
+.game_swiper_slide {
     display: flex;
     position: relative;
     transition: all 300ms ease-in-out;
@@ -109,21 +86,181 @@
     align-items: flex-start;
 }
 
-// .game-swiper-slide .img-header-games-active {
-// --border-angle: 0turn;
-// --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
-// border: solid 2px transparent;
-// --gradient-border: conic-gradient(
-//     from var(--border-angle),
-//     transparent 25%,
-//     rgb(0, 121, 157),
-//     var(--primary) 99%,
-//     transparent
-// );
-// background: var(--main-bg) padding-box, var(--gradient-border) border-box, var(--main-bg) border-box;
-// background-position: center center;
-// -webkit-animation: bg-spin 3s linear infinite;
-// animation: bg-spin 3s linear infinite;
+.about_game_content {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.poster_game_full_img {
+    width: 150px;
+    margin-top: 10px;
+    transition: calc(0.4s);
+    background-size: cover;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 10px -2px rgba(0, 0, 0, 0.5);
+    transition: all ease 0.28s 0.01s;
+    transform: perspective(222px) translate3d(0px, 5px, 0px) rotateX(0deg);
+    perspective-origin: top;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: var(--steamBoder);
+    cursor: pointer;
+
+    &::before {
+        width: 100%;
+        height: 172%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        background-image: linear-gradient(
+            35deg,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.07) 51.5%,
+            rgba(255, 255, 255, 0.15) 54%,
+            rgba(255, 255, 255, 0.15) 100%
+        );
+
+        transform: translateY(-36%);
+        opacity: 0.5;
+        transition: all ease 0.28s 0.01s;
+    }
+
+    &:hover,
+    &:focus {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transform: perspective(222px) translate3d(0px, 0px, 8px) rotateX(3deg);
+        transform-origin: center;
+        box-shadow: 0 14px 16px -2px rgba(0, 0, 0, 0.5);
+
+        &::before {
+            opacity: 1;
+            transform: translateY(-20%);
+        }
+    }
+
+    &:active {
+        filter: brightness(80%) contrast(110%);
+    }
+
+    img {
+        border-radius: var(--steamBoder);
+        box-shadow: var(--steamBoxShadow);
+    }
+}
+
+.info_button_price_game {
+    margin-left: 10px;
+
+    .button-detail-game {
+        font-weight: 700;
+        font-size: 1.2rem;
+        border-radius: var(--steamBoder);
+        padding: 1rem 1.8rem;
+        margin-top: 1.2rem;
+        color: var(--steamColorWhite);
+        background-color: var(--primary);
+        transform: scale(0.9);
+        transition: calc(0.3s);
+        box-shadow: var(--steamBoxShadow);
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1);
+            transition: calc(0.2s);
+            box-shadow: var(--steamBoxShadowHover);
+        }
+    }
+
+    .add-btn-card {
+        font-weight: 700;
+        font-size: 1.2rem;
+        border-radius: var(--steamBoder);
+        padding: 0.8rem 1.8rem;
+        margin-top: 1.2rem;
+        color: var(--steamColorBlack);
+        background-color: var(--steamColorWhite);
+        transform: scale(0.9);
+        transition: calc(0.3s);
+        box-shadow: var(--steamBoxShadow);
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1);
+            transition: calc(0.2s);
+            box-shadow: var(--steamBoxShadowWhite);
+        }
+    }
+
+    .product-price-steam {
+        position: relative;
+        margin: 1rem 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        width: 200px;
+        height: 60px;
+        margin-left: 8px;
+        border-radius: var(--steamBoder);
+        background-color: #333742;
+        box-shadow: var(--steamBoxShadow);
+
+        span {
+            font-weight: 500;
+        }
+
+        .sale_price_percent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: -5px;
+            right: -15px;
+            width: 40px;
+            height: 25px;
+            opacity: 0.95;
+
+            box-shadow: var(--steamBoxShadow);
+            border-radius: var(--steamBoder);
+            background-color: var(--steamBackgroundPrice);
+        }
+    }
+}
+
+.discount-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 9px;
+    width: 50px;
+    height: 25px;
+    opacity: 0.95;
+    border-radius: 10px 10px 0px 10px;
+    color: var(--steamPrice);
+    background-color: var(--steamBackgroundPrice);
+    transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+// .game_swiper_slide .img-header-games-active {
+//     --border-angle: 0turn;
+//     --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
+//     border: solid 2px transparent;
+//     --gradient-border: conic-gradient(
+//         from var(--border-angle),
+//         transparent 25%,
+//         rgb(0, 121, 157),
+//         var(--primary) 99%,
+//         transparent
+//     );
+//     background: var(--main-bg) padding-box, var(--gradient-border) border-box, var(--main-bg) border-box;
+//     background-position: center center;
+//     -webkit-animation: bg-spin 3s linear infinite;
+//     animation: bg-spin 3s linear infinite;
 // }
 
 // @-webkit-keyframes bg-spin {
@@ -143,7 +280,7 @@
 //     initial-value: 0turn;
 // }
 
-.game-swiper-slide img {
+.game_swiper_slide img {
     position: absolute;
     width: 220px;
     height: 115px;
@@ -169,70 +306,103 @@
 
 .glow {
     z-index: -1;
-    filter: blur(30px) saturate(5);
+    filter: var(--activeFilter);
 }
 
-.add-btn-card {
-    font-weight: 700;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    padding: 0.8rem 1.5rem;
-    margin-top: 1.2rem;
-    color: var(--steamColorWhite);
-    background-color: var(--secondary);
-    transform: scale(0.9);
-    transition: calc(0.3s);
-    box-shadow: var(--steamBoxShadow);
-
-    &:hover {
-        cursor: pointer;
-        transform: scale(1);
-        transition: calc(0.2s);
-        box-shadow: var(--steamBoxShadowHover);
-    }
+.content_game_poster {
+    padding-top: 200px;
 }
 
-.steam-price {
-    width: 150px;
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    background-color: var(--steamBackgroundPrice);
-
-    .steam-price-old {
-        font-size: 1.2rem;
-        color: #b0b0b0;
-        text-decoration: line-through;
-    }
-
-    .steam-price-new {
-        font-size: 1.8rem;
-        color: var(--steamPrice);
-        font-weight: bold;
-    }
+// css thể loại game | thể loại đại diện game
+.swiper_background_genres {
+    margin: 0px 0px 50px 50px;
 }
 
-.discount-badge {
+.swiper_game_genres {
+    overflow: hidden;
+    text-align: center;
+    width: 120rem;
+    height: 300px;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 0;
-    right: 9px;
-    width: 50px;
-    height: 25px;
-    opacity: 0.95;
-    border-radius: 10px 10px 0px 10px;
-    color: var(--steamPrice);
-    background-color: var(--steamBackgroundPrice);
-    transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
-    font-weight: 700;
-    font-size: 1.4rem;
+
+    img {
+        position: relative;
+        display: block;
+        width: 260px;
+        height: 260px;
+        margin-left: 10px;
+        object-fit: fill;
+        border-radius: var(--steamBoder);
+        box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        transition: all ease 0.28s 0.01s;
+        transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
+
+        &:hover,
+        &:focus {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transform: perspective(222px) translate3d(0px, 0px, 14px) rotateX(2deg);
+            transform-origin: center;
+            box-shadow: 0 14px 16px -2px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        &:active {
+            filter: brightness(80%) contrast(110%);
+        }
+    }
 }
 
-// css review
+// css poster game | game đại diện thể loại
+.swiper_background_poster_game {
+    margin-top: 20px;
+}
 
+.title_poster_game {
+    padding: 20px;
+}
+
+.swiper_poster_game {
+    overflow: visible;
+    text-align: center;
+    width: 135rem;
+    height: 290px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        position: relative;
+        display: block;
+        width: 180px;
+        height: 250px;
+        margin-left: 10px;
+        object-fit: fill;
+        border-radius: var(--steamBoder);
+        box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        transition: all ease 0.28s 0.01s;
+        transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
+
+        &:hover,
+        &:focus {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transform: perspective(222px) translate3d(0px, 0px, 14px) rotateX(2deg);
+            transform-origin: center;
+            box-shadow: 0 14px 16px -2px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        &:active {
+            filter: brightness(80%) contrast(110%);
+        }
+    }
+}
+
+// reponsive
 @media screen and (max-width: 599px) {
     .full-screen-img {
         width: 500px;
@@ -241,13 +411,13 @@
         width: 200px;
     }
 
-    .game-swiper-slide img {
+    .game_swiper_slide img {
         max-width: 14rem;
     }
 }
 
 @media screen and (max-width: 400px) {
-    .game-game-swiper-slide img {
+    .game-game_swiper_slide img {
         max-width: 10.5rem;
         border-radius: 2px;
     }

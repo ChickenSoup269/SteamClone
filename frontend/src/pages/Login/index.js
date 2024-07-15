@@ -1,20 +1,82 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import QRCode from 'qrcode.react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import classNames from 'classnames/bind'
 import styles from './Login.module.scss'
+import * as UserService from '../../services/UserService'
+import { useMutationHooks } from '~/hooks/useMutationHook'
+import * as message from '../../components/Message/Message'
+import { jwtDecode } from 'jwt-decode'
+import { useDispatch } from 'react-redux'
+import { updateUser } from '../../redux/slides/userSlide'
 
 const cx = classNames.bind(styles)
 
 function Login() {
-    const [passwordVisible, setPasswordVisible] = useState(false)
-    const [qrVisible, setQrVisible] = useState(false)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [passwordVisible, setPasswordVisible] = useState(false)
     const [rememberMe, setRememberMe] = useState(false)
+    const [qrVisible, setQrVisible] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const mutation = useMutationHooks((data) => UserService.loginUser(data))
+    const { data, isSuccess, isError } = mutation
+
+    const handleGetDetailsUser = async (id, token) => {
+        const res = await UserService.getDetailsUser(id, token)
+        dispatch(updateUser({ ...res?.data, access_token: token }))
+    }
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible)
+    }
+
+    const toggleQrVisibility = () => {
+        setQrVisible(!qrVisible)
+    }
+
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        setErrorMessage('')
+        setIsSubmitting(true)
+
+        try {
+            await mutation.mutateAsync({
+                username,
+                password,
+            })
+        } catch (error) {
+            setErrorMessage(error.message)
+        }
+
+        setIsSubmitting(false)
+
+        if (!username || !password) {
+            toast.warning('Vui lòng không bỏ trống.', {
+                className: 'toast-notifications',
+            })
+            return
+        }
+        if (rememberMe) {
+            localStorage.setItem('username', username)
+            localStorage.setItem('password', password)
+            localStorage.setItem('rememberMe', rememberMe.toString())
+        } else {
+            localStorage.removeItem('username')
+            localStorage.removeItem('password')
+            localStorage.removeItem('rememberMe')
+        }
+    }
 
     useEffect(() => {
         const rememberedUsername = localStorage.getItem('username')
@@ -26,29 +88,23 @@ function Login() {
             setPassword(rememberedPassword)
             setRememberMe(true)
         }
-    }, [])
 
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible)
-    }
-
-    const toggleQrVisibility = () => {
-        setQrVisible(!qrVisible)
-    }
-
-    const handleLogin = () => {
-        if (rememberMe) {
-            localStorage.setItem('username', username)
-            localStorage.setItem('password', password)
-            localStorage.setItem('rememberMe', rememberMe.toString())
-        } else {
-            localStorage.removeItem('username')
-            localStorage.removeItem('password')
-            localStorage.removeItem('rememberMe')
+        if (isSuccess) {
+            message.success('Đăng nhập thành công!')
+            navigate('/')
+            localStorage.setItem('access_token', JSON.stringify(data?.access_token))
+            if (data?.access_token) {
+                const decoded = jwtDecode(data?.access_token)
+                if (decoded?.id) {
+                    handleGetDetailsUser(decoded?.id, data?.access_token)
+                }
+            }
+        } else if (isError) {
+            message.error('Đăng nhập không thành công!')
         }
-
-        // xử lý logic login
-    }
+        setIsSubmitting(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isSuccess, isError])
 
     return (
         <header className={cx('wrapper')}>
@@ -109,8 +165,9 @@ function Login() {
 
                         {/* Button login */}
                         <div className={cx('input-group')}>
+                            {errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>}
                             <button className={cx('input-submit')} onClick={handleLogin}>
-                                Đăng nhập
+                                {isSubmitting ? 'Đang xử lý...' : 'Đăng nhập'}
                             </button>
                         </div>
                         <span className={cx('qr-text')} onClick={toggleQrVisibility}>
@@ -123,6 +180,7 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </header>
     )
 }

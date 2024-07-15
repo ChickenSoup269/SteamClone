@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEyeSlash, faEye, faTimes } from '@fortawesome/free-solid-svg-icons'
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -9,23 +9,54 @@ import 'react-toastify/dist/ReactToastify.css'
 import classNames from 'classnames/bind'
 import styles from './Register.module.scss'
 
+// BE
+import * as UserService from '../../services/UserService'
+import { useMutationHooks } from '~/hooks/useMutationHook'
+import * as messageRegister from '../../components/Message/Message'
+import { useNavigate } from 'react-router-dom'
+
 const cx = classNames.bind(styles)
 
 function Register() {
     const [passwordVisible, setPasswordVisible] = useState(false)
     const [infoUserVisible, setinfoUserVisible] = useState(false)
     const [codeEmailVisible, setCodeEmailVisible] = useState(false)
+
     const [email, setEmail] = useState('')
     const [confirmEmail, setConfirmEmail] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [verificationCodes, setVerificationCodes] = useState({})
     const [generatedCode, setGeneratedCode] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
     const message = useState()
     const [captchaVerified, setCaptchaVerified] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [emailSent, setEmailSent] = useState(false)
     const [userEnteredCode, setUserEnteredCode] = useState('')
 
+    const navigate = useNavigate()
     const inputRefs = useRef([])
+
+    const mutation = useMutationHooks((data) => UserService.signupUser(data))
+    // eslint-disable-next-line no-unused-vars
+    const { data, isSuccess, isError } = mutation
+
+    const handleNavigateLogin = () => {
+        navigate('/login')
+    }
+
+    useEffect(() => {
+        if (isSuccess) {
+            messageRegister.success('Đăng ký thành công!')
+            handleNavigateLogin()
+        } else if (isError) {
+            messageRegister.error('Đăng ký thất bại')
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [[isSuccess, isError]])
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible)
@@ -145,6 +176,26 @@ function Register() {
             })
         }
     }
+
+    const handleRegister = async (e) => {
+        e.preventDefault()
+        if (password !== confirmPassword) {
+            toast.error('Mật khẩu không khớp.', {
+                className: 'toast-notifications',
+            })
+            return
+        }
+        try {
+            await mutation.mutateAsync({
+                email,
+                username,
+                password,
+                confirmPassword,
+            })
+        } catch (error) {
+            setErrorMessage(error.message)
+        }
+    }
     return (
         <header className={cx('wrapper')}>
             <div className={cx('full-background')}>
@@ -229,7 +280,14 @@ function Register() {
                             />
                             {/* username */}
                             <div className={cx('input-group')}>
-                                <input type="text" className={cx('input-field')} id="username" required />
+                                <input
+                                    type="text"
+                                    className={cx('input-field')}
+                                    id="username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
                                 <label htmlFor="username">Tên tài khoản</label>
                             </div>
 
@@ -239,6 +297,8 @@ function Register() {
                                     type={passwordVisible ? 'text' : 'password'}
                                     className={cx('input-field')}
                                     id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                                 <label htmlFor="password">Mật khẩu</label>
@@ -253,6 +313,8 @@ function Register() {
                                     type={passwordVisible ? 'text' : 'password'}
                                     className={cx('input-field')}
                                     id="confirm-password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                 />
                                 <label htmlFor="confirm-password">Xác nhận mật khẩu</label>
@@ -264,7 +326,10 @@ function Register() {
                             </div>
 
                             <div className={cx('input-group')}>
-                                <button className={cx('input-submit')}>Đăng ký</button>
+                                {errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>}
+                                <button className={cx('input-submit')} onClick={handleRegister}>
+                                    Đăng ký
+                                </button>
                             </div>
                         </form>
                     </div>
