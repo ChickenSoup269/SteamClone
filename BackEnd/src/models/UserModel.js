@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
         wallet: { type: Number, default: 5000000 },
         access_token: { type: String, require: true },
         refresh_token: { type: String, require: true },
-        cart: { type: Object, default: {} } 
+        
     },
     {
         timestamps: true
