@@ -42,9 +42,6 @@ const getGameDetailsController = async (req, res) => {
         res.status(500).json({ error: 'Failed to get game details.' });
     }
 };
-
-
-
 // [GET] GameOnsale
 const getGamesOnSaleController = async (req, res) => {
     try {
@@ -129,9 +126,6 @@ const updateGamesController = async (req, res) => {
           }
     }
 }
-
-// [Search]
-
 module.exports = {
     getGames,
     searchGamesController,
