@@ -15,7 +15,7 @@ const fetchAppList = async () => {
 const fetchWithRetry = async (url, retries = 10, delay = 6000) => {
   for (let i = 0; i < retries; i++) {
     try {
-      const response = await axios.get(url, { timeout: 100000 })
+      const response = await axios.get(url, { timeout: 10000000 })
       return response
     } catch (error) {
       if (i === retries - 1) {
