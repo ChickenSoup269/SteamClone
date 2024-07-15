@@ -92,20 +92,26 @@ const usserMenu = [
     },
 ]
 
-const navLinkStyles = ({ isActive }) => {
-    return {
-        fontWeight: isActive ? '700' : '500',
-        background: isActive ? 'var(--steamColorWhite)' : 'none',
-        color: isActive ? 'var(--primary)' : 'var(--steamColorWhite)',
-        transform: isActive ? ' scale(0.9)' : 'none',
-    }
-}
-
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
 
     // khi đăng nhập
-    const currentUser = true
+    const currentUser = false
+
+    // điều chỉnh header theme
+    const navLinkStyles = ({ isActive }) => {
+        const textColorLight = isActive ? 'var(--activePrimary)' : isScrolled ? '#000000' : '#ffffff'
+        const textColorDark = isActive ? 'var(--activePrimary)' : '#ffffff'
+        const textColor = theme === 'light' ? textColorLight : textColorDark
+
+        return {
+            fontWeight: isActive ? '700' : '500',
+            background: isActive ? 'var(--activeNavLink)' : 'none',
+            color: textColor,
+            transform: isActive ? ' scale(0.9)' : 'none',
+        }
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -122,9 +128,27 @@ function Header() {
         }
     }, [])
 
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme)
+        localStorage.setItem('theme', theme)
+    }, [theme])
+
     // Handel logic
     const handleMenuChange = (menuItem) => {
         console.log(menuItem)
+    }
+
+    // theme light/dark
+    const handleThemeChange = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light'
+        setTheme(newTheme)
+    }
+    // cho color Icon đổi màu khi scroll
+    const getIconColor = () => {
+        if (theme === 'light') {
+            return isScrolled ? '#000000' : '#ffffff'
+        }
+        return '#ffffff'
     }
 
     return (
@@ -143,7 +167,7 @@ function Header() {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink style={navLinkStyles} to="/gameDetails">
+                            <NavLink style={navLinkStyles} to="/search">
                                 Thể loại
                             </NavLink>
                         </li>
@@ -163,7 +187,7 @@ function Header() {
                         <>
                             <NavLink to="/cart">
                                 <Tippy content="Thông báo" placement="bottom">
-                                    <button className={cx('notification-btn')}>
+                                    <button className={cx('notification-btn')} style={{ color: getIconColor() }}>
                                         <FontAwesomeIcon icon={faBell} />
                                         <span className={cx('badge')}>3</span>
                                     </button>
@@ -184,14 +208,19 @@ function Header() {
                     )}
                     <NavLink to="/cart">
                         <Tippy content="Giỏ hàng" placement="bottom">
-                            <button className={cx('cart-btn')}>
+                            <button className={cx('cart-btn')} style={{ color: getIconColor() }}>
                                 <FontAwesomeIcon icon={faBasketShopping} />
                                 <span className={cx('badge')}>3</span>
                             </button>
                         </Tippy>
                     </NavLink>
                     <Tippy content="Màu giao diện">
-                        <input className={cx('switch')} type="checkbox" data-theme-toggle />
+                        <input
+                            className={cx('switch')}
+                            type="checkbox"
+                            checked={theme === 'light'}
+                            onChange={handleThemeChange}
+                        />
                     </Tippy>
                     <Menu items={currentUser ? usserMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {({ isAnimating }) =>
@@ -200,7 +229,10 @@ function Header() {
                                     <Image src="" className={cx('user-avatar')} alt="Tran Phuoc Thien" />
                                 </Tippy>
                             ) : (
-                                <button className={cx('more-btn', { 'is-animating': isAnimating })}>
+                                <button
+                                    className={cx('more-btn', { 'is-animating': isAnimating })}
+                                    style={{ color: getIconColor() }}
+                                >
                                     <FontAwesomeIcon icon={faCaretDown} />
                                 </button>
                             )
