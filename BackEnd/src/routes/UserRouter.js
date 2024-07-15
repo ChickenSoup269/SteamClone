@@ -1,11 +1,7 @@
 const express = require("express");
 const router = express.Router()
 const userController = require('../controllers/UserController');
-<<<<<<< HEAD
 const { authMiddleware, authUserMiddleware } = require("../middlewares/authMiddleware");
-=======
-const { authMiddleware, authUserMiddleware } = require("../middleware/authMiddleware");
->>>>>>> a0344f834e95285109a1b921b6f1bb972fe211ff
 
 router.post('/sign-up', userController.createUser)
 router.post('/sign-in', userController.loginUser)
