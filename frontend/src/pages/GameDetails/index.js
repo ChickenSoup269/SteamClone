@@ -17,6 +17,7 @@ import 'swiper/css/thumbs'
 
 import classNames from 'classnames/bind'
 import styles from './GameDetails.scss'
+import Tippy from '@tippyjs/react'
 
 const cx = classNames.bind(styles)
 
@@ -32,6 +33,7 @@ function GameDetails() {
     const [currentOldPrice, setCurrentOldPrice] = useState(imageInfo.oldPrice?.[0] || '')
     const [currentSalePrice, setCurrentSalePrice] = useState(imageInfo.sale?.[0] || '')
     const [currentMediaUrl, setCurrentMediaUrl] = useState(imageInfo.media?.[0]?.vid || '')
+    const [currentIndex, setCurrentIndex] = useState(0)
 
     const [showModal, setShowModal] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
@@ -54,8 +56,9 @@ function GameDetails() {
         }
     }
 
-    const handleThumbnailClick = (url) => {
+    const handleThumbnailClick = (url, index) => {
         setCurrentMediaUrl(url)
+        setCurrentIndex(index) // Update the current index when a thumbnail is clicked
     }
 
     const handleEditionChange = (e) => {
@@ -177,18 +180,28 @@ function GameDetails() {
                             >
                                 {imageInfo.media.map((media, index) => (
                                     <SwiperSlide key={index}>
-                                        <div className={cx('thumbnail-container')}>
+                                        <div
+                                            className={`thumbnail-container ${index === currentIndex ? 'active' : ''}`}
+                                        >
                                             <img
                                                 src={media.url}
                                                 alt={`Thumbnail ${index}`}
                                                 onClick={() =>
-                                                    handleThumbnailClick(media.type === 'video' ? media.vid : media.url)
+                                                    handleThumbnailClick(
+                                                        media.type === 'video' ? media.vid : media.url,
+                                                        index,
+                                                    )
                                                 }
                                             />
                                             {media.type === 'video' && (
                                                 <div
                                                     className={cx('overlay')}
-                                                    onClick={() => handleThumbnailClick(media.vid)}
+                                                    onClick={() =>
+                                                        handleThumbnailClick(
+                                                            media.type === 'video' ? media.vid : media.url,
+                                                            index,
+                                                        )
+                                                    }
                                                 >
                                                     <FontAwesomeIcon icon={faPlay} className={cx('play-icon')} />
                                                 </div>
@@ -198,6 +211,8 @@ function GameDetails() {
                                 ))}
                             </Swiper>
                             <div className="swiper-custom-pagination" />
+
+                            {/* ẩn hiện hình ảnh phóng to */}
                             {showModal && (
                                 <div className={cx('modal')} onClick={closeModal}>
                                     <div
@@ -262,14 +277,15 @@ function GameDetails() {
                             <button type="button" value="wishList" className="btn" onClick={addSuccess}>
                                 Thêm vào danh sách ước
                             </button>
-
-                            <select className="select_game_edition" onChange={handleEditionChange}>
-                                {Object.entries(imageInfo?.gameEdition || {}).map(([key, edition]) => (
-                                    <option key={key} value={key}>
-                                        {edition}
-                                    </option>
-                                ))}
-                            </select>
+                            <Tippy content="Chọn bản game" placement="bottom">
+                                <select className="select_game_edition" onChange={handleEditionChange}>
+                                    {Object.entries(imageInfo?.gameEdition || {}).map(([key, edition]) => (
+                                        <option key={key} value={key}>
+                                            {edition}
+                                        </option>
+                                    ))}
+                                </select>
+                            </Tippy>
                         </div>
                     </div>
                 </div>

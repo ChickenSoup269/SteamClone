@@ -229,12 +229,14 @@ function Header() {
                                     <Image src="" className={cx('user-avatar')} alt="Tran Phuoc Thien" />
                                 </Tippy>
                             ) : (
-                                <button
-                                    className={cx('more-btn', { 'is-animating': isAnimating })}
-                                    style={{ color: getIconColor() }}
-                                >
-                                    <FontAwesomeIcon icon={faCaretDown} />
-                                </button>
+                                <Tippy content="Tiện ích">
+                                    <button
+                                        className={cx('more-btn', { 'is-animating': isAnimating })}
+                                        style={{ color: getIconColor() }}
+                                    >
+                                        <FontAwesomeIcon icon={faCaretDown} />
+                                    </button>
+                                </Tippy>
                             )
                         }
                     </Menu>
