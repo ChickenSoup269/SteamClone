@@ -1,0 +1,246 @@
+.wrapper_cart {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 80vh; /* Ensure the wrapper takes the full height of the viewport */
+    padding: 20px;
+
+    border-radius: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.container_cart {
+    display: flex;
+    flex-wrap: wrap;
+    top: 10%;
+    justify-content: space-between;
+}
+
+.content_cart_link_title {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: start;
+}
+
+.content_cart_link_title p {
+    font-size: 1.4rem;
+    color: var(--steamColorWhite);
+    transition: calc(0.3s);
+
+    margin-bottom: 10px;
+
+    a:hover {
+        color: var(--primary);
+        transition: calc(0.2s);
+    }
+}
+
+.content_cart_link_title h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--steamColorWhite);
+}
+
+.content_game_cart {
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    width: 71%;
+    margin-bottom: 20px;
+    background-color: #1e2a38;
+    border-radius: var(--steamBoder);
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.check_select label {
+    display: block;
+    margin-right: 10px;
+}
+
+.image_game img {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.title_game_cart {
+    flex: 1;
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--steamColorWhite);
+}
+
+.price {
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--steamColorWhite);
+}
+
+.content_button_select {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.content_button_select select,
+.content_button_select button,
+.input-number {
+    margin-right: 10px;
+    padding: 5px;
+    border: none;
+    border-radius: var(--steamBoder);
+
+    font-size: 14px;
+}
+.content_button_select select {
+    box-shadow: var(--steamBoxShadow);
+    color: var(--steamColorWhite);
+    background-color: #2e3237;
+    cursor: pointer;
+    transition: calc(0.3s);
+
+    &:hover {
+        background-color: #424850;
+        transition: calc(0.2s);
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.content_button_select button {
+    background-color: var(--primary);
+    color: #fff;
+    cursor: pointer;
+}
+
+.content_button_select button:hover {
+    background-color: #0056b3;
+}
+
+.input-number-decrement,
+.input-number-increment {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.input-number {
+    width: 60px;
+    text-align: center;
+}
+
+.button_bottom_cart_pay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 71%;
+    margin-top: 20px;
+}
+
+.button_bottom_cart_pay button {
+    padding: 10px 20px;
+    background-color: #2e3237;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: calc(0.3s);
+
+    &:hover {
+        background: #464d58;
+        color: #fff;
+        box-shadow: var(--steamBoxShadow);
+        transition: calc(0.2s);
+    }
+}
+
+.button_bottom_cart_pay p {
+    font-size: 1.4rem;
+    color: #474d57;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: calc(0.3s);
+
+    &:hover {
+        color: var(--steamColorWhite);
+        transition: calc(0.2s);
+    }
+}
+
+.button_bottom_cart_pay p:hover {
+    text-decoration: underline;
+}
+
+.content_money_pay {
+    width: 320px;
+    height: 150px;
+    background-color: #1e2a38;
+    border: 1px solid #3c4b5c;
+    border-radius: 10px;
+    padding: 20px;
+    p {
+        font-size: 1.2rem;
+    }
+}
+
+.total_pay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.title_money {
+    font-weight: bold;
+    color: var(--steamColorWhite);
+}
+
+.total_money_pay {
+    font-size: 1.4rem;
+    color: var(--steamColorWhite);
+    font-weight: bold;
+}
+
+.button_pay_game button {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to right, #3ca3da 0%, #14369f 60%);
+    background-position: 0%;
+    background-size: 330% 100%;
+    color: #fff;
+
+    border: none;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: calc(0.3s);
+
+    &:hover {
+        background: linear-gradient(to right, #47bfff 0%, #1a44c2 60%);
+        background-position: 0%;
+        background-size: 330% 100%;
+        transition: calc(0.2s);
+        box-shadow: var(--steamBoxShadow);
+    }
+}
+
+// ẩn mũi tên type = number
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

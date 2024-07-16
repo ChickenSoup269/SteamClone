@@ -57,8 +57,8 @@ function GameDetails() {
         setCurrentMediaUrl(url)
     }
 
-    const handleEditionChange = (event) => {
-        const selectedEditionIndex = event.target.value
+    const handleEditionChange = (e) => {
+        const selectedEditionIndex = e.target.value
 
         setGameInfo((prevInfo) => ({
             ...prevInfo,

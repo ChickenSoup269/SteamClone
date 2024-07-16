@@ -26,7 +26,7 @@ function Search() {
 
         setLoading(true)
 
-        fetch(`http://localhost:3000/search?query=${encodeURIComponent(searchValue)}`)
+        fetch(`http://localhost:3001/search?query=${encodeURIComponent(searchValue)}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok')

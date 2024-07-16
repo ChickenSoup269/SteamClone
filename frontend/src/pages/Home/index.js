@@ -782,126 +782,6 @@ const categoriesPoster = [
         ],
     },
     {
-        type: 'Anime',
-        games: [
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
-                alt: 'Horror Game 2',
-            },
-            {
-                id: '3',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
-                alt: 'Horror Game 3',
-            },
-            {
-                id: '4',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
-                alt: 'Horror Game 4',
-            },
-            {
-                id: '5',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
-                alt: 'Horror Game 5',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-        ],
-    },
-    {
-        type: 'Anime',
-        games: [
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
-                alt: 'Horror Game 2',
-            },
-            {
-                id: '3',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
-                alt: 'Horror Game 3',
-            },
-            {
-                id: '4',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
-                alt: 'Horror Game 4',
-            },
-            {
-                id: '5',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
-                alt: 'Horror Game 5',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-        ],
-    },
-    {
-        type: 'Fun',
-        games: [
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '3',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
-                alt: 'Horror Game 2',
-            },
-            {
-                id: '3',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
-                alt: 'Horror Game 3',
-            },
-            {
-                id: '4',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
-                alt: 'Horror Game 4',
-            },
-            {
-                id: '5',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
-                alt: 'Horror Game 5',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-        ],
-    },
-    {
         type: 'FunBruh',
         games: [
             {
@@ -962,6 +842,46 @@ const categoriesPoster = [
             {
                 id: '6',
                 src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
+                alt: 'Horror Game 6',
+            },
+        ],
+    },
+    {
+        type: 'Anime',
+        games: [
+            {
+                id: '2',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
+                alt: 'Horror Game 1',
+            },
+            {
+                id: '2',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
+                alt: 'Horror Game 2',
+            },
+            {
+                id: '3',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
+                alt: 'Horror Game 3',
+            },
+            {
+                id: '4',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
+                alt: 'Horror Game 4',
+            },
+            {
+                id: '5',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
+                alt: 'Horror Game 5',
+            },
+            {
+                id: '6',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
+                alt: 'Horror Game 6',
+            },
+            {
+                id: '6',
+                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
                 alt: 'Horror Game 6',
             },
         ],
@@ -1173,7 +1093,7 @@ function Home() {
                 </div>
 
                 {/* Slide thể loại đại diện game */}
-                {categoriesPoster.map((category, index) => (
+                {categoriesPoster.slice(0, 2).map((category, index) => (
                     <div key={index} className={cx('swiper_background_poster_game')}>
                         <h2 className={cx('title_poster_game')}>{`Thể loại - ${category.type}`}</h2>
                         <Swiper
@@ -1192,6 +1112,64 @@ function Home() {
                         </Swiper>
                     </div>
                 ))}
+
+                {/* featured games */}
+                <div className={cx('carousel')}>
+                    <div className={cx('carousel-left')}>
+                        <h2>Featured free games</h2>
+                        <p>Explore free fun to play games and find a new favorite</p>
+                        <button>See all</button>
+                    </div>
+                    <div className={cx('carousel-right')}>
+                        <div className={cx('carousel-track')}>
+                            <div className={cx('carousel-item')}>
+                                <img
+                                    src="https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg"
+                                    alt="War and Magic"
+                                />
+
+                                <h3>Tota warhammer</h3>
+                                <div className={cx('')}>
+                                    <p>4.5 ★</p>
+                                    <span>Free</span>
+                                </div>
+                            </div>
+                            <div className={cx('carousel-item')}>
+                                <img
+                                    src="https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg"
+                                    alt="DesignVille"
+                                />
+                                <h3>DesignVille: Merge & Design</h3>
+                                <div>
+                                    <p>4.5 ★</p>
+                                    <span>Free</span>
+                                </div>
+                            </div>
+                            <div className={cx('carousel-item')}>
+                                <img
+                                    src="https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg"
+                                    alt="DesignVille"
+                                />
+                                <h3>DesignVille: Merge & Design</h3>
+                                <div>
+                                    <p>4.5 ★</p>
+                                    <span>Free</span>
+                                </div>
+                            </div>
+                            <div className={cx('carousel-item')}>
+                                <img
+                                    src="https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg"
+                                    alt="DesignVille"
+                                />
+                                <h3>DesignVille: Merge & Design</h3>
+                                <div>
+                                    <p>4.5 ★</p>
+                                    <span>Free</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Slide ưa đãi card */}
                 {/* <div className={cx('swiper_card_sale')}>
