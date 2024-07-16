@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
+import { Helmet } from 'react-helmet'
 
 import 'swiper/css'
 import 'swiper/css/free-mode'
@@ -966,6 +967,9 @@ function Home() {
 
     return (
         <div className={cx('wrapper')}>
+            <Helmet>
+                <title>SteamClone </title>
+            </Helmet>
             <div className={cx('full-screen-slider')}>
                 <div className={cx('full-screen-img-container')}>
                     <img className={cx('full-screen-img')} id="mainImage" src={mainImage} alt="BackgroundGameImg" />

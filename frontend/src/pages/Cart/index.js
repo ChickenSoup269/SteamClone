@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight, faHeart, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { Helmet } from 'react-helmet'
 
 import classNames from 'classnames/bind'
 import styles from './Cart.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faHeart, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classNames.bind(styles)
 
@@ -31,6 +32,9 @@ function Cart() {
 
     return (
         <div className={cx('wrapper_cart')}>
+            <Helmet>
+                <title>Giỏ hàng - SteamClone</title>
+            </Helmet>
             <div className={cx('container_cart')}>
                 {/* Top  */}
                 <div className={cx('content_cart_link_title')}>

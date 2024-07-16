@@ -5,15 +5,16 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import emailjs from '@emailjs/browser'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-import classNames from 'classnames/bind'
-import styles from './Register.module.scss'
+import { Helmet } from 'react-helmet'
 
 // BE
 import * as UserService from '../../services/UserService'
 import { useMutationHooks } from '~/hooks/useMutationHook'
 import * as messageRegister from '../../components/Message/Message'
 import { useNavigate } from 'react-router-dom'
+
+import classNames from 'classnames/bind'
+import styles from './Register.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -198,6 +199,9 @@ function Register() {
     }
     return (
         <header className={cx('wrapper')}>
+            <Helmet>
+                <title>Đăng ký </title>
+            </Helmet>
             <div className={cx('full-background')}>
                 <div className={cx('container-register')}>
                     <form className={cx('register-box')} onSubmit={sendEmail}>

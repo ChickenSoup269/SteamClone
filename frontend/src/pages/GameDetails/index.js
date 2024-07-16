@@ -5,8 +5,9 @@ import { faPlay, faShoppingBasket, faStar, faStarHalfAlt } from '@fortawesome/fr
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { Helmet } from 'react-helmet'
 
+import 'react-toastify/dist/ReactToastify.css'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
@@ -121,6 +122,9 @@ function GameDetails() {
 
     return (
         <div className={cx('game_detail')}>
+            <Helmet>
+                <title>Chi tiết game - SteamClone</title>
+            </Helmet>
             <div className={cx('card-wrapper')}>
                 <div className={cx('card')}>
                     {/* <!-- Slide column left --> */}

@@ -2,18 +2,21 @@ import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { NavLink, useNavigate } from 'react-router-dom'
-import QRCode from 'qrcode.react'
+import { Helmet } from 'react-helmet'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import QRCode from 'qrcode.react'
 
-import classNames from 'classnames/bind'
-import styles from './Login.module.scss'
+// BE
 import * as UserService from '../../services/UserService'
 import { useMutationHooks } from '~/hooks/useMutationHook'
 import * as message from '../../components/Message/Message'
 import { jwtDecode } from 'jwt-decode'
 import { useDispatch } from 'react-redux'
 import { updateUser } from '../../redux/slides/userSlide'
+
+import classNames from 'classnames/bind'
+import styles from './Login.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -108,6 +111,9 @@ function Login() {
 
     return (
         <header className={cx('wrapper')}>
+            <Helmet>
+                <title>Đăng nhập </title>
+            </Helmet>
             <div className={cx('full-background')}>
                 <div className={cx('container-login')}>
                     <div className={cx('login-box')}>
