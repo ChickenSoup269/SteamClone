@@ -4,7 +4,6 @@
     align-items: center; /* Center vertically */
     min-height: 80vh; /* Ensure the wrapper takes the full height of the viewport */
     padding: 20px;
-
     border-radius: 10px;
     max-width: 1200px;
     margin: 0 auto;
@@ -43,12 +42,13 @@
 }
 
 .content_game_cart {
-    z-index: 1;
     display: flex;
     flex-wrap: wrap;
     width: 71%;
+    padding: 20px;
+    z-index: 1;
     margin-bottom: 20px;
-    background-color: #1e2a38;
+    background-color: #1a2330;
     border-radius: var(--steamBoder);
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -67,10 +67,15 @@
 
 .title_game_cart {
     flex: 1;
+    text-transform: capitalize;
     margin-left: 20px;
     font-size: 18px;
     font-weight: bold;
     color: var(--steamColorWhite);
+}
+.icon_for_system {
+    margin-top: 5px;
+    opacity: 0.5;
 }
 
 .price {
@@ -83,62 +88,110 @@
 .content_button_select {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    justify-content: space-between;
+    margin: 20px 10px 0px 22px;
     width: 100%;
+
+    select,
+    button {
+        margin-right: 10px;
+        padding: 5px;
+        border: none;
+        border-radius: var(--steamBoder);
+        font-size: 14px;
+    }
+
+    select {
+        box-shadow: var(--steamBoxShadow);
+        color: var(--steamColorWhite);
+        background-color: #2e3237;
+        cursor: pointer;
+        transition: calc(0.3s);
+
+        &:hover {
+            background-color: #424850;
+            transition: calc(0.2s);
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
 }
 
-.content_button_select select,
-.content_button_select button,
-.input-number {
-    margin-right: 10px;
-    padding: 5px;
-    border: none;
-    border-radius: var(--steamBoder);
-
-    font-size: 14px;
-}
-.content_button_select select {
+.content_button_select button:first-child {
+    background-color: #3c4b5c;
+    color: #fff;
     box-shadow: var(--steamBoxShadow);
-    color: var(--steamColorWhite);
-    background-color: #2e3237;
-    cursor: pointer;
-    transition: calc(0.3s);
+    transition: calc(0.4s);
 
     &:hover {
-        background-color: #424850;
-        transition: calc(0.2s);
-    }
-
-    &:focus {
-        outline: none;
+        background-color: var(--primary);
+        cursor: pointer;
+        transition: calc(0.3s);
     }
 }
-
-.content_button_select button {
-    background-color: var(--primary);
+.content_button_select button:last-child {
+    background-color: #3c4b5c;
     color: #fff;
-    cursor: pointer;
+    box-shadow: var(--steamBoxShadow);
+
+    &:hover {
+        background-color: #ed5f46;
+
+        cursor: pointer;
+        transition: calc(0.3s);
+    }
 }
 
-.content_button_select button:hover {
-    background-color: #0056b3;
+// css input number
+.input-number {
+    width: 40px;
+    padding: 0 12px;
+    vertical-align: top;
+    text-align: center;
+    outline: none;
+    background-color: #ffffff;
+}
+
+.input-number,
+.input-number-decrement,
+.input-number-increment {
+    height: 25px;
+    user-select: none;
 }
 
 .input-number-decrement,
 .input-number-increment {
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    width: 20px;
+    line-height: 22px;
+    background: var(--steamColorWhite);
+    color: var(--steamColorBlack);
     text-align: center;
-    background-color: #e0e0e0;
-    cursor: pointer;
-    border-radius: 5px;
+    font-weight: bold;
+    transition: calc(0.3s);
+
+    &:hover {
+        transition: calc(0.2s);
+        cursor: pointer;
+        color: var(--steamColorWhite);
+        background-color: #3c4b5c;
+    }
+}
+.input-number-decrement:active,
+.input-number-increment:active {
+    background: #ddd;
 }
 
-.input-number {
-    width: 60px;
-    text-align: center;
+.input-number-decrement {
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.input-number-increment {
+    border-left: none;
+    border-radius: 0 4px 4px 0;
 }
 
 .button_bottom_cart_pay {
@@ -154,7 +207,7 @@
     background-color: #2e3237;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--steamBoder);
     cursor: pointer;
     transition: calc(0.3s);
 
@@ -186,8 +239,7 @@
 .content_money_pay {
     width: 320px;
     height: 150px;
-    background-color: #1e2a38;
-    border: 1px solid #3c4b5c;
+    background-color: #1a2330;
     border-radius: 10px;
     padding: 20px;
     p {
@@ -217,17 +269,16 @@
 .button_pay_game button {
     width: 100%;
     padding: 10px;
-    background: linear-gradient(to right, #3ca3da 0%, #14369f 60%);
+    background: linear-gradient(to right, #1ba5ef 0%, #1f46bb 60%);
     background-position: 0%;
     background-size: 330% 100%;
     color: #fff;
-
     border: none;
     font-weight: 600;
-    border-radius: 5px;
+    border-radius: var(--steamBoder);
     cursor: pointer;
     margin-top: 10px;
-    transition: calc(0.3s);
+    transition: calc(0.4s);
 
     &:hover {
         background: linear-gradient(to right, #47bfff 0%, #1a44c2 60%);

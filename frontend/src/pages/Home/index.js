@@ -15,6 +15,8 @@ import 'swiper/css/autoplay'
 
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classNames.bind(styles)
 
@@ -741,6 +743,17 @@ const slides = [
     },
 ]
 
+const slidesData = [
+    { id: 1, title: 'Sinh tồn', backgroundClass: 'background-url-img-type-1' },
+    { id: 2, title: 'Đua xe', backgroundClass: 'background-url-img-type-2' },
+    { id: 3, title: 'Thế giới mở', backgroundClass: 'background-url-img-type-3' },
+    { id: 3, title: 'Anime', backgroundClass: 'background-url-img-type-4' },
+    { id: 3, title: 'Kinh dị', backgroundClass: 'background-url-img-type-5' },
+    { id: 3, title: 'Chơi đơn', backgroundClass: 'background-url-img-type-6' },
+    { id: 3, title: 'Nhiều người chơi', backgroundClass: 'background-url-img-type-7' },
+    { id: 3, title: 'Chơi miễn phí', backgroundClass: 'background-url-img-type-8' },
+]
+
 const categoriesPoster = [
     {
         type: 'Horror',
@@ -1046,54 +1059,25 @@ function Home() {
                     <Swiper
                         modules={[Navigation, Pagination]}
                         slidesPerView={4}
-                        spaceBetween={15}
-                        navigation={true}
+                        spaceBetween={10}
+                        navigation={{ nextEl: '.arrow-left', prevEl: '.arrow-right' }}
                         pagination={{ clickable: true }}
                         className={cx('swiper_game_genres')}
                     >
-                        <SwiperSlide>
-                            <img
-                                src="https://store.steampowered.com/categories/homepageimage/category/action?cc=us&l=vietnamese"
-                                alt="thể loại game"
-                            />
-                            <h3>Sinh tồn</h3>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                src="https://store.steampowered.com/categories/homepageimage/category/rogue_like_rogue_lite?cc=us&l=vietnamese"
-                                alt="thể loại game"
-                            />
-                            <h3>hành động</h3>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                src="https://store.steampowered.com/categories/homepageimage/category/anime?cc=us&l=vietnamese"
-                                alt="thể loại game"
-                            />
-                            <h3> khoa học viễn tưởng</h3>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                src="https://store.steampowered.com/categories/homepageimage/category/horror?cc=us&l=vietnamese"
-                                alt="thể loại game"
-                            />
-                            <h3>Đua tốc độ</h3>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                src="https://store.steampowered.com/categories/homepageimage/category/casual?cc=us&l=vietnamese"
-                                alt="thể loại game"
-                            />
-                            <h3>Nhập vai</h3>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                src="https://store.steampowered.com/categories/homepageimage/category/fighting_martial_arts?cc=us&l=vietnamese"
-                                alt="thể loại game"
-                            />
-                            <h3>Đối kháng</h3>
-                        </SwiperSlide>
+                        {slidesData.map((slide) => (
+                            <SwiperSlide key={slide.id}>
+                                <div className={cx(slide.backgroundClass)}>
+                                    <h3>{slide.title}</h3>
+                                </div>
+                            </SwiperSlide>
+                        ))}
                     </Swiper>
+                    <button className="arrow-left arrow">
+                        <FontAwesomeIcon icon={faAngleLeft} />
+                    </button>
+                    <button className="arrow-right arrow">
+                        <FontAwesomeIcon icon={faAngleRight} />
+                    </button>
                 </div>
 
                 {/* Slide thể loại đại diện game */}

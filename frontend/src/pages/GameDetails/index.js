@@ -271,10 +271,10 @@ function GameDetails() {
                         </div>
 
                         <div className={cx('purchase-info')}>
-                            <button type="button" value="cart" className="btn" onClick={addSuccess}>
+                            <button type="button" value="cart" className={cx('btn')} onClick={addSuccess}>
                                 Thêm vào giỏ <FontAwesomeIcon icon={faShoppingBasket} />
                             </button>
-                            <button type="button" value="wishList" className="btn" onClick={addSuccess}>
+                            <button type="button" value="wishList" className={cx('btn')} onClick={addSuccess}>
                                 Thêm vào danh sách ước
                             </button>
                             <Tippy content="Chọn bản game" placement="bottom">

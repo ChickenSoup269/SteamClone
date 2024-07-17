@@ -1,5 +1,6 @@
 .wrapper {
     position: relative;
+    --steamBackgroundRepeat: top center / 280px 280px no-repeat fixed padding-box content-box;
 }
 
 .full-screen-slider::before {
@@ -315,26 +316,34 @@
 
 // css thể loại game | thể loại đại diện game
 .swiper_background_genres {
-    margin: 0px 0px 50px 50px;
+    margin: 0px 0px 40px 50px;
 }
 
 .swiper_game_genres {
     overflow: hidden;
     text-align: center;
-    width: 120rem;
+    width: 105rem;
     height: 300px;
     padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    img {
+    // css ảnh nền chung thể loại
+    .background-url-img-type-1,
+    .background-url-img-type-2,
+    .background-url-img-type-3,
+    .background-url-img-type-4,
+    .background-url-img-type-5,
+    .background-url-img-type-6,
+    .background-url-img-type-7,
+    .background-url-img-type-8 {
         position: relative;
         display: block;
-        width: 260px;
-        height: 260px;
+        width: 245px;
+        height: 226px;
         margin-left: 10px;
-        object-fit: fill;
+        object-fit: cover;
         border-radius: var(--steamBoder);
         box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
         border: 1px solid rgba(0, 0, 0, 0.25);
@@ -350,10 +359,112 @@
             cursor: pointer;
         }
 
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            border-radius: var(--steamBoder);
+            pointer-events: none;
+        }
+
         &:active {
             filter: brightness(80%) contrast(110%);
         }
     }
+
+    h3 {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        top: 80%;
+        bottom: 0;
+        z-index: 3;
+        text-transform: uppercase;
+    }
+
+    // ảnh nền từng loại
+    .background-url-img-type-1 {
+        background: url(../../assets/images/imgType/action.webp) var(--steamBackgroundRepeat);
+
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(139, 0, 0));
+        }
+    }
+    .background-url-img-type-2 {
+        background: url(../../assets/images/imgType/adventure.webp) var(--steamBackgroundRepeat);
+
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 139) 100%);
+        }
+    }
+    .background-url-img-type-3 {
+        background: url(../../assets/images/imgType/anime.webp) var(--steamBackgroundRepeat);
+
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(184, 134, 11) 100%);
+        }
+    }
+    .background-url-img-type-4 {
+        background: url(../../assets/images/imgType/casual.webp) var(--steamBackgroundRepeat);
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 100, 0) 100%);
+        }
+    }
+    .background-url-img-type-5 {
+        background: url(../../assets/images/imgType/fighting_martial_arts.webp) var(--steamBackgroundRepeat);
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 139, 139) 100%);
+        }
+    }
+    .background-url-img-type-6 {
+        background: url(../../assets/images/imgType/horror.webp) var(--steamBackgroundRepeat);
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(139, 0, 139) 100%);
+        }
+    }
+    .background-url-img-type-7 {
+        background: url(../../assets/images/imgType/multiplayer_coop.webp) var(--steamBackgroundRepeat);
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(139, 0, 0) 100%);
+        }
+    }
+    .background-url-img-type-8 {
+        background: url(../../assets/images/imgType/racing.webp) var(--steamBackgroundRepeat);
+        &::after {
+            background: linear-gradient(rgba(0, 0, 0, 0), rgb(184, 134, 11));
+        }
+    }
+}
+
+// css arrow cho swiper thể loại
+
+.arrow-left,
+.arrow-right {
+    background-color: rgba(255, 255, 255, 0.37);
+    padding: 8px 16px;
+    border-radius: var(--steamBoder);
+    color: rgb(255, 255, 255);
+    transition: calc(0.4s);
+
+    &:hover {
+        transition: calc(0.2s);
+        box-shadow: var(--steamBoxShadow);
+        background-color: var(--steamColorWhite);
+        color: var(--steamColorBlack);
+    }
+
+    &:active {
+        background-color: #c5c5c5;
+    }
+}
+.arrow-left:after,
+.arrow-right:after {
+    font-weight: 700;
+    font-size: 1.8rem;
 }
 
 // css poster game | game đại diện thể loại

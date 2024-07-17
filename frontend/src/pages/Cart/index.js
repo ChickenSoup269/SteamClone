@@ -6,6 +6,8 @@ import { Helmet } from 'react-helmet'
 
 import classNames from 'classnames/bind'
 import styles from './Cart.module.scss'
+import Tippy from '@tippyjs/react'
+import { faApple, faLinux, faWindows } from '@fortawesome/free-brands-svg-icons'
 
 const cx = classNames.bind(styles)
 
@@ -35,6 +37,7 @@ function Cart() {
             <Helmet>
                 <title>Giỏ hàng - SteamClone</title>
             </Helmet>
+
             <div className={cx('container_cart')}>
                 {/* Top  */}
                 <div className={cx('content_cart_link_title')}>
@@ -58,29 +61,41 @@ function Cart() {
                         />
                     </div>
 
-                    <div className={cx('title_game_cart')}>Game hay mua liền tay</div>
+                    <div className={cx('title_game_cart')}>
+                        Game hay mua liền tay
+                        <div className={cx('icon_for_system')}>
+                            <FontAwesomeIcon icon={faWindows} /> {''}
+                            <FontAwesomeIcon icon={faApple} /> {''}
+                            <FontAwesomeIcon icon={faLinux} />
+                        </div>
+                    </div>
+
                     <div className={cx('price')}>880.000.00vnd</div>
                     <div className={cx('content_button_select')}>
-                        <select name="" id="" onChange={handleEditionChange} value={currentSelectIndex}>
-                            {Object.keys(dataChose[0].selectBuy).map((index) => (
-                                <option key={index} value={index}>
-                                    {dataChose[0].selectBuy[index]}
-                                </option>
-                            ))}
-                        </select>
+                        <Tippy content="Tặng/Mua game" placement="bottom">
+                            <select name="" id="" onChange={handleEditionChange} value={currentSelectIndex}>
+                                {Object.keys(dataChose[0].selectBuy).map((index) => (
+                                    <option key={index} value={index}>
+                                        {dataChose[0].selectBuy[index]}
+                                    </option>
+                                ))}
+                            </select>
+                        </Tippy>
                         <div className={cx('number_game')}>
-                            <span class="input-number-decrement">–</span>
-                            <input class="input-number" type="number" />
-                            <span class="input-number-increment">+</span>
+                            <span className={cx('input-number-decrement')}>–</span>
+                            <Tippy content="Nhập số lượng">
+                                <input className={cx('input-number')} type="number" value="1" min="0" max="10" />
+                            </Tippy>
+                            <span className={cx('input-number-increment')}>+</span>
                         </div>
                         <div className={cx('button_add_delete')}>
                             <button>
-                                Thêm vào danh sách ước
+                                Thêm vào danh sách ước {''}
                                 <FontAwesomeIcon icon={faHeart} />
                             </button>
+
                             <button>
-                                Gỡ bỏ
-                                <FontAwesomeIcon icon={faTrash} />
+                                Gỡ bỏ {''} <FontAwesomeIcon icon={faTrash} />
                             </button>
                         </div>
                     </div>
