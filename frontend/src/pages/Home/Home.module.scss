@@ -442,31 +442,6 @@
 
 // css arrow cho swiper thể loại
 
-.arrow-left,
-.arrow-right {
-    background-color: rgba(255, 255, 255, 0.37);
-    padding: 8px 16px;
-    border-radius: var(--steamBoder);
-    color: rgb(255, 255, 255);
-    transition: calc(0.4s);
-
-    &:hover {
-        transition: calc(0.2s);
-        box-shadow: var(--steamBoxShadow);
-        background-color: var(--steamColorWhite);
-        color: var(--steamColorBlack);
-    }
-
-    &:active {
-        background-color: #c5c5c5;
-    }
-}
-.arrow-left:after,
-.arrow-right:after {
-    font-weight: 700;
-    font-size: 1.8rem;
-}
-
 // css poster game | game đại diện thể loại
 .swiper_background_poster_game {
     margin-top: 20px;

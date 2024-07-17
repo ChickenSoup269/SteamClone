@@ -10,6 +10,7 @@
 }
 
 .container_cart {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     top: 10%;
@@ -26,7 +27,7 @@
     font-size: 1.4rem;
     color: var(--steamColorWhite);
     transition: calc(0.3s);
-
+    padding-top: 10%;
     margin-bottom: 10px;
 
     a:hover {
@@ -41,12 +42,17 @@
     color: var(--steamColorWhite);
 }
 
+.content_games {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 .content_game_cart {
     display: flex;
     flex-wrap: wrap;
-    width: 71%;
-    padding: 20px;
-    z-index: 1;
+    width: 100%;
     margin-bottom: 20px;
     background-color: #1a2330;
     border-radius: var(--steamBoder);

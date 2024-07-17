@@ -1060,7 +1060,7 @@ function Home() {
                         modules={[Navigation, Pagination]}
                         slidesPerView={4}
                         spaceBetween={10}
-                        navigation={{ nextEl: '.arrow-left', prevEl: '.arrow-right' }}
+                        navigation={true}
                         pagination={{ clickable: true }}
                         className={cx('swiper_game_genres')}
                     >
@@ -1072,12 +1072,6 @@ function Home() {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    <button className="arrow-left arrow">
-                        <FontAwesomeIcon icon={faAngleLeft} />
-                    </button>
-                    <button className="arrow-right arrow">
-                        <FontAwesomeIcon icon={faAngleRight} />
-                    </button>
                 </div>
 
                 {/* Slide thể loại đại diện game */}
