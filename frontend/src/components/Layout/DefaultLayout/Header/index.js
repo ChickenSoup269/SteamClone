@@ -81,7 +81,7 @@ const usserMenu = [
     {
         icon: <FontAwesomeIcon icon={faBoxArchive} />,
         title: 'Kho game',
-        to: '/#',
+        to: '/library',
     },
     ...MENU_ITEMS,
     {
@@ -97,7 +97,7 @@ function Header() {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
 
     // khi đăng nhập
-    const currentUser = false
+    const currentUser = true
 
     // điều chỉnh header theme
     const navLinkStyles = ({ isActive }) => {
@@ -185,7 +185,7 @@ function Header() {
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <NavLink to="/cart">
+                            <NavLink to="/notification">
                                 <Tippy content="Thông báo" placement="bottom">
                                     <button className={cx('notification-btn')} style={{ color: getIconColor() }}>
                                         <FontAwesomeIcon icon={faBell} />

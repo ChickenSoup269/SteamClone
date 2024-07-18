@@ -25,14 +25,14 @@ function Cart() {
             id: 1,
             image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/534380/header.jpg?t=1717592174',
             title: 'Dying light 2',
-            price: '880.000.00đ',
+            price: '880.000.00₫',
             platforms: [faWindows, faApple, faLinux],
         },
         {
             id: 2,
             image: 'https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg?t=1685562483',
             title: 'Cyberpunk 2077',
-            price: '900.000đ',
+            price: '900.000₫',
             platforms: [faWindows],
             // discount: '-50%',
         },
@@ -136,7 +136,7 @@ function Cart() {
                     <div className={cx('content_money_pay')}>
                         <div className={cx('total_pay')}>
                             <h4 className={cx('title_money')}>Tổng ước tính: </h4>
-                            <p className={cx('total_money_pay')}>880.000.00vnđ</p>
+                            <p className={cx('total_money_pay')}>880.000.00₫</p>
                         </div>
                         <p>Thuế tiêu thụ sẽ được tính trong quá trình thanh toán nếu có</p>
                         <div className={cx('button_pay_game')}>
