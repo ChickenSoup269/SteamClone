@@ -1,0 +1,27 @@
+.wrapper_404 {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-error {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    padding: 20px;
+
+    background-color: var(--steamColorWhite);
+    border-radius: 10px;
+
+    h1 {
+        font-size: 4rem;
+    }
+}
+
+.background_404 {
+    border-radius: var(--steamBoder);
+    background: url('https://cdn.dribbble.com/users/1175431/screenshots/6188233/404-error-dribbble-800x600.gif')
+        no-repeat center center/cover;
+    height: 400px;
+    background-position: center;
+}

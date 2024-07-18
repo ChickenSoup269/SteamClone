@@ -5,9 +5,11 @@ const cx = classNames.bind(styles)
 
 function PageError() {
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper_404')}>
             <div className={cx('page-error')}>
-                <h1>Test</h1>
+                <div className={cx('background_404')}></div>
+                <h1>404 - Page Not Found</h1>
+                <p>The page you are looking for does not exist.</p>
             </div>
         </div>
     )

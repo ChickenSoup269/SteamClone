@@ -1,20 +1,12 @@
 .wrapper_cart {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    min-height: 80vh; /* Ensure the wrapper takes the full height of the viewport */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     padding: 20px;
     border-radius: 10px;
     max-width: 1200px;
     margin: 0 auto;
-}
-
-.container_cart {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    top: 10%;
-    justify-content: space-between;
 }
 
 .content_cart_link_title {
@@ -29,6 +21,7 @@
     transition: calc(0.3s);
     padding-top: 10%;
     margin-bottom: 10px;
+    font-weight: 300;
 
     a:hover {
         color: var(--primary);
@@ -42,13 +35,17 @@
     color: var(--steamColorWhite);
 }
 
-.content_games {
-    width: 70%;
+.container_cart_game_pay {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    justify-content: space-between; /* Optional: Adds space between columns */
+    width: 100%; /* Ensure the container takes the full width */
 }
 
+.content_games {
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%; /* Adjust based on your layout preference */
+}
 .content_game_cart {
     display: flex;
     flex-wrap: wrap;
@@ -63,6 +60,13 @@
 .check_select label {
     display: block;
     margin-right: 10px;
+
+    input[type='checkbox'] {
+        -webkit-transform: scale(1.2);
+        cursor: pointer;
+        transform: scale(1.2);
+        padding: 10px;
+    }
 }
 
 .image_game img {
@@ -151,13 +155,20 @@
 }
 
 // css input number
+.number_game {
+    box-shadow: var(--steamBoxShadow);
+}
+
 .input-number {
     width: 40px;
     padding: 0 12px;
     vertical-align: top;
     text-align: center;
     outline: none;
-    background-color: #ffffff;
+    font-weight: 700;
+    cursor: context-menu;
+
+    background-color: var(--steamColorWhite);
 }
 
 .input-number,
@@ -200,48 +211,7 @@
     border-radius: 0 4px 4px 0;
 }
 
-.button_bottom_cart_pay {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 71%;
-    margin-top: 20px;
-}
-
-.button_bottom_cart_pay button {
-    padding: 10px 20px;
-    background-color: #2e3237;
-    color: #fff;
-    border: none;
-    border-radius: var(--steamBoder);
-    cursor: pointer;
-    transition: calc(0.3s);
-
-    &:hover {
-        background: #464d58;
-        color: #fff;
-        box-shadow: var(--steamBoxShadow);
-        transition: calc(0.2s);
-    }
-}
-
-.button_bottom_cart_pay p {
-    font-size: 1.4rem;
-    color: #474d57;
-    text-decoration: underline;
-    cursor: pointer;
-    transition: calc(0.3s);
-
-    &:hover {
-        color: var(--steamColorWhite);
-        transition: calc(0.2s);
-    }
-}
-
-.button_bottom_cart_pay p:hover {
-    text-decoration: underline;
-}
-
+// css column left pay
 .content_money_pay {
     width: 320px;
     height: 150px;
@@ -292,6 +262,44 @@
         background-size: 330% 100%;
         transition: calc(0.2s);
         box-shadow: var(--steamBoxShadow);
+    }
+}
+
+// css button cuối
+.button_bottom_cart_pay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    margin-top: 20px;
+
+    button {
+        padding: 10px 20px;
+        background-color: #2e3237;
+        color: #fff;
+        border: none;
+        border-radius: var(--steamBoder);
+        cursor: pointer;
+        transition: calc(0.3s);
+
+        &:hover {
+            background: #464d58;
+            color: #fff;
+            box-shadow: var(--steamBoxShadow);
+            transition: calc(0.2s);
+        }
+    }
+    p {
+        font-size: 1.4rem;
+        color: var(--activeScrollBar);
+        text-decoration: underline;
+        cursor: pointer;
+        transition: calc(0.3s);
+
+        &:hover {
+            color: var(--steamColorWhite);
+            transition: calc(0.2s);
+        }
     }
 }
 
