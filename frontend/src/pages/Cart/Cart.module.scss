@@ -16,12 +16,11 @@
 }
 
 .content_cart_link_title p {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--steamColorWhite);
     transition: calc(0.3s);
-    padding-top: 5%;
+    padding-top: 8%;
     margin-bottom: 10px;
-    font-weight: 300;
 
     a:hover {
         color: var(--primary);
@@ -30,42 +29,98 @@
 }
 
 .content_cart_link_title h2 {
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 900;
     color: var(--steamColorWhite);
 }
 
 .container_cart_game_pay {
     display: flex;
-    justify-content: space-between; /* Optional: Adds space between columns */
-    width: 100%; /* Ensure the container takes the full width */
+    justify-content: space-between;
+    width: 100%;
 }
 
 .content_games {
     display: flex;
     flex-wrap: wrap;
-    width: 70%; /* Adjust based on your layout preference */
+    width: 70%;
 }
 .content_game_cart {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     margin-bottom: 20px;
-    background-color: #1a2330;
+    background: var(--activeBackgroundCartPay);
     border-radius: var(--steamBoder);
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.select_all {
+    font-size: 1.2rem;
+    color: #a8a8a8;
+    padding: 10px 0px 0px 0px;
 
-.check_select label {
-    display: block;
-    margin-right: 10px;
-
-    input[type='checkbox'] {
-        -webkit-transform: scale(1.2);
+    input:hover {
         cursor: pointer;
-        transform: scale(1.2);
-        padding: 10px;
+    }
+}
+// css check select for game
+.check_select {
+    display: flex;
+    label {
+        display: block;
+        margin-right: 10px;
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+        padding-left: 15px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        input {
+            position: absolute;
+            cursor: pointer;
+            opacity: 0;
+            height: 0;
+            width: 0;
+        }
+        input:checked ~ .checkbox__checkmark {
+            background-color: rgb(35, 128, 250);
+        }
+        input:checked ~ .checkbox__checkmark:after {
+            opacity: 1;
+        }
+
+        .checkbox__checkmark {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: var(--steamColorWhite);
+            transition: background-color 0.25s ease;
+            border-radius: 4px;
+            box-shadow: var(--steamBoxShadow);
+        }
+        .checkbox__checkmark:after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #ffffff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .checkbox__body {
+            line-height: 1.4;
+            font-size: 16px;
+        }
     }
 }
 
@@ -73,6 +128,10 @@
     width: 200px;
     height: auto;
     border-radius: 5px;
+    box-shadow: var(--steamBoxShadow);
+}
+.icon_system {
+    padding-right: 5px;
 }
 
 .title_game_cart {
@@ -114,7 +173,7 @@
     select {
         box-shadow: var(--steamBoxShadow);
         color: var(--steamColorWhite);
-        background-color: #2e3237;
+        background-color: var(--steamColorSelectCart);
         cursor: pointer;
         transition: calc(0.3s);
 
@@ -128,9 +187,10 @@
         }
     }
 }
+
 // button
 .content_button_select button:first-child {
-    background-color: #3c4b5c;
+    background-color: var(--steamColorSelectCart);
     color: #fff;
     box-shadow: var(--steamBoxShadow);
     transition: calc(0.4s);
@@ -142,7 +202,7 @@
     }
 }
 .content_button_select button:last-child {
-    background-color: #3c4b5c;
+    background-color: var(--steamColorSelectCart);
     color: #fff;
     box-shadow: var(--steamBoxShadow);
 
@@ -167,7 +227,7 @@
     outline: none;
     font-weight: 700;
     cursor: context-menu;
-
+    pointer-events: none;
     background-color: var(--steamColorWhite);
 }
 
@@ -215,37 +275,38 @@
 .content_money_pay {
     width: 320px;
     height: 150px;
-    background-color: #1a2330;
+    background: var(--activeBackgroundCartPay);
     border-radius: 10px;
     padding: 20px;
-    p {
-        font-size: 1.2rem;
-    }
 }
 
 .total_pay {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-bottom: 10px;
 }
 
 .title_money {
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 1.4rem;
     color: var(--steamColorWhite);
 }
 
 .total_money_pay {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     color: var(--steamColorWhite);
     font-weight: bold;
+}
+.tax_text_cart {
+    font-size: 1.2rem;
 }
 
 .button_pay_game button {
     width: 100%;
     padding: 10px;
-    background: linear-gradient(to right, #1ba5ef 0%, #1f46bb 60%);
+    background: var(--activeButtonPayCart);
     background-position: 0%;
     background-size: 330% 100%;
     color: #fff;
@@ -253,15 +314,16 @@
     font-weight: 600;
     border-radius: var(--steamBoder);
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 20px;
     transition: calc(0.4s);
+    box-shadow: var(--steamBoxShadow);
 
     &:hover {
+        transition: calc(0.4s);
+        transform: scale(0.98);
         background: linear-gradient(to right, #47bfff 0%, #1a44c2 60%);
         background-position: 0%;
         background-size: 330% 100%;
-        transition: calc(0.2s);
-        box-shadow: var(--steamBoxShadow);
     }
 }
 
@@ -275,7 +337,7 @@
 
     button {
         padding: 10px 20px;
-        background-color: #2e3237;
+        background-color: var(--steamColorSelectCart);
         color: #fff;
         border: none;
         border-radius: var(--steamBoder);
@@ -308,4 +370,52 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+// popup
+
+.popup_payment {
+    position: absolute;
+    top: 20%;
+    left: 40px;
+    right: 40px;
+    background: #1d1d1d;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(55, 55, 55, 0.63);
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payment-option {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.close-modal {
+    margin-top: 20px;
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }

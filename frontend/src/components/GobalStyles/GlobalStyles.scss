@@ -2,23 +2,29 @@
 :root {
     --primary: #1a9fff;
     --steamPrice: #beee11;
-    --steamBackgroundPrice: #4c6b22;
     --steamOldPrice: #354554;
-    --steamBackground: #171a21;
     --steamColorWhite: #ffffff;
     --steamColorBlack: black;
     --steamFontNavBar: #7a8b9d;
-    --steamFontBackground: #131518;
     --steamPopUpSearch: #242830;
     --steamHoverPopUp: #e7e7e7f1;
     --steamColorSearch: #eeeeee;
+    --steamColorSelectCart: #2e3237;
+    --steamFontBackground: #131518;
+    --steamBackgroundPrice: #4c6b22;
+    --steamBackground: #171a21;
+    --steamBackgroundCartPay: #1a2330;
+    // =========
     --steamTextShadow: 2px 3px 13px rgba(255, 255, 255, 0.63);
     --steamTextShadowBlack: 2px 3px 13px rgba(39, 135, 244, 0.63);
+    // =========
     --steamBoder: 5px;
+    // =========
     --steamBoxShadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     --steamBoxShadowWhite: rgba(255, 255, 255, 0.35) 0px 5px 15px;
     --steamBoxShadowPrimary: rgba(75, 135, 178, 0.35) 0px 5px 15px;
     --steamBoxShadowHover: rgba(32, 173, 255, 0.35) 0px 5px 15px;
+    // =========
     --default-layout-header-height: 70px;
 }
 
@@ -35,8 +41,8 @@ html {
 [data-theme='light'] {
     --bgTheme: #ffffff;
     --bgTran: rgba(0, 0, 0, 0.548);
-    --bgContent: #325474;
-
+    --bgContent: #283d57;
+    // =========
     --activeNavLink: var(--primary);
     --activePrimary: #ffffff;
     --activeSwitch: #ffffff;
@@ -44,7 +50,9 @@ html {
     --activeLight: linear-gradient(to right, rgba(255, 255, 255, 0.493), rgb(0, 153, 255));
     --activeScrollBar: var(--steamColorWhite);
     --activeFilter: none;
-
+    --activeBackgroundCartPay: linear-gradient(to right, rgb(47, 44, 44), rgba(14, 127, 240, 0.712));
+    --activeButtonPayCart: var(--steamBackground);
+    // =========
     --hoverTextLight: var(--steamTextShadowBlack);
 }
 [data-theme='dark'] {
@@ -52,13 +60,19 @@ html {
     --bgTran: transparent;
     --bgContent: var(--steamBackground);
 
+    // =========
     --activeNavLink: #ffffff;
     --activePrimary: var(--primary);
     --activeSwitch: #131518;
     --activeLight: linear-gradient(to left, rgba(71, 71, 71, 0.493), rgba(0, 0, 0, 0.709));
     --activeScrollBar: #434953;
     --activeFilter: blur(30px) saturate(5);
+    --activeBackgroundCartPay: var(--steamBackgroundCartPay);
+    --activeButtonPayCart: linear-gradient(to right, #1ba5ef 0%, #1f46bb 60%);
 
+    --activeTextCart: var(--steamColorWhite);
+
+    // =========
     --hoverTextLight: var(--steamTextShadow);
 }
 

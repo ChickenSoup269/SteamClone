@@ -3,11 +3,14 @@ import { NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faHeart, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Helmet } from 'react-helmet'
+import { faApple, faLinux, faWindows } from '@fortawesome/free-brands-svg-icons'
+import Tippy from '@tippyjs/react'
+import Modal from 'react-modal'
+import { ToastContainer, toast } from 'react-toastify'
 
+import 'react-toastify/dist/ReactToastify.css'
 import classNames from 'classnames/bind'
 import styles from './Cart.module.scss'
-import Tippy from '@tippyjs/react'
-import { faApple, faLinux, faWindows } from '@fortawesome/free-brands-svg-icons'
 
 const cx = classNames.bind(styles)
 
@@ -25,7 +28,7 @@ function Cart() {
             id: 1,
             image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/534380/header.jpg?t=1717592174',
             title: 'Dying light 2',
-            price: '880.000.00₫',
+            price: '880.000₫',
             platforms: [faWindows, faApple, faLinux],
         },
         {
@@ -34,11 +37,25 @@ function Cart() {
             title: 'Cyberpunk 2077',
             price: '900.000₫',
             platforms: [faWindows],
-            // discount: '-50%',
+        },
+        {
+            id: 3,
+            image: 'https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg?t=1685562483',
+            title: 'Cyberpunk 2077',
+            price: '900.000₫',
+            platforms: [faWindows],
         },
     ]
 
     const [gameSelections, setGameSelections] = useState({})
+    const [selectedGames, setSelectedGames] = useState([])
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [quantities, setQuantities] = useState(
+        games.reduce((acc, game) => {
+            acc[game.id] = 1
+            return acc
+        }, {}),
+    )
 
     const handleEditionChange = (gameId, e) => {
         const selectedEditionIndex = e.target.value
@@ -48,12 +65,82 @@ function Cart() {
         })
     }
 
+    const handleSelectAll = () => {
+        if (selectedGames.length === games.length) {
+            setSelectedGames([])
+        } else {
+            setSelectedGames(games.map((game) => game.id))
+        }
+    }
+
+    const handleCheckboxChange = (gameId) => {
+        if (selectedGames.includes(gameId)) {
+            setSelectedGames(selectedGames.filter((id) => id !== gameId))
+        } else {
+            setSelectedGames([...selectedGames, gameId])
+        }
+    }
+
+    // Tính tổng và lấy đơn vị vnđ
+    const calculateTotalPrice = () => {
+        const selectedGameObjects = games.filter((game) => selectedGames.includes(game.id))
+        const totalPrice = selectedGameObjects.reduce((sum, game) => {
+            const price = parseFloat(game.price.replace('₫', '').replace(/\./g, ''))
+            return sum + price * quantities[game.id]
+        }, 0)
+        return totalPrice.toLocaleString('vi-VN') + '₫'
+    }
+
+    const handleQuantityChange = (gameId, newQuantity) => {
+        setQuantities({
+            ...quantities,
+            [gameId]: newQuantity,
+        })
+    }
+
+    const decrement = (gameId) => {
+        if (quantities[gameId] > 1) {
+            handleQuantityChange(gameId, quantities[gameId] - 1)
+        }
+    }
+
+    const increment = (gameId) => {
+        if (quantities[gameId] < 10) {
+            handleQuantityChange(gameId, quantities[gameId] + 1)
+        } else {
+            toast.error(`Đây là số lượng tói đa bạn có thể mua!`, {
+                className: 'toast-notifications',
+            })
+        }
+    }
+
+    // Kiểm tra đanng thêm game nào
+    const addSuccess = (gameId, action) => {
+        if (action === '1') {
+            toast.success(`Đã thêm vào danh sách ước game ID: ${gameId}!`, {
+                className: 'toast-notifications',
+            })
+        } else if (action === '2') {
+            toast.success(`Đã xóa sản phẩm game ID: ${gameId}!`, {
+                className: 'toast-notifications',
+            })
+        } else {
+            toast.error(`Có lỗi xảy ra`, {
+                className: 'toast-notifications',
+            })
+        }
+        console.log(`Game ID: ${gameId}, Action: ${action === '1' ? 'Added to Wishlist' : 'Removed'}`)
+    }
+
+    const openModal = () => setIsModalOpen(true)
+    const closeModal = () => setIsModalOpen(false)
+
     return (
         <div className={cx('wrapper_cart')}>
             <Helmet>
                 <title>Giỏ hàng - SteamClone</title>
             </Helmet>
-
+            <ToastContainer />
             <div className={cx('container_cart')}>
                 {/* Top  */}
                 <div className={cx('content_cart_link_title')}>
@@ -61,6 +148,16 @@ function Cart() {
                         <NavLink to="/">Trang chủ </NavLink> <FontAwesomeIcon icon={faArrowRight} /> Giỏ hàng của bạn
                     </p>
                     <h2>Giỏ hàng của bạn</h2>
+                    <div className={cx('select_all')}>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={selectedGames.length === games.length}
+                                onChange={handleSelectAll}
+                            />{' '}
+                            Chọn tất cả
+                        </label>
+                    </div>
                 </div>
 
                 <div className={cx('container_cart_game_pay')}>
@@ -69,10 +166,17 @@ function Cart() {
                         {games.map((game) => (
                             <div className={cx('content_game_cart')} key={game.id}>
                                 <div className={cx('check_select')}>
-                                    <label>
-                                        <input type="checkbox" className={cx('checkbox_game')} />
+                                    <label className={cx('checkbox_for_game')}>
+                                        <input
+                                            type="checkbox"
+                                            className={cx('checkbox_game')}
+                                            checked={selectedGames.includes(game.id)}
+                                            onChange={() => handleCheckboxChange(game.id)}
+                                        />
+                                        <div className={cx('checkbox__checkmark')}></div>
                                     </label>
                                 </div>
+
                                 <div className={cx('image_game')}>
                                     <img src={game.image} alt="" />
                                 </div>
@@ -81,7 +185,11 @@ function Cart() {
                                     {game.title}
                                     <div className={cx('icon_for_system')}>
                                         {game.platforms.map((platform, index) => (
-                                            <FontAwesomeIcon key={index} icon={platform} />
+                                            <FontAwesomeIcon
+                                                key={index}
+                                                icon={platform}
+                                                className={cx('icon_system')}
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -103,26 +211,37 @@ function Cart() {
                                         </select>
                                     </Tippy>
                                     <div className={cx('number_game')}>
-                                        <span className={cx('input-number-decrement')}>–</span>
+                                        <span
+                                            onClick={() => decrement(game.id)}
+                                            className={cx('input-number-decrement')}
+                                        >
+                                            –
+                                        </span>
                                         <Tippy content="Số lượng">
                                             <input
                                                 className={cx('input-number')}
                                                 type="number"
-                                                value="1"
-                                                min="0"
-                                                max="10"
+                                                value={quantities[game.id]}
+                                                onChange={(e) => handleQuantityChange(game.id, Number(e.target.value))}
+                                                min={1}
+                                                max={10}
                                             />
                                         </Tippy>
-                                        <span className={cx('input-number-increment')}>+</span>
+                                        <span
+                                            onClick={() => increment(game.id)}
+                                            className={cx('input-number-increment')}
+                                        >
+                                            +
+                                        </span>
                                     </div>
                                     <div className={cx('button_add_delete')}>
                                         <Tippy content="Thêm vào danh sách ước">
-                                            <button>
+                                            <button value="1" onClick={() => addSuccess(game.id, '1')}>
                                                 <FontAwesomeIcon icon={faHeart} />
                                             </button>
                                         </Tippy>
                                         <Tippy content="Gỡ bỏ">
-                                            <button>
+                                            <button value="2" onClick={() => addSuccess(game.id, '2')}>
                                                 <FontAwesomeIcon icon={faTrash} />
                                             </button>
                                         </Tippy>
@@ -132,19 +251,39 @@ function Cart() {
                         ))}
                     </div>
 
-                    {/* Column right - chứa tổng số tiền và số game */}
+                    {/* Column right - contains total amount and number of games */}
                     <div className={cx('content_money_pay')}>
                         <div className={cx('total_pay')}>
                             <h4 className={cx('title_money')}>Tổng ước tính: </h4>
-                            <p className={cx('total_money_pay')}>880.000.00₫</p>
+                            <p className={cx('total_money_pay')}>{calculateTotalPrice()}</p>
                         </div>
-                        <p>Thuế tiêu thụ sẽ được tính trong quá trình thanh toán nếu có</p>
+                        <p className={cx('tax_text_cart')}>
+                            Thuế tiêu thụ sẽ được tính trong quá trình thanh toán nếu có
+                        </p>
                         <div className={cx('button_pay_game')}>
-                            <button>Tiếp tục đến bước thanh toán</button>
+                            <button onClick={openModal}>Tiếp tục đến bước thanh toán</button>
                         </div>
                     </div>
                 </div>
 
+                {/* Modal for Payment Options */}
+                <Modal
+                    isOpen={isModalOpen}
+                    className={cx('popup_payment')}
+                    overlayClassName={cx('overlay')}
+                    onRequestClose={closeModal}
+                    contentLabel="Chọn phương thức thanh toán"
+                >
+                    <h2>Chọn phương thức thanh toán</h2>
+                    <div className={cx('payment-options')}>
+                        <button className={cx('payment-option')}>Ví tiền của tôi</button>
+                        <button className={cx('payment-option')}>Thẻ Visa</button>
+                        <button className={cx('payment-option')}>Mã QR</button>
+                    </div>
+                    <button onClick={closeModal} className={cx('close-modal')}>
+                        Đóng
+                    </button>
+                </Modal>
                 <div className={cx('button_bottom_cart_pay')}>
                     <NavLink to={'/'}>
                         <button>Tiếp tục mua sắm</button>

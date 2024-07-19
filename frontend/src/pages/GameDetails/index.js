@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faShoppingBasket, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
-import { ToastContainer, toast } from 'react-toastify'
 import { Helmet } from 'react-helmet'
+import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'swiper/css'
@@ -46,11 +46,15 @@ function GameDetails() {
     const addSuccess = (e) => {
         const { value } = e.target
         if (value === 'cart') {
-            toast.success('Thêm vào giỏ hàng thành công!', {
+            toast.success('Đã thêm vào giỏ hàng!', {
                 className: 'toast-notifications',
             })
         } else if (value === 'wishList') {
-            toast.success('Thêm vào danh sách ước thành công!', {
+            toast.success('Đã thêm vào danh sách ước!', {
+                className: 'toast-notifications',
+            })
+        } else {
+            toast.error(`Có lỗi xảy ra`, {
                 className: 'toast-notifications',
             })
         }

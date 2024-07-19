@@ -1093,7 +1093,7 @@ function Home() {
                     </div>
                 ))}
 
-                {/* featured games */}
+                {/* featured games [BETA] */}
                 <div className={cx('carousel')}>
                     <div className={cx('carousel-left')}>
                         <h2>Featured free games</h2>
