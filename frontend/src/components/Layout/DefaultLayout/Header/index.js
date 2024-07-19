@@ -97,7 +97,7 @@ function Header() {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
 
     // khi đăng nhập
-    const currentUser = true
+    const currentUser = false
 
     // điều chỉnh header theme
     const navLinkStyles = ({ isActive }) => {

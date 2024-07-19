@@ -19,7 +19,7 @@
     font-size: 1.4rem;
     color: var(--steamColorWhite);
     transition: calc(0.3s);
-    padding-top: 10%;
+    padding-top: 5%;
     margin-bottom: 10px;
     font-weight: 300;
 
@@ -128,7 +128,7 @@
         }
     }
 }
-
+// button
 .content_button_select button:first-child {
     background-color: #3c4b5c;
     color: #fff;
@@ -211,7 +211,7 @@
     border-radius: 0 4px 4px 0;
 }
 
-// css column left pay
+// css column left pay | làm cho nó đi theo khi mình lướt
 .content_money_pay {
     width: 320px;
     height: 150px;
