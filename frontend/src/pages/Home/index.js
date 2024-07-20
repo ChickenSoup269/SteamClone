@@ -1014,6 +1014,8 @@ function Home() {
                         </div>
                     </div>
                 </div>
+
+                {/* Slide đầu dưới header full image */}
                 <Swiper
                     className={cx('game_swiper_container')}
                     slidesPerView={6}
@@ -1053,11 +1055,11 @@ function Home() {
             <div className={cx('content_game_poster')}>
                 {/* Slide thể loại */}
                 <div className={cx('swiper_background_genres')}>
-                    <h2>Duyện theo thể loại</h2>
+                    <h2>Duyệt theo thể loại</h2>
                     <Swiper
                         modules={[Navigation, Pagination]}
                         slidesPerView={4}
-                        spaceBetween={10}
+                        spaceBetween={8}
                         navigation={true}
                         pagination={{ clickable: true }}
                         className={cx('swiper_game_genres')}

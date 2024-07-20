@@ -52,6 +52,7 @@ html {
     --activeFilter: none;
     --activeBackgroundCartPay: linear-gradient(to right, rgb(47, 44, 44), rgba(14, 127, 240, 0.712));
     --activeButtonPayCart: var(--steamBackground);
+    --activeLightShadow: var(--steamBoxShadow);
     // =========
     --hoverTextLight: var(--steamTextShadowBlack);
 }
@@ -69,8 +70,7 @@ html {
     --activeFilter: blur(30px) saturate(5);
     --activeBackgroundCartPay: var(--steamBackgroundCartPay);
     --activeButtonPayCart: linear-gradient(to right, #1ba5ef 0%, #1f46bb 60%);
-
-    --activeTextCart: var(--steamColorWhite);
+    --activeLightShadow: var(--steamBoxShadowWhite);
 
     // =========
     --hoverTextLight: var(--steamTextShadow);
