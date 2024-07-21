@@ -21,7 +21,7 @@ function formatCurrency(amount) {
 
     // Ghép lại phần nguyên và phần thập phân thành kết quả cuối cùng
     const formattedAmount =
-        decimalPart === '' ? integerPart + ' VNĐ' : integerPart + '.' + decimalPart.replace(/0{2}$/, '') + ' VNĐ'
+        decimalPart === '' ? integerPart + '₫' : integerPart + '.' + decimalPart.replace(/0{2}$/, '') + ' ₫'
 
     return formattedAmount
 }

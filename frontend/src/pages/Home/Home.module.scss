@@ -322,10 +322,11 @@
 .swiper_game_genres {
     overflow: hidden;
     text-align: center;
-    width: 105rem;
-    height: 300px;
+    width: 130rem;
+    height: 320px;
     padding: 10px;
     display: flex;
+
     justify-content: center;
     align-items: center;
 
@@ -340,8 +341,8 @@
     .background-url-img-type-8 {
         position: relative;
         display: block;
-        width: 245px;
-        height: 226px;
+        width: 280px;
+        height: 250px;
         margin-left: 10px;
         object-fit: cover;
         border-radius: var(--steamBoder);
