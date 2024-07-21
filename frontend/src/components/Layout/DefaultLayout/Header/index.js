@@ -24,6 +24,7 @@ import styles from './Header.module.scss'
 import Menu from '~/components/Popper/Menu'
 import Image from '~/components/Image'
 import Search from '../../Search'
+import { useSelector } from 'react-redux'
 
 const cx = classNames.bind(styles)
 
@@ -95,9 +96,22 @@ const usserMenu = [
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+    const user = useSelector((state) => state.user)
+    const [currentUser, setCurrentUser] = useState(false)
+    const [userAvatar, setUserAvatar] = useState('')
 
     // khi đăng nhập
-    const currentUser = false
+    useEffect(() => {
+        if (user?.access_token) {
+            setCurrentUser(true)
+        } else {
+            setCurrentUser(false)
+        }
+    }, [user?.access_token])
+
+    useEffect(() => {
+        setUserAvatar(user?.avatar)
+    }, [user?.avatar])
 
     // điều chỉnh header theme
     const navLinkStyles = ({ isActive }) => {
@@ -226,7 +240,20 @@ function Header() {
                         {({ isAnimating }) =>
                             currentUser ? (
                                 <Tippy content="Tài khoản" placement="bottom">
-                                    <Image src="" className={cx('user-avatar')} alt="Tran Phuoc Thien" />
+                                    {currentUser ? (
+                                        <img
+                                            src={userAvatar}
+                                            alt="avatar"
+                                            style={{
+                                                height: '40px',
+                                                width: '40px',
+                                                borderRadius: '50%',
+                                                objectFit: 'cover',
+                                            }}
+                                        />
+                                    ) : (
+                                        <Image src="" className={cx('user-avatar')} alt="" />
+                                    )}
                                 </Tippy>
                             ) : (
                                 <Tippy content="Tiện ích">

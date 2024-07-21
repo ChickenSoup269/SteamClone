@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
 import { Helmet } from 'react-helmet'
+
+import * as GameService from '../../services/GameService'
 
 import 'swiper/css'
 import 'swiper/css/free-mode'
@@ -17,6 +19,7 @@ import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import {} from '@tanstack/react-query'
 
 const cx = classNames.bind(styles)
 
@@ -926,26 +929,8 @@ function Home() {
 
     const swiperRef = useRef(null)
 
-    const handleThumbnailClick = (index) => {
-        const slide = slides[index]
-        setMainImage(slide.img)
-        setImageInfo({
-            id: slide.id,
-            headerImg: slide.headerImg,
-            title: slide.title,
-            oldPrice: slide.oldPrice,
-            price: slide.price,
-            sale: slide.sale,
-            poster: slide.poster,
-            date: slide.date,
-            gameEdition: slide.gameEdition,
-            developers: slide.developers,
-            publisher: slide.publisher,
-            shortDescription: slide.shortDescription,
-            media: slide.media,
-            description: slide.description,
-        })
-        setCurrentIndex(index)
+    const handleThumbnailClick = (game_id) => {
+        console.log('game_id', game_id)
     }
 
     const handleSlideChange = () => {
@@ -978,6 +963,17 @@ function Home() {
         // console.log(`/gamedetails/${imageInfo.id}`, { state: { imageInfo } })
     }
 
+    const [stateGames, setStateGames] = useState([])
+
+    const fetchAllGames = async () => {
+        const res = await GameService.getAllGame()
+        setStateGames(res?.games?.data)
+    }
+
+    useEffect(() => {
+        fetchAllGames()
+    }, [])
+
     return (
         <div className={cx('wrapper')}>
             <Helmet>
@@ -988,6 +984,7 @@ function Home() {
                     <img className={cx('full-screen-img')} id="mainImage" src={mainImage} alt="BackgroundGameImg" />
                     <div className={cx('full-screen-content')}>
                         <h2 className={cx('title-game')}>{imageInfo.title}</h2>
+
                         <p className={cx('description-game')}>{imageInfo.shortDescription}</p>
 
                         <div className={cx('about_game_content')}>
@@ -1030,23 +1027,23 @@ function Home() {
                     onSlideChange={handleSlideChange}
                     ref={swiperRef}
                 >
-                    {slides.map((slide, index) => (
+                    {stateGames.map((game) => (
                         <SwiperSlide
                             className={cx('game_swiper_slide')}
-                            key={index}
+                            // key={index}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
                             <img
                                 className={cx('img-header-games', {
-                                    'img-header-games-active': index === currentIndex,
+                                    // 'img-header-games-active': index === currentIndex,
                                 })}
-                                src={slide.headerImg}
+                                src={game.header_image}
                                 alt="GamePicture"
-                                onClick={() => handleThumbnailClick(index)}
+                                onClick={() => handleThumbnailClick(game?.game_id)}
                             />
-                            <img className={cx('glow')} src={slide.headerImg} alt="" />
-                            <div className={cx('discount-badge')}>{slide.sale[0]}</div>
+                            <img className={cx('glow')} src={game.header_image} alt="" />
+                            {/* <div className={cx('discount-badge')}>{game.sale[0]}</div> */}
                         </SwiperSlide>
                     ))}
                 </Swiper>

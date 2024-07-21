@@ -2,34 +2,40 @@ const { MongoClient } = require("mongodb")
 const config = require("../config/mongodb")
 //Method
 // [GET] All
-const getGamesFromMongo = async (page, limit) => {
-  let client
-  try {
-    client = new MongoClient(config.mongoUrl)
-    await client.connect()
-    const db = client.db(config.dbName)
-    const collection = db.collection("games")
-    const skip = (page - 1) * limit
-    const games = await collection
-      .find(
-        { game_name: { $ne: "" } },
-        {
-          projection: { _id: 0, game_name: 1, header_image: 1 },
-        }
-      )
-      .skip(skip)
-      .limit(limit)
-      .toArray()
-    return games
-  } catch (error) {
-    console.error("Có lỗi xảy ra:", error)
-    throw error
-  } finally {
-    if (client) {
-      await client.close()
+const getGamesFromMongo = (page, limit) => {
+  return new Promise(async (resolve, reject) => {
+    let client;
+    try {
+      client = new MongoClient(config.mongoUrl);
+      await client.connect();
+      const db = client.db(config.dbName);
+      const collection = db.collection("games");
+      const skip = (page - 1) * limit;
+      const games = await collection.find({})
+        .skip(skip)
+        .limit(limit)
+        .toArray();
+      
+      resolve({
+        status: 'OK',
+        message: 'Success',
+        data: games,
+      });
+    } catch (error) {
+      console.error("Có lỗi xảy ra:", error);
+      reject({
+        status: 'ERROR',
+        message: 'Có lỗi xảy ra',
+        error: error.message,
+      });
+    } finally {
+      if (client) {
+        await client.close();
+      }
     }
-  }
-}
+  });
+};
+
 // [GET] Search
 const searchGames = async (query) => {
   let client

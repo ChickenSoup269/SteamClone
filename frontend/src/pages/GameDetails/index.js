@@ -18,10 +18,31 @@ import 'swiper/css/thumbs'
 import classNames from 'classnames/bind'
 import styles from './GameDetails.scss'
 import Tippy from '@tippyjs/react'
+import * as GameService from '../../services/GameService'
+import { useQuery } from '@tanstack/react-query'
 
 const cx = classNames.bind(styles)
 
-function GameDetails() {
+function GameDetails(idGame) {
+    const fetchGetDetailsGame = async (context) => {
+        // const id = context?.queryKey && context?.queryKey[1]
+        // if (id) {
+        const res = await GameService.getDetailsGame('3027490', 'LivingForest')
+        console.log('res', res)
+        return res.data
+        // }
+    }
+
+    useEffect(() => {
+        fetchGetDetailsGame()
+    }, [])
+
+    const { isLoading, data: gameDetails } = useQuery({
+        queryKey: ['game-details', idGame],
+        queryFn: fetchGetDetailsGame,
+        enabled: !!idGame,
+    })
+
     const location = useLocation()
     const { imageInfo } = location.state || { imageInfo: [] }
 

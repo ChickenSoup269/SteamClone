@@ -8,7 +8,7 @@ import GameItem from '~/components/GameItem'
 import classNames from 'classnames/bind'
 import styles from './Search.module.scss'
 
-const apiUrl = process.env.REACT_APP_API_URL_BE
+const apiUrl = process.env.REACT_APP_API_URL
 
 const cx = classNames.bind(styles)
 

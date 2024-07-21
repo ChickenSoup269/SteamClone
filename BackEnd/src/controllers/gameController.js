@@ -4,7 +4,7 @@ const { getGamesFromMongo, getGamesOnSale,searchGames
 // [GET] All
 const getGames = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 2;
+    const limit = parseInt(req.query.limit) || 7;
     try {
         const games = await getGamesFromMongo(page,limit);
         if (!games) {

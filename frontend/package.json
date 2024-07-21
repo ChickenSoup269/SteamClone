@@ -30,6 +30,7 @@
         "react-router-dom": "^6.23.1",
         "react-scripts": "^5.0.1",
         "react-toastify": "^10.0.5",
+        "styled-components": "^6.1.12",
         "swiper": "^11.1.4",
         "web-vitals": "^2.1.4"
     },
@@ -64,5 +65,5 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "http://localhost:3000"
+    "proxy": "http://localhost:3001"
 }

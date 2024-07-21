@@ -16,5 +16,5 @@ router.get('/search',searchGamesController)
 //[Detail]
 router.get('/detail/:game_id/:game_slug', getGameDetailsController);
 // export
-router.get('/', getGames);
+router.get('/getAllGames', getGames);
 module.exports = router;

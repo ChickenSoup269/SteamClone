@@ -13,7 +13,7 @@ import { useMutationHooks } from '~/hooks/useMutationHook'
 import * as message from '../../components/Message/Message'
 import { jwtDecode } from 'jwt-decode'
 import { useDispatch } from 'react-redux'
-import { updateUser } from '../../redux/slides/userSlide'
+import { updateUser } from '../../redux/slices/userSlice'
 
 import classNames from 'classnames/bind'
 import styles from './Login.module.scss'
