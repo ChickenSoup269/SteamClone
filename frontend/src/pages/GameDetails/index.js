@@ -37,7 +37,7 @@ function GameDetails(idGame) {
         fetchGetDetailsGame()
     }, [])
 
-    const { isLoading, data: gameDetails } = useQuery({
+    useQuery({
         queryKey: ['game-details', idGame],
         queryFn: fetchGetDetailsGame,
         enabled: !!idGame,

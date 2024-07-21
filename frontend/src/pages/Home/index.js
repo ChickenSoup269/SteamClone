@@ -19,10 +19,9 @@ import 'swiper/css/autoplay'
 
 import {} from '@tanstack/react-query'
 import formatCurrency from '~/components/utilityFunction/formatCurrency'
-// import poster from '~/assets/images/404 poster.jpg'
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
-// import Poster from '~/components/Image/poster'
+import posterGame from '~/assets/images/404 poster.jpg'
 
 const cx = classNames.bind(styles)
 
@@ -241,6 +240,17 @@ function Home() {
         // console.log(`/gamedetails/${imageInfo.id}`, { state: { imageInfo } })
     }
 
+    const handleImageError = (e) => {
+        e.target.src = posterGame // Replace with the path to your default image
+    }
+    const getPosterUrl = (game) => {
+        if (game.game_name.includes('Soundtrack')) {
+            return game.header_image
+        } else if (game.description.includes('DLC')) {
+            return game.header_image
+        }
+        return game.poster_url
+    }
     // chuyển giá
 
     return (
@@ -263,7 +273,11 @@ function Home() {
                                 <p className={cx('description-game')}>{imageInfo.description}</p>
                                 <div className={cx('about_game_content')}>
                                     <div className={cx('poster_game_full_img')}>
-                                        <img src={imageInfo.poster_url} alt="Game Poster" />
+                                        <img
+                                            src={getPosterUrl(imageInfo)}
+                                            alt="Game Poster"
+                                            onError={handleImageError}
+                                        />
                                     </div>
                                     <div className={cx('info_button_price_game')}>
                                         <div className={cx('button_info_game')}>
