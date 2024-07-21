@@ -9,11 +9,6 @@ import GameItem from '~/components/GameItem'
 import classNames from 'classnames/bind'
 import styles from './Search.module.scss'
 
-<<<<<<< HEAD
-const apiUrl = process.env.REACT_APP_API_URL
-
-=======
->>>>>>> master
 const cx = classNames.bind(styles)
 
 function Search() {

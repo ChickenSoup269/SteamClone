@@ -22,10 +22,7 @@ import formatCurrency from '~/components/utilityFunction/formatCurrency'
 // import poster from '~/assets/images/404 poster.jpg'
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
-<<<<<<< HEAD
-import Poster from '~/components/Image/poster'
-=======
->>>>>>> master
+// import Poster from '~/components/Image/poster'
 
 const cx = classNames.bind(styles)
 
@@ -266,7 +263,7 @@ function Home() {
                                 <p className={cx('description-game')}>{imageInfo.description}</p>
                                 <div className={cx('about_game_content')}>
                                     <div className={cx('poster_game_full_img')}>
-                                        <Poster src={imageInfo.poster_url} alt="Game Poster" />
+                                        <img src={imageInfo.poster_url} alt="Game Poster" />
                                     </div>
                                     <div className={cx('info_button_price_game')}>
                                         <div className={cx('button_info_game')}>
