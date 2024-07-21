@@ -9,3 +9,5 @@ export const getDetailsGame = async (game_id, game_slug) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/detail/${game_id}/${game_slug}`)
     return res.data
 }
+
+// search game header

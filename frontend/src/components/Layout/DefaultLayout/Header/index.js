@@ -13,6 +13,7 @@ import {
     faBoxArchive,
     faAngleRight,
     faKeyboard,
+    faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
 
 import Tippy from '@tippyjs/react/'
@@ -22,7 +23,7 @@ import Button from '~/components/Button'
 import { NavLink } from 'react-router-dom'
 import styles from './Header.module.scss'
 import Menu from '~/components/Popper/Menu'
-import Image from '~/components/Image'
+import Image from '~/components/Image/image'
 import Search from '../../Search'
 import { useSelector } from 'react-redux'
 
@@ -59,11 +60,16 @@ const MENU_ITEMS = [
     },
 ]
 
-const usserMenu = [
+const userMenu = [
     {
         icon: <FontAwesomeIcon icon={faUser} />,
         title: 'Thông tin cá nhân',
         to: '/profile',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faUserTie} />,
+        title: 'Quản lý cá nhân',
+        to: '/admin',
     },
     {
         icon: <FontAwesomeIcon icon={faDollarSign} />,
@@ -97,21 +103,15 @@ function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
     const user = useSelector((state) => state.user)
-    const [currentUser, setCurrentUser] = useState(false)
-    const [userAvatar, setUserAvatar] = useState('')
 
-    // khi đăng nhập
+    const [userAvatar, setUserAvatar] = useState()
+
+    // khi đăng nhập | set hình ảnh user
     useEffect(() => {
         if (user?.access_token) {
-            setCurrentUser(true)
-        } else {
-            setCurrentUser(false)
+            setUserAvatar(user?.avatar)
         }
-    }, [user?.access_token])
-
-    useEffect(() => {
-        setUserAvatar(user?.avatar)
-    }, [user?.avatar])
+    }, [user?.access_token, user?.avatar])
 
     // điều chỉnh header theme
     const navLinkStyles = ({ isActive }) => {
@@ -157,6 +157,7 @@ function Header() {
         const newTheme = theme === 'light' ? 'dark' : 'light'
         setTheme(newTheme)
     }
+
     // cho color Icon đổi màu khi scroll
     const getIconColor = () => {
         if (theme === 'light') {
@@ -197,9 +198,9 @@ function Header() {
                 <Search />
 
                 <div className={cx('actions')}>
-                    {currentUser ? (
+                    {user?.access_token ? (
                         <>
-                            <NavLink to="/cart">
+                            <NavLink to="/notification">
                                 <Tippy content="Thông báo" placement="bottom">
                                     <button className={cx('notification-btn')} style={{ color: getIconColor() }}>
                                         <FontAwesomeIcon icon={faBell} />
@@ -236,24 +237,13 @@ function Header() {
                             onChange={handleThemeChange}
                         />
                     </Tippy>
-                    <Menu items={currentUser ? usserMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                    <Menu items={user?.access_token ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {({ isAnimating }) =>
-                            currentUser ? (
+                            user?.access_token ? (
                                 <Tippy content="Tài khoản" placement="bottom">
-                                    {currentUser ? (
-                                        <img
-                                            src={userAvatar}
-                                            alt="avatar"
-                                            style={{
-                                                height: '40px',
-                                                width: '40px',
-                                                borderRadius: '50%',
-                                                objectFit: 'cover',
-                                            }}
-                                        />
-                                    ) : (
-                                        <Image src="" className={cx('user-avatar')} alt="" />
-                                    )}
+                                    <div>
+                                        <Image src={userAvatar} className={cx('user-avatar')} alt="Tran Phuoc Thien" />
+                                    </div>
                                 </Tippy>
                             ) : (
                                 <Tippy content="Tiện ích">
