@@ -165,7 +165,7 @@ function Login() {
                                 <label htmlFor="remember-account">Ghi nhớ tôi</label>
                             </div>
                             <div className={cx('forgot-pass')}>
-                                <NavLink to="#">Quên mật khẩu?</NavLink>
+                                <NavLink to="/resetPass">Quên mật khẩu?</NavLink>
                             </div>
                         </div>
 

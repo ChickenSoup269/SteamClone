@@ -88,7 +88,7 @@ const userMenu = [
     {
         icon: <FontAwesomeIcon icon={faBoxArchive} />,
         title: 'Kho game',
-        to: '/#',
+        to: '/library',
     },
     ...MENU_ITEMS,
     {

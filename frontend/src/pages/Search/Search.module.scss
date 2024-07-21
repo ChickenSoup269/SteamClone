@@ -4,7 +4,6 @@
     justify-content: center;
     align-items: center;
     align-content: center;
-
     flex-wrap: wrap;
     overflow-x: hidden;
 }
@@ -26,4 +25,18 @@
     width: 180px;
     border-radius: var(--steamBoder);
     transition: all 250ms ease-out;
+}
+
+.background-video {
+    width: 200vh;
+    height: 60vh;
+    object-fit: fill;
+    margin-top: 5%;
+    box-shadow: var(--activeLightShadow);
+    border-radius: var(--steamBoder);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
 }
