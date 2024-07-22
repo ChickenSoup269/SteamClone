@@ -195,6 +195,7 @@ function Home() {
     const fetchAllGames = async () => {
         const res = await GameService.getAllGame()
         const games = res?.games?.data || []
+        console.log('games',games);
         setStateGames(games)
 
         if (games.length > 0) {
@@ -236,7 +237,7 @@ function Home() {
     const navigate = useNavigate()
 
     const handleDetailClick = () => {
-        navigate(`/gamedetails/${imageInfo.id}`, { state: { imageInfo } })
+        navigate(`/detail/${imageInfo.game_id}/${imageInfo.game_name}`, { state: { imageInfo } })
         // console.log(`/gamedetails/${imageInfo.id}`, { state: { imageInfo } })
     }
 

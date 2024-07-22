@@ -110,8 +110,11 @@ function Header() {
     useEffect(() => {
         if (user?.access_token) {
             setUserAvatar(user?.avatar)
+        } else {
+            setUserAvatar(null); // Reset avatar khi user không có access_token
         }
     }, [user?.access_token, user?.avatar])
+    
 
     // điều chỉnh header theme
     const navLinkStyles = ({ isActive }) => {
@@ -204,7 +207,7 @@ function Header() {
                                 <Tippy content="Thông báo" placement="bottom">
                                     <button className={cx('notification-btn')} style={{ color: getIconColor() }}>
                                         <FontAwesomeIcon icon={faBell} />
-                                        <span className={cx('badge')}>3</span>
+                                        <span className={cx('badge')}>6</span>
                                     </button>
                                 </Tippy>
                             </NavLink>
@@ -237,7 +240,7 @@ function Header() {
                             onChange={handleThemeChange}
                         />
                     </Tippy>
-                    <Menu items={user?.access_token ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                    <Menu key={user?.access_token} items={user?.access_token ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {({ isAnimating }) =>
                             user?.access_token ? (
                                 <Tippy content="Tài khoản" placement="bottom">

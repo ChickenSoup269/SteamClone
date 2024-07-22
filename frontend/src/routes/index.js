@@ -15,8 +15,7 @@ import Notification from '~/pages/Notification'
 
 // Cho mọi tài khoản publicRoutes
 const publicRoutes = [
-    { path: '/', component: Home },
-    { path: '/gamedetails/:id', component: Gamedetails },
+    { path: '/detail/:game_id/:game_slug', component: Gamedetails },
     { path: '/search', component: Search },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
@@ -24,6 +23,7 @@ const publicRoutes = [
     { path: '/cart', component: Cart },
     { path: '/gameType/:genre', component: GameType },
     { path: '/404/', component: Page404 },
+    { path: '/', component: Home },
 ]
 
 // Đăng nhập mới vào được

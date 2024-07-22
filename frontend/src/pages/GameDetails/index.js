@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faShoppingBasket, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -23,24 +23,27 @@ import { useQuery } from '@tanstack/react-query'
 
 const cx = classNames.bind(styles)
 
-function GameDetails(idGame) {
-    const fetchGetDetailsGame = async (context) => {
-        // const id = context?.queryKey && context?.queryKey[1]
-        // if (id) {
-        const res = await GameService.getDetailsGame('3027490', 'LivingForest')
-        console.log('res', res)
-        return res.data
-        // }
+function GameDetails() {
+    const [stateGames, setStateGames] = useState([])
+    const { game_id, game_slug } = useParams();
+    const fetchGetDetailsGame = async () => {
+        try {
+            const res = await GameService.getDetailsGame(game_id, game_slug)
+            console.log('API Response:', res)
+            setStateGames(res) // Update state with the fetched object
+        } catch (error) {
+            console.error('Error fetching game details:', error)
+        }
     }
 
     useEffect(() => {
         fetchGetDetailsGame()
-    }, [])
+    }, [game_id, game_slug])
 
     useQuery({
-        queryKey: ['game-details', idGame],
+        queryKey: ['game-details', game_id, game_slug],
         queryFn: fetchGetDetailsGame,
-        enabled: !!idGame,
+        enabled:!!game_id && !!game_slug,
     })
 
     const location = useLocation()
@@ -157,6 +160,7 @@ function GameDetails(idGame) {
                 <div className={cx('card')}>
                     {/* <!-- Slide column left --> */}
                     <div className={cx('product-imgs')}>
+                        
                         <div className={cx('img-display')}>
                             <Swiper spaceBetween={10} slidesPerView={1} className={cx('img-showcase')}>
                                 <SwiperSlide key="media">
@@ -203,7 +207,7 @@ function GameDetails(idGame) {
                                 freeMode
                                 watchSlidesProgress
                             >
-                                {imageInfo.media.map((media, index) => (
+                                {/* {imageInfo.media.map((media, index) => (
                                     <SwiperSlide key={index}>
                                         <div
                                             className={`thumbnail-container ${index === currentIndex ? 'active' : ''}`}
@@ -233,7 +237,7 @@ function GameDetails(idGame) {
                                             )}
                                         </div>
                                     </SwiperSlide>
-                                ))}
+                                ))} */}
                             </Swiper>
                             <div className="swiper-custom-pagination" />
 
@@ -256,10 +260,13 @@ function GameDetails(idGame) {
 
                     {/* <!-- game detail column right --> */}
                     <div className={cx('product-content')}>
-                        <div className={cx('header_image_game')}>
-                            <img src={imageInfo.headerImg} alt="image_header" />
-                            <img className={cx('glow')} src={imageInfo.headerImg} alt="" />
-                        </div>
+                        {stateGames.map((game) => (
+                            <div className={cx('header_image_game')}>
+                                
+                                <img src={game.header_image} alt="image_header" />
+                                <img className={cx('glow')} src={game.header_image} alt="" />
+                            </div>
+                        ))}
 
                         <div className={cx('product-rating')}>
                             <FontAwesomeIcon icon={faStar} />
@@ -304,11 +311,11 @@ function GameDetails(idGame) {
                             </button>
                             <Tippy content="Chọn bản game" placement="bottom">
                                 <select className="select_game_edition" onChange={handleEditionChange}>
-                                    {Object.entries(imageInfo?.gameEdition || {}).map(([key, edition]) => (
+                                    {/* {Object.entries(imageInfo?.gameEdition || {}).map(([key, edition]) => (
                                         <option key={key} value={key}>
                                             {edition}
                                         </option>
-                                    ))}
+                                    ))} */}
                                 </select>
                             </Tippy>
                         </div>

@@ -12,7 +12,7 @@ const fetchAppList = async () => {
   }
 };
 // Helper function to add retry logic
-const fetchWithRetry = async (url, retries = 11, delay = 2000) => {
+const fetchWithRetry = async (url, retries = 70, delay = 5000) => {
     for (let i = 0; i < retries; i++) {
       try {
         const response = await axios.get(url, { timeout: 20000 });
@@ -46,6 +46,10 @@ const fetchAppDetail = async (appId) => {
         throw error;
     }
 };
+const hasMetacritic = (gameDetails) => {
+    return gameDetails.metacritic && gameDetails.metacritic.score;
+  };
+  
 const fetchDataAndSaveToMongo = async () => {
     let client;
     try {
@@ -57,13 +61,12 @@ const fetchDataAndSaveToMongo = async () => {
         const collectionGenres = db.collection('genres');
         // check mongodb if = 50 data break 
         const gamesCount = await collection.countDocuments();
-        if (gamesCount >= 50) {
+        if (gamesCount >= 30) {
             console.log(`Đã có ${gamesCount} game trong cơ sở dữ liệu. Dừng việc thêm game.`);
             return;
         }
         const appList = await fetchAppList();
         console.log(`Fetched ${appList.length} games from API`);
-        
         const fetchedGames = [];
         let count = 0;
 
@@ -71,8 +74,12 @@ const fetchDataAndSaveToMongo = async () => {
             if (game.name && game.name.trim() !== "") {
                 const gameDetails = await fetchAppDetail(game.appid);
                 if (gameDetails && gameDetails.genres && gameDetails.package_groups && gameDetails.package_groups.length > 0) {
-                    fetchedGames.push({ game, gameDetails });
-                    count++;
+                    if (gameDetails.dlc && Array.isArray(gameDetails.dlc) && gameDetails.dlc.length > 0 && hasMetacritic(gameDetails)) {
+                        fetchedGames.push({ game, gameDetails });
+                        count++;
+                    } else {
+                        console.log(`Skipping game with appid ${game.appid} due to missing or empty dlc.`);
+                    }
                 } else {
                     console.log(`Skipping game with appid ${game.appid} due to API error or no data.`);
                 }
@@ -80,7 +87,7 @@ const fetchDataAndSaveToMongo = async () => {
                 console.log(`Skipped game with appid ${game.appid} due to empty name`);
             }
 
-            if (count >= 50) {
+            if (count >= 30) {
                 break;
             }
         }
