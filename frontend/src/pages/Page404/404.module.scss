@@ -7,21 +7,39 @@
 
 .page-error {
     text-align: center;
-    color: rgb(0, 0, 0);
-    padding: 20px;
 
-    background-color: var(--steamColorWhite);
+    color: rgb(255, 255, 255);
+    padding: 20px;
     border-radius: 10px;
 
     h1 {
         font-size: 4rem;
+        padding-top: 20px;
     }
 }
 
-.background_404 {
-    border-radius: var(--steamBoder);
-    background: url('https://cdn.dribbble.com/users/1175431/screenshots/6188233/404-error-dribbble-800x600.gif')
-        no-repeat center center/cover;
+.img-glow-test {
+    position: relative;
+
+    width: 400px;
     height: 400px;
-    background-position: center;
+}
+
+.background_404,
+.img-glow-test::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border-radius: 50%;
+}
+
+.img-glow-test::before {
+    content: ' ';
+    background: url('https://i.pinimg.com/originals/89/bb/06/89bb06251fb7401e094b1f6d71f3d3f4.gif') no-repeat center
+        center/cover;
+    background-size: cover;
+    filter: blur(30px) saturate(5);
 }

@@ -23,17 +23,17 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-    background-color: rgba(255, 255, 255, 0.37);
-    padding: 8px 16px;
+    background-color: var(--steamBackground);
+    padding: 16px 16px;
     border-radius: var(--steamBoder);
     color: rgb(255, 255, 255);
     transition: calc(0.4s);
 
     &:hover {
         transition: calc(0.2s);
-        box-shadow: var(--steamBoxShadow);
         background-color: var(--steamColorWhite);
         color: var(--steamColorBlack);
+        box-shadow: var(--steamBoxShadow);
     }
 
     &:active {
@@ -341,7 +341,7 @@ img {
 }
 
 .last-price {
-    font-weight: 400;
+    font-weight: 600;
     strike {
         text-decoration: none;
         position: relative;
@@ -365,7 +365,7 @@ img {
 }
 
 .new-price {
-    font-weight: 400;
+    font-weight: 500;
     span {
         color: var(--steamPrice);
         font-size: 1.4rem;
@@ -453,7 +453,7 @@ img {
     border: 0;
     outline: 0;
     color: var(--steamColorWhite);
-    width: 32rem;
+    width: 36rem;
     padding: 1rem 4rem 1rem 1rem;
     background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
         linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);

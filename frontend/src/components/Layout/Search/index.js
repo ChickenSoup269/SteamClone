@@ -8,6 +8,7 @@ import apis from '~/components/utilityFunction/apiRender'
 import GameItem from '~/components/GameItem'
 import classNames from 'classnames/bind'
 import styles from './Search.module.scss'
+import { NavLink } from 'react-router-dom'
 
 const cx = classNames.bind(styles)
 
@@ -84,10 +85,11 @@ function Search() {
                     </button>
                 )}
                 {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-
-                <button className={cx('search-btn')}>
-                    <FontAwesomeIcon icon={faSearch} />
-                </button>
+                <NavLink to={'/search'}>
+                    <button className={cx('search-btn')}>
+                        <FontAwesomeIcon icon={faSearch} />
+                    </button>
+                </NavLink>
             </div>
         </HeadlessTippy>
     )

@@ -29,7 +29,7 @@ export const signupUser = async (data) => {
 export const getDetailsUser = async (id, access_token) => {
     const res = await axiosJWT.get(`${process.env.REACT_APP_API_URL}/user/get-details/${id}`, {
         headers: {
-            token: `Beare ${access_token}`,
+            token: `Bearer ${access_token}`,
         },
     })
     return res.data
@@ -52,13 +52,13 @@ export const updateUser = async (id, access_token, data) => {
         const res = await axiosJWT.put(`${process.env.REACT_APP_API_URL}/user/update-user/${id}`, data, {
             headers: {
                 token: `Bearer ${access_token}`,
-            }
+            },
         })
         if (res.data.status === 'ERR') {
-            throw new Error(res.data.message); // Ném lỗi nếu phản hồi có trạng thái ERR
+            throw new Error(res.data.message) // Ném lỗi nếu phản hồi có trạng thái ERR
         }
-        return res.data;
+        return res.data
     } catch (error) {
-        throw error.response ? error.response.data : error; // Ném lỗi nếu có lỗi từ API hoặc từ axios
+        throw error.response ? error.response.data : error // Ném lỗi nếu có lỗi từ API hoặc từ axios
     }
-};
+}

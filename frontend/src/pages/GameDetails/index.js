@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faShoppingBasket, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Helmet } from 'react-helmet'
+import Tippy from '@tippyjs/react'
 import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -17,43 +18,21 @@ import 'swiper/css/thumbs'
 
 import classNames from 'classnames/bind'
 import styles from './GameDetails.scss'
-import Tippy from '@tippyjs/react'
+import formatCurrency from '~/components/utilityFunction/formatCurrency'
+
+// BE
 import * as GameService from '../../services/GameService'
-import { useQuery } from '@tanstack/react-query'
 
 const cx = classNames.bind(styles)
 
-function GameDetails(idGame) {
-    const fetchGetDetailsGame = async (context) => {
-        // const id = context?.queryKey && context?.queryKey[1]
-        // if (id) {
-        const res = await GameService.getDetailsGame('3027490', 'LivingForest')
-        console.log('res', res)
-        return res.data
-        // }
-    }
+function GameDetails() {
+    const [stateGames, setStateGames] = useState({})
+    const { game_id, game_slug } = useParams()
+    const [currentPrice, setCurrentPrice] = useState(stateGames.option?.[0]?.priceDiscounted || '')
+    const [RentalPrice, setRentalPrice] = useState(stateGames.option?.[0]?.rentalPrice || '')
+    const [currentSalePrice, setCurrentSalePrice] = useState(stateGames.option?.[0]?.percentSavings || '')
 
-    useEffect(() => {
-        fetchGetDetailsGame()
-    }, [])
-
-    useQuery({
-        queryKey: ['game-details', idGame],
-        queryFn: fetchGetDetailsGame,
-        enabled: !!idGame,
-    })
-
-    const location = useLocation()
-    const { imageInfo } = location.state || { imageInfo: [] }
-
-    const [, setGameInfo] = useState({
-        gameEdition: imageInfo?.gameEdition?.[0] || '',
-    })
-
-    const [currentPrice, setCurrentPrice] = useState(imageInfo.price?.[0] || '')
-    const [currentOldPrice, setCurrentOldPrice] = useState(imageInfo.oldPrice?.[0] || '')
-    const [currentSalePrice, setCurrentSalePrice] = useState(imageInfo.sale?.[0] || '')
-    const [currentMediaUrl, setCurrentMediaUrl] = useState(imageInfo.media?.[0]?.vid || '')
+    const [currentMediaUrl, setCurrentMediaUrl] = useState('')
     const [currentIndex, setCurrentIndex] = useState(0)
 
     const [showModal, setShowModal] = useState(false)
@@ -63,6 +42,32 @@ function GameDetails(idGame) {
 
     const mainVideoRef = useRef(null)
     const canvasVideoRef = useRef(null)
+
+    const fetchGetDetailsGame = async () => {
+        try {
+            const res = await GameService.getDetailsGame(game_id, game_slug)
+            console.log('API Response:', res)
+            setStateGames(res)
+
+            // Set default values
+            if (res.movies && res.movies.length > 0) {
+                setCurrentMediaUrl(res.movies[0])
+                return
+            } else if (res.screenshots && res.screenshots.length > 0) {
+                setCurrentMediaUrl(res.screenshots[0].path_full)
+            }
+            setCurrentPrice(res.option[0].priceDiscounted)
+            setRentalPrice(res.option[0].rentalPrice)
+            setCurrentSalePrice(res.option[0].percentSavings)
+        } catch (error) {
+            console.error('Error fetching game details:', error)
+        }
+    }
+
+    useEffect(() => {
+        fetchGetDetailsGame()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [game_id, game_slug])
 
     const addSuccess = (e) => {
         const { value } = e.target
@@ -86,18 +91,19 @@ function GameDetails(idGame) {
         setCurrentIndex(index) // Update the current index when a thumbnail is clicked
     }
 
-    const handleEditionChange = (e) => {
-        const selectedEditionIndex = e.target.value
-
-        setGameInfo((prevInfo) => ({
-            ...prevInfo,
-            gameEdition: imageInfo.gameEdition[selectedEditionIndex] || {},
-        }))
-
-        setCurrentPrice(imageInfo.price?.[selectedEditionIndex] || '')
-        setCurrentOldPrice(imageInfo.oldPrice?.[selectedEditionIndex] || '')
-        setCurrentSalePrice(imageInfo.sale?.[selectedEditionIndex] || '')
+    const handleOptionChange = (e) => {
+        const selectedIndex = e.target.value
+        console.log('Selected Index:', selectedIndex) // Kiểm tra index được chọn
+        const selectedOption = stateGames.option[selectedIndex]
+        console.log('Selected Option:', selectedOption) // Kiểm tra đối tượng option được chọn
+        if (selectedOption) {
+            setCurrentPrice(selectedOption.priceDiscounted)
+            setRentalPrice(selectedOption.rentalPrice)
+            setCurrentSalePrice(selectedOption.percentSavings)
+        }
     }
+
+    // nếu video có ảnh thumbnail thì sẽ xuất hiện đầu còn không thì lấy ảnh screenshots
 
     const openModal = (url) => {
         setLargeImageUrl(url)
@@ -114,11 +120,10 @@ function GameDetails(idGame) {
     }
 
     useEffect(() => {
-        if (imageInfo.length > 0) {
+        if (stateGames.length > 0) {
         }
-    }, [imageInfo])
+    }, [stateGames])
 
-    // Cho video nằm trên nếu chạy thì video nằm dưới chạy theo
     useEffect(() => {
         const mainVideo = mainVideoRef.current
         const canvasVideo = canvasVideoRef.current
@@ -144,7 +149,7 @@ function GameDetails(idGame) {
         }
     }, [currentMediaUrl])
 
-    if (!imageInfo) {
+    if (!stateGames || Object.keys(stateGames).length === 0) {
         return <p>No game details available.</p>
     }
 
@@ -165,11 +170,13 @@ function GameDetails(idGame) {
                                             Your browser does not support HTML video.
                                         </video>
                                     ) : (
-                                        <img
-                                            src={currentMediaUrl}
-                                            alt="Main Media"
-                                            onClick={() => openModal(currentMediaUrl)}
-                                        />
+                                        <SwiperSlide key="image">
+                                            <img
+                                                src={currentMediaUrl}
+                                                alt="Main Media"
+                                                onClick={() => openModal(currentMediaUrl)}
+                                            />
+                                        </SwiperSlide>
                                     )}
                                 </SwiperSlide>
                             </Swiper>
@@ -191,7 +198,6 @@ function GameDetails(idGame) {
                                 )}
                             </Swiper>
                         </div>
-
                         {/* Phần thumbnail */}
                         <div className={cx('img-select')}>
                             <Swiper
@@ -203,34 +209,35 @@ function GameDetails(idGame) {
                                 freeMode
                                 watchSlidesProgress
                             >
-                                {imageInfo.media.map((media, index) => (
+                                {stateGames.movies_thumnail?.map((movie, index) => (
+                                    <SwiperSlide key={`movie-${index}`}>
+                                        <div
+                                            className={`thumbnail-container ${index === currentIndex ? 'active' : ''}`}
+                                        >
+                                            <img
+                                                src={movie.thumbnail} // lấy ảnh thumbnail
+                                                alt={`Movie Thumbnail ${index}`}
+                                                onClick={() => handleThumbnailClick(movie.webm_max, index)} // sử dụng webm_max cho video
+                                            />
+                                            <div
+                                                className={cx('overlay')}
+                                                onClick={() => handleThumbnailClick(movie.webm_max, index)} // sử dụng webm_max cho video
+                                            >
+                                                <FontAwesomeIcon icon={faPlay} className={cx('play-icon')} />
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                                {stateGames.screenshots?.map((screenshot, index) => (
                                     <SwiperSlide key={index}>
                                         <div
                                             className={`thumbnail-container ${index === currentIndex ? 'active' : ''}`}
                                         >
                                             <img
-                                                src={media.url}
+                                                src={screenshot.path_full}
                                                 alt={`Thumbnail ${index}`}
-                                                onClick={() =>
-                                                    handleThumbnailClick(
-                                                        media.type === 'video' ? media.vid : media.url,
-                                                        index,
-                                                    )
-                                                }
+                                                onClick={() => handleThumbnailClick(screenshot.path_full, index)}
                                             />
-                                            {media.type === 'video' && (
-                                                <div
-                                                    className={cx('overlay')}
-                                                    onClick={() =>
-                                                        handleThumbnailClick(
-                                                            media.type === 'video' ? media.vid : media.url,
-                                                            index,
-                                                        )
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon icon={faPlay} className={cx('play-icon')} />
-                                                </div>
-                                            )}
                                         </div>
                                     </SwiperSlide>
                                 ))}
@@ -257,8 +264,8 @@ function GameDetails(idGame) {
                     {/* <!-- game detail column right --> */}
                     <div className={cx('product-content')}>
                         <div className={cx('header_image_game')}>
-                            <img src={imageInfo.headerImg} alt="image_header" />
-                            <img className={cx('glow')} src={imageInfo.headerImg} alt="" />
+                            <img src={stateGames.header_image} alt="image_header" />
+                            <img className={cx('glow')} src={stateGames.header_image} alt="" />
                         </div>
 
                         <div className={cx('product-rating')}>
@@ -271,26 +278,30 @@ function GameDetails(idGame) {
                         </div>
 
                         <div className={cx('product-price')}>
-                            <p className={cx('last-price')}>
-                                Giá gốc: <strike>{currentPrice}</strike>
-                            </p>
+                            {/* <p className={cx('last-price')}>
+                                Giá gốc: <strike>{formatCurrency(currentPrice)}</strike>
+                            </p> */}
+                            <p className={cx('game-title-name')}>{stateGames?.option?.[0].optionText}</p>
+                            <p className={cx('last-price')}>Giá gốc: {formatCurrency(currentPrice)}</p>
                             <p className={cx('new-price')}>
-                                Giá giảm còn: <span>{currentOldPrice}</span>{' '}
-                                <span className={cx('sale_price_percent')}>{currentSalePrice}</span>
+                                Giá thuê: <span>{formatCurrency(RentalPrice)}</span>{' '}
+                                {currentSalePrice !== null && (
+                                    <span className={cx('sale_price_percent')}>{currentSalePrice + '%'}</span>
+                                )}
                             </p>
                         </div>
 
                         <div className={cx('product-detail')}>
-                            <p className={cx('short_description')}>{imageInfo.shortDescription}</p>
+                            <p className={cx('short_description')}>{stateGames.description}</p>
                             <p className={cx('game_author_date')}>
                                 <p>
-                                    Ngày phát hành: <span>{imageInfo.date}</span>
+                                    Ngày phát hành: <span>{stateGames.release_Date}</span>
                                 </p>
                                 <p>
-                                    Nhà phát triển: <span>{imageInfo.developers}</span>
+                                    Nhà phát triển: <span>{stateGames.developers.join(', ')}</span>
                                 </p>
                                 <p>
-                                    Nhà phát hành: <span>{imageInfo.publisher}</span>
+                                    Nhà phát hành: <span>{stateGames.publishers.join(', ')}</span>
                                 </p>
                             </p>
                         </div>
@@ -303,10 +314,10 @@ function GameDetails(idGame) {
                                 Thêm vào danh sách ước
                             </button>
                             <Tippy content="Chọn bản game" placement="bottom">
-                                <select className="select_game_edition" onChange={handleEditionChange}>
-                                    {Object.entries(imageInfo?.gameEdition || {}).map(([key, edition]) => (
-                                        <option key={key} value={key}>
-                                            {edition}
+                                <select className={cx('select_game_edition')} onChange={handleOptionChange}>
+                                    {stateGames.option?.map((opt, index) => (
+                                        <option key={index} value={index}>
+                                            {opt.optionText}
                                         </option>
                                     ))}
                                 </select>
