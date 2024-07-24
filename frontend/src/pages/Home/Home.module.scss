@@ -511,11 +511,12 @@
 // css feature
 .carousel {
     display: flex;
+    margin-top: 50px;
     justify-content: space-between;
     align-items: center;
-    background-color: #102027;
+    background: var(--activeLight);
     color: white;
-    padding: 40px;
+    padding: 30px;
     border-radius: 10px;
 }
 
@@ -537,9 +538,17 @@
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #000;
-    color: white;
-    cursor: pointer;
+    background-color: var(--activeCardFree);
+    color: var(--bgTheme);
+    font-weight: 600;
+    transition: calc(0.4s);
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1);
+        transition: calc(0.2s);
+        box-shadow: var(--steamBoxShadowWhite);
+    }
 }
 
 .carousel-right {
@@ -550,22 +559,31 @@
 
 .carousel-right::-webkit-scrollbar {
     display: none; /* Hide scrollbar for Webkit browsers */
+    width: 500px;
+    height: 500px;
 }
-
+// css cái này sau
 .carousel-track {
     display: flex;
     gap: 20px;
 }
 
 .carousel-item {
-    background-color: white;
-    color: black;
+    background-color: var(--activeCardFree);
+    color: var(--bgTheme);
     width: 180px;
     height: 280px;
     border-radius: 10px;
-
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: var(--steamBoder);
+    box-shadow: var(--activeLightShadow);
+    transition: calc(0.3s);
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(0.9);
+        transition: calc(0.2s);
+    }
 }
 
 .carousel-item img {
@@ -584,6 +602,7 @@
     font-size: 1.2rem;
     margin-bottom: 5px;
 }
+
 .carousel-item span {
     font-size: 1.2rem;
     margin-bottom: 5px;
@@ -609,7 +628,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgb(23, 23, 23);
+    background: var(--activeBackgroundCartPay);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 5;
@@ -658,24 +677,62 @@
 }
 
 /* Ảnh nền trong modal */
+.image_container {
+    position: relative;
+    display: inline-block;
+}
+
 .modal_background {
     display: flex;
     width: 500px;
     height: auto;
+    position: relative;
+    z-index: 2;
     border-radius: var(--steamBoder);
-
-    /* Tiêu đề modal */
-    h2 {
-        padding: 20px;
-        font-size: 24px;
-    }
+}
+.glow_popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    filter: var(--activeFilter);
+    opacity: 0.7;
+    border-radius: var(--steamBoder);
+}
+.price_container_popup {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-weight: 500;
+    font-size: 1.4rem;
 }
 
 /* Phần giá cả */
-.price_container {
-    margin: 10px 0;
-    font-size: 18px;
-    font-weight: bold;
+.price_old {
+    span {
+        color: var(--steamFontNavBar);
+    }
+}
+
+.price-discounted {
+    span {
+        color: var(--steamPrice);
+    }
+}
+
+.price_percentSavings {
+    padding: 5px;
+    box-shadow: var(--steamBoxShadow);
+    border-radius: var(--steamBoder);
+    background-color: var(--steamBackgroundPrice);
+}
+
+// game name
+.game_name_popup {
+    font-size: 2.4rem;
+    margin: 5px;
+    padding: 10px;
+    border-left: 0.8rem solid var(--primary);
 }
 
 /* Các nút bấm trong modal */
@@ -684,12 +741,6 @@
     margin: 10px;
     justify-content: flex-end;
     margin-top: 20px;
-}
-
-.price_container_popup {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .button-detail-game-popup {

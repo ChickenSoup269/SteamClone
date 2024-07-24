@@ -203,8 +203,7 @@ function Header() {
                         <>
                             <NavLink to="/system/admin">
                                 <Button outline className={cx('change-btn-color')}>
-                                    Quản lý
-                                    <FontAwesomeIcon icon={faUserTie} />
+                                    Quản lý <FontAwesomeIcon icon={faUserTie} />
                                 </Button>
                             </NavLink>
                             <NavLink to="/notification">

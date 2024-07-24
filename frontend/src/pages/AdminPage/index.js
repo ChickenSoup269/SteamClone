@@ -1,29 +1,27 @@
-import { Menu } from 'antd'
 import React, { useState } from 'react'
-import { getItem } from '../../utils'
+import { Menu } from 'antd'
 import { UserOutlined, AppstoreOutlined } from '@ant-design/icons'
 import AdminUser from '../../components/AdminUser/AdminUser'
 import AdminGame from '../../components/AdminGame/AdminGame'
+import { getItem } from '../../utils'
+import classNames from 'classnames'
+import styles from './Admin.module.scss'
 
 const AdminPage = () => {
     const items = [
         getItem('Users', 'user', <UserOutlined />),
         getItem('Games', 'game', <AppstoreOutlined />),
-        getItem('Genres', 'genre', <AppstoreOutlined />)
-    ];
+        getItem('Genres', 'genre', <AppstoreOutlined />),
+    ]
 
     const [keySelected, setKeySelected] = useState('')
 
     const renderPage = (key) => {
-        switch(key) {
+        switch (key) {
             case 'user':
-                return (
-                    <AdminUser />
-                )
+                return <AdminUser />
             case 'game':
-                return (
-                    <AdminGame />
-                )
+                return <AdminGame />
             default:
                 return <></>
         }
@@ -34,23 +32,10 @@ const AdminPage = () => {
     }
 
     return (
-        <>
-            <div style={{ display: 'flex' }}>
-                <Menu
-                    mode="inline"
-                    style={{
-                        width: 256,
-                        boxShadow: '1px 1px 2px #ccc',
-                        height: '100vh'
-                    }}
-                    items={items}
-                    onClick={handleOnClick}
-                />
-                <div style={{ flex: 1, padding: '15px' }}>
-                    {renderPage(keySelected)}
-                </div>
-            </div>
-        </>
+        <div className={classNames(styles.container)}>
+            <Menu mode="inline" className={classNames(styles.menu)} items={items} onClick={handleOnClick} />
+            <div className={classNames(styles.content)}>{renderPage(keySelected)}</div>
+        </div>
     )
 }
 

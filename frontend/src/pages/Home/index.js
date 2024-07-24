@@ -304,37 +304,50 @@ function Home() {
                         overlayClassName={cx('overlay')}
                     >
                         <div className={cx('modal_content')}>
-                            <img
-                                src={selectedGame.screenshots?.[0].path_full}
-                                alt={selectedGame.game_name}
-                                className={cx('modal_background')}
-                            />
-                            <h2>{selectedGame.game_name}</h2>
+                            <div className={cx('image_container')}>
+                                <img
+                                    src={selectedGame.screenshots?.[0].path_full}
+                                    alt={selectedGame.game_name}
+                                    className={cx('modal_background')}
+                                />
+                                <img
+                                    src={selectedGame.screenshots?.[0].path_full}
+                                    alt={selectedGame.game_name}
+                                    className={cx('glow_popup')}
+                                />
+                            </div>
+                            <h2 className={cx('game_name_popup')}>{selectedGame.game_name}</h2>
 
                             {/* giá */}
                             <div className={cx('price_container_popup')}>
-                                <div className={cx('price_old')}>
-                                    {' '}
-                                    <strike>
-                                        {formatCurrency(
-                                            parseFloat(
+                                {selectedGame?.option?.[0].percentSavings !== null && (
+                                    <div className={cx('price_old')}>
+                                        Giá gốc{' '}
+                                        <strike>
+                                            {formatCurrency(
                                                 (
                                                     selectedGame?.option?.[0].priceDiscounted /
                                                     (1 - Math.abs(selectedGame?.option?.[0].percentSavings) / 100)
                                                 ).toFixed(2),
-                                            ),
-                                        )}
-                                    </strike>
-                                </div>
+                                            )}
+                                        </strike>
+                                        {' | '}
+                                    </div>
+                                )}
                                 <div className={cx('price_rentalPrice')}>
-                                    Giá thuê: {formatCurrency(selectedGame?.option?.[0].rentalPrice)}
+                                    Giá thuê: {formatCurrency(selectedGame?.option?.[0].rentalPrice)} {' | '}
                                 </div>
+
                                 <div className={cx('price-discounted')}>
-                                    Giá hiện tại: {formatCurrency(selectedGame?.option?.[0].priceDiscounted)}
+                                    Giá hiện tại:{' '}
+                                    <span>{formatCurrency(selectedGame?.option?.[0].priceDiscounted)}</span> {' | '}
                                 </div>
-                                <div className={cx('price_percentSavings')}>
-                                    {selectedGame?.option?.[0].percentSavings + '%'}
-                                </div>
+
+                                {selectedGame?.option?.[0].percentSavings !== null && (
+                                    <div className={cx('price_percentSavings')}>
+                                        {selectedGame?.option?.[0].percentSavings + '%'}
+                                    </div>
+                                )}
                             </div>
 
                             <div className={cx('poster_popup_gen')}>
@@ -361,9 +374,9 @@ function Home() {
                 {/* featured games [BETA] */}
                 <div className={cx('carousel')}>
                     <div className={cx('carousel-left')}>
-                        <h2>Featured free games</h2>
-                        <p>Explore free fun to play games and find a new favorite</p>
-                        <button>See all</button>
+                        <h2>Featured game miễn phí cuối tuần!</h2>
+                        <p>Khám phá những trò chơi thú vị và mới mẻ miễn phí</p>
+                        <button>Xem tất cả</button>
                     </div>
                     <div className={cx('carousel-right')}>
                         <div className={cx('carousel-track')}>
@@ -376,40 +389,40 @@ function Home() {
                                 <h3>Tota warhammer</h3>
                                 <div className={cx('')}>
                                     <p>4.5 ★</p>
-                                    <span>Free</span>
+                                    {/* <span>Free</span> */}
                                 </div>
                             </div>
                             <div className={cx('carousel-item')}>
                                 <img
-                                    src="https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg"
+                                    src="https://steamcdn-a.akamaihd.net/steam/apps/651670/library_600x900_2x.jpg"
                                     alt="DesignVille"
                                 />
                                 <h3>DesignVille: Merge & Design</h3>
                                 <div>
                                     <p>4.5 ★</p>
-                                    <span>Free</span>
+                                    {/* <span>Free</span> */}
                                 </div>
                             </div>
                             <div className={cx('carousel-item')}>
                                 <img
-                                    src="https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg"
+                                    src="https://steamcdn-a.akamaihd.net/steam/apps/628800/library_600x900_2x.jpg"
                                     alt="DesignVille"
                                 />
                                 <h3>DesignVille: Merge & Design</h3>
                                 <div>
                                     <p>4.5 ★</p>
-                                    <span>Free</span>
+                                    {/* <span>Free</span> */}
                                 </div>
                             </div>
                             <div className={cx('carousel-item')}>
                                 <img
-                                    src="https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg"
+                                    src="https://steamcdn-a.akamaihd.net/steam/apps/628670/library_600x900_2x.jpg"
                                     alt="DesignVille"
                                 />
                                 <h3>DesignVille: Merge & Design</h3>
                                 <div>
                                     <p>4.5 ★</p>
-                                    <span>Free</span>
+                                    {/* <span>Free</span> */}
                                 </div>
                             </div>
                         </div>
