@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faXmark, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import HeadlessTippy from '@tippyjs/react/headless'
 import { Wrapper as PopperWrapper } from '~/components/Popper'
-
-import apis from '~/components/utilityFunction/apiRender'
+import { getSearchGame } from '../../../services/GameService'
 import GameItem from '~/components/GameItem'
 import classNames from 'classnames/bind'
 import styles from './Search.module.scss'
@@ -17,7 +16,6 @@ function Search() {
     const [searchResult, setSearchResult] = useState([])
     const [showResult, setShowResult] = useState(true)
     const [loading, setLoading] = useState(false)
-    const [selectedApi] = useState(apis.apiSearchPopUp)
 
     const inputRef = useRef()
 
@@ -29,13 +27,7 @@ function Search() {
 
         setLoading(true)
 
-        fetch(`${selectedApi}/search?query=${encodeURIComponent(searchValue)}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Network response was not ok')
-                }
-                return res.json()
-            })
+        getSearchGame(searchValue)
             .then((res) => {
                 setSearchResult(res)
                 setLoading(false)
@@ -44,7 +36,7 @@ function Search() {
                 console.error('Error fetching search results:', error)
                 setLoading(false)
             })
-    }, [searchValue, selectedApi])
+    }, [searchValue])
 
     const handleClear = () => {
         setSearchValue('')

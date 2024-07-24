@@ -25,8 +25,6 @@ import posterGame from '~/assets/images/404 poster.jpg'
 
 const cx = classNames.bind(styles)
 
-// dữ liệu backend ở đây xóa hết chừa lại 1
-
 const slidesData = [
     { id: 1, title: 'Sinh tồn', backgroundClass: 'background-url-img-type-1' },
     { id: 2, title: 'Đua xe', backgroundClass: 'background-url-img-type-2' },
@@ -185,6 +183,7 @@ const categoriesPoster = [
         ],
     },
 ]
+
 function Home() {
     const [stateGames, setStateGames] = useState([])
     const [imageInfo, setImageInfo] = useState(null)
@@ -232,12 +231,11 @@ function Home() {
     const navigate = useNavigate()
 
     const handleDetailClick = () => {
-        navigate(`/detail/${imageInfo.game_id}/${imageInfo.game_name}`, { state: { imageInfo } })
-        // console.log(`/gamedetails/${imageInfo.id}`, { state: { imageInfo } })
+        navigate(`/detail/${imageInfo.game_id}/${imageInfo.game_name}`)
     }
 
     const handleImageError = (e) => {
-        e.target.src = posterGame // Replace with the path to your default image
+        e.target.src = posterGame // nếu không có poster lấy poster mặc định là 404
     }
     const getPosterUrl = (game) => {
         if (game.game_name.includes('Soundtrack')) {
@@ -286,23 +284,25 @@ function Home() {
                                         </div>
                                         <div className={cx('product-price-steam')}>
                                             {/* !Chưa có dữ liệu oldPRice */}
-                                            {/* {imageInfo.oldPrice?.length ? (
+                                            {imageInfo?.option?.[0].percentSavings !== null && (
                                                 <p className={cx('last-price')}>
-                                                    Giá gốc: <strike>{imageInfo.oldPrice[0]}</strike>
+                                                    Giá gốc:{' '}
+                                                    <strike>
+                                                        {formatCurrency(imageInfo?.option?.[0].priceDiscounted)}
+                                                    </strike>
                                                 </p>
-                                            ) : (
+                                            )}
+                                            {imageInfo?.option?.[0].percentSavings == null && (
                                                 <p className={cx('last-price')}>
-                                                    Giá gốc: <strike>none</strike>
+                                                    Giá Thuê:
+                                                    <span> {formatCurrency(imageInfo?.option?.[0].rentalPrice)}</span>
                                                 </p>
-                                            )} */}
-                                            <p className={cx('last-price')}>
-                                                Giá Thuê:
-                                                <span> {formatCurrency(imageInfo?.option?.[0].rentalPrice)}</span>
-                                            </p>
+                                            )}
                                             <p className={cx('new-price')}>
                                                 {/* chuyển giá vnđ  formatCurrency*/}
-                                                Giá:{' '}
+                                                Giá hiện tại:
                                                 <span> {formatCurrency(imageInfo?.option?.[0].priceDiscounted)}</span>
+                                                {/* có sale thì mới hiện */}
                                                 {imageInfo?.option?.[0].percentSavings !== null && (
                                                     <span className={cx('sale_price_percent')}>
                                                         {imageInfo?.option?.[0].percentSavings + '%' || 'None'}
