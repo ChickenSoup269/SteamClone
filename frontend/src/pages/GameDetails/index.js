@@ -27,18 +27,14 @@ function GameDetails() {
     const [stateGames, setStateGames] = useState([])
     const { game_id, game_slug } = useParams();
     const fetchGetDetailsGame = async () => {
-        try {
-            const res = await GameService.getDetailsGame(game_id, game_slug)
-            console.log('API Response:', res)
-            setStateGames(res) // Update state with the fetched object
-        } catch (error) {
-            console.error('Error fetching game details:', error)
-        }
+        const res = await GameService.getDetailsGame(game_id, game_slug)
+        console.log('detail',res);
+        setStateGames(res)
     }
 
     useEffect(() => {
         fetchGetDetailsGame()
-    }, [game_id, game_slug])
+    }, [])
 
     useQuery({
         queryKey: ['game-details', game_id, game_slug],
@@ -160,7 +156,6 @@ function GameDetails() {
                 <div className={cx('card')}>
                     {/* <!-- Slide column left --> */}
                     <div className={cx('product-imgs')}>
-                        
                         <div className={cx('img-display')}>
                             <Swiper spaceBetween={10} slidesPerView={1} className={cx('img-showcase')}>
                                 <SwiperSlide key="media">
@@ -260,13 +255,10 @@ function GameDetails() {
 
                     {/* <!-- game detail column right --> */}
                     <div className={cx('product-content')}>
-                        {stateGames.map((game) => (
-                            <div className={cx('header_image_game')}>
-                                
-                                <img src={game.header_image} alt="image_header" />
-                                <img className={cx('glow')} src={game.header_image} alt="" />
-                            </div>
-                        ))}
+                        <div className={cx('header_image_game')}>
+                            <img src={stateGames.header_image} alt="image_header" />
+                            <img className={cx('glow')} src={stateGames.header_image} alt="" />
+                        </div>
 
                         <div className={cx('product-rating')}>
                             <FontAwesomeIcon icon={faStar} />
