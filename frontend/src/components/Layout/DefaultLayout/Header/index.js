@@ -215,7 +215,7 @@ function Header() {
                                     </button>
                                 </Tippy>
                             </NavLink>
-                            <NavLink to="/">
+                            <NavLink>
                                 <Tippy content="Tin nhắn" placement="bottom">
                                     <button
                                         className={cx('notification-btn')}

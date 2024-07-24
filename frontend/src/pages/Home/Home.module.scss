@@ -322,8 +322,8 @@
 .swiper_game_genres {
     overflow: hidden;
     text-align: center;
-    width: 130rem;
-    height: 320px;
+    width: 125rem;
+    height: 300px;
     padding: 10px;
     display: flex;
 
@@ -446,20 +446,39 @@
 // css poster game | game đại diện thể loại
 .swiper_background_poster_game {
     margin-top: 20px;
+    margin-left: 15px;
 }
 
 .title_poster_game {
-    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 140rem;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-left: 1rem solid var(--primary);
+
+    span {
+        font-size: 1.2rem;
+        color: var(--activeScrollBar);
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            text-shadow: var(--activeLightShadow);
+        }
+    }
 }
 
 .swiper_poster_game {
     overflow: visible;
     text-align: center;
-    width: 135rem;
-    height: 290px;
+    width: 140rem;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 
     img {
         position: relative;
@@ -472,12 +491,12 @@
         box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
         border: 1px solid rgba(0, 0, 0, 0.25);
         transition: all ease 0.28s 0.01s;
-        transform: perspective(220px) translate3d(0px, 5px, 0px) rotateX(0deg);
+        transform: perspective(200px) translate3d(0px, 5px, 0px) rotateX(0deg);
 
         &:hover,
         &:focus {
             border: 1px solid rgba(0, 0, 0, 0.1);
-            transform: perspective(222px) translate3d(0px, 0px, 14px) rotateX(2deg);
+            transform: perspective(202px) translate3d(0px, 0px, 5px) rotateX(2deg);
             transform-origin: center;
             box-shadow: 0 14px 16px -2px rgba(0, 0, 0, 0.5);
             cursor: pointer;
@@ -568,6 +587,156 @@
 .carousel-item span {
     font-size: 1.2rem;
     margin-bottom: 5px;
+}
+
+// css popup
+
+/* Modal Styles */
+/* Overlay (background tối khi modal mở) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* Modal container */
+.modal2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(23, 23, 23);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    width: 510px;
+
+    overflow: auto;
+}
+
+/* Nội dung modal */
+.modal_content {
+    padding: 5px;
+}
+
+.poster_popup_gen {
+    display: flex;
+    align-items: center;
+
+    img {
+        position: relative;
+        display: block;
+        width: 120px;
+        height: 150px;
+        margin-left: 10px;
+        object-fit: fill;
+        border-radius: var(--steamBoder);
+        box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        transition: all ease 0.28s 0.01s;
+        transform: perspective(200px) translate3d(0px, 5px, 0px) rotateX(0deg);
+
+        &:hover,
+        &:focus {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transform: perspective(202px) translate3d(0px, 0px, 5px) rotateX(2deg);
+            transform-origin: center;
+            box-shadow: 0 14px 16px -2px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+    }
+
+    .description-game-popup {
+        width: 480px;
+        padding: 20px;
+        font-size: 1.4rem;
+    }
+}
+
+/* Ảnh nền trong modal */
+.modal_background {
+    display: flex;
+    width: 500px;
+    height: auto;
+    border-radius: var(--steamBoder);
+
+    /* Tiêu đề modal */
+    h2 {
+        padding: 20px;
+        font-size: 24px;
+    }
+}
+
+/* Phần giá cả */
+.price_container {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Các nút bấm trong modal */
+.modal_buttons {
+    display: flex;
+    margin: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.price_container_popup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button-detail-game-popup {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: var(--steamBoder);
+    padding: 1rem 1.8rem;
+    margin-top: 1.2rem;
+    color: var(--steamColorBlack);
+    background-color: var(--steamColorWhite);
+    transform: scale(0.9);
+    transition: calc(0.3s);
+    box-shadow: var(--steamBoxShadow);
+}
+.add-btn-card-popup {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: var(--steamBoder);
+    padding: 1rem 1.8rem;
+    margin-top: 1.2rem;
+    color: var(--steamColorWhite);
+    background-color: var(--primary);
+    transform: scale(0.9);
+    transition: calc(0.3s);
+    box-shadow: var(--steamBoxShadow);
+}
+.add-btn-close-popup {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: var(--steamBoder);
+    padding: 1rem 1.8rem;
+    margin-top: 1.2rem;
+    color: var(--steamColorWhite);
+    background-color: red;
+    transform: scale(0.9);
+    transition: calc(0.3s);
+    box-shadow: var(--steamBoxShadow);
+    margin-right: 34%;
+}
+
+.add-btn-card-popup:hover,
+.button-detail-game-popup:hover,
+.add-btn-close-popup:hover {
+    cursor: pointer;
+    transform: scale(1);
+    transition: calc(0.2s);
+    box-shadow: var(--steamBoxShadowWhite);
 }
 
 // reponsive

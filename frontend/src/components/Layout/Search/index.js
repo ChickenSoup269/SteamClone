@@ -3,31 +3,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faXmark, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import HeadlessTippy from '@tippyjs/react/headless'
 import { Wrapper as PopperWrapper } from '~/components/Popper'
+
 import { getSearchGame } from '../../../services/GameService'
 import GameItem from '~/components/GameItem'
+import { NavLink } from 'react-router-dom'
+import { useDebounce } from '~/hooks'
 import classNames from 'classnames/bind'
 import styles from './Search.module.scss'
-import { NavLink } from 'react-router-dom'
 
 const cx = classNames.bind(styles)
 
 function Search() {
     const [searchValue, setSearchValue] = useState('')
     const [searchResult, setSearchResult] = useState([])
-    const [showResult, setShowResult] = useState(true)
+    const [showResult, setShowResult] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    const debounce = useDebounce(searchValue, 500)
+
     const inputRef = useRef()
+    const searchResultRef = useRef()
 
     useEffect(() => {
-        if (!searchValue.trim()) {
+        if (!debounce.trim()) {
             setSearchResult([])
             return
         }
 
         setLoading(true)
 
-        getSearchGame(searchValue)
+        getSearchGame(debounce)
             .then((res) => {
                 setSearchResult(res)
                 setLoading(false)
@@ -36,7 +41,7 @@ function Search() {
                 console.error('Error fetching search results:', error)
                 setLoading(false)
             })
-    }, [searchValue])
+    }, [debounce])
 
     const handleClear = () => {
         setSearchValue('')
@@ -48,42 +53,62 @@ function Search() {
         setShowResult(false)
     }
 
+    const handleClickOutside = (event) => {
+        if (
+            searchResultRef.current &&
+            !searchResultRef.current.contains(event.target) &&
+            !inputRef.current.contains(event.target)
+        ) {
+            handleHideResult()
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
-        <HeadlessTippy
-            visible={showResult && searchResult.length > 0}
-            render={(attrs) => (
-                <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                    <PopperWrapper>
-                        {searchResult.map((game) => (
-                            <GameItem key={game.id} data={game} />
-                        ))}
-                    </PopperWrapper>
-                </div>
-            )}
-            onClickOutside={handleHideResult}
-        >
-            <div className={cx('search')}>
-                <input
-                    ref={inputRef}
-                    value={searchValue}
-                    placeholder="Tìm kiếm"
-                    spellCheck={false}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    onFocus={() => setShowResult(true)}
-                />
-                {!!searchValue && !loading && (
-                    <button className={cx('clear')} onClick={handleClear}>
-                        <FontAwesomeIcon icon={faXmark} />
-                    </button>
+        <div>
+            <HeadlessTippy
+                visible={showResult && searchResult.length > 0}
+                interactive={true}
+                render={(attrs) => (
+                    <div className={cx('search-result')} tabIndex="-1" {...attrs} ref={searchResultRef}>
+                        <PopperWrapper>
+                            {searchResult.map((game) => (
+                                <GameItem key={game.id} data={game} />
+                            ))}
+                        </PopperWrapper>
+                    </div>
                 )}
-                {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-                <NavLink to={'/search'}>
-                    <button className={cx('search-btn')}>
-                        <FontAwesomeIcon icon={faSearch} />
-                    </button>
-                </NavLink>
-            </div>
-        </HeadlessTippy>
+            >
+                <div className={cx('search')}>
+                    <input
+                        ref={inputRef}
+                        value={searchValue}
+                        placeholder="Tìm kiếm"
+                        spellCheck={false}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        onFocus={() => setShowResult(true)}
+                    />
+                    {!!searchValue && !loading && (
+                        <button className={cx('clear')} onClick={handleClear}>
+                            <FontAwesomeIcon icon={faXmark} />
+                        </button>
+                    )}
+                    {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+                    <NavLink to={'/search'}>
+                        <button className={cx('search-btn')}>
+                            <FontAwesomeIcon icon={faSearch} />
+                        </button>
+                    </NavLink>
+                </div>
+            </HeadlessTippy>
+        </div>
     )
 }
 

@@ -28,16 +28,14 @@ const publicRoutes = [
     { path: '/cart', component: Cart },
     { path: '/gameType/:genre', component: GameType },
     { path: '/genreRepresentation', component: GenreRepresentation },
-    { path: '/*', component: Page404 },
-]
-
-// Đăng nhập mới vào được
-const privateRoutes = [
-    { path: '/admin', component: Admin, layout: Sidebar },
     { path: '/profile', component: Profile },
     { path: '/library', component: Library },
     { path: '/notification', component: Notification },
     { path: '/chatTogether', component: ChatTogether },
+    { path: '/*', component: Page404 },
 ]
+
+// Đăng nhập mới vào được
+const privateRoutes = [{ path: '/admin', component: Admin, layout: Sidebar }]
 
 export { publicRoutes, privateRoutes }

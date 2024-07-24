@@ -20,3 +20,9 @@ export const getSearchGame = async (searchValue) => {
         throw error
     }
 }
+
+// GET  all category
+export const getAllCategorylGerne = async () => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/category/getallGenresbyGame/`)
+    return res.data
+}

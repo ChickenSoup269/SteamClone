@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
 import { Helmet } from 'react-helmet'
+import Modal from 'react-modal'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -22,6 +23,8 @@ import formatCurrency from '~/components/utilityFunction/formatCurrency'
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
 import posterGame from '~/assets/images/404 poster.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight, faClose } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classNames.bind(styles)
 
@@ -36,169 +39,31 @@ const slidesData = [
     { id: 8, title: 'Chơi miễn phí', backgroundClass: 'background-url-img-type-8' },
 ]
 
-const categoriesPoster = [
-    {
-        type: 'Horror',
-        games: [
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
-                alt: 'Horror Game 2',
-            },
-            {
-                id: '3',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
-                alt: 'Horror Game 3',
-            },
-            {
-                id: '4',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
-                alt: 'Horror Game 4',
-            },
-            {
-                id: '5',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
-                alt: 'Horror Game 5',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-        ],
-    },
-    {
-        type: 'FunBruh',
-        games: [
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '1',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
-                alt: 'Horror Game 2',
-            },
-            {
-                id: '3',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
-                alt: 'Horror Game 3',
-            },
-            {
-                id: '4',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
-                alt: 'Horror Game 4',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-            {
-                id: '5',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
-                alt: 'Horror Game 5',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-        ],
-    },
-    {
-        type: 'Anime',
-        games: [
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1142710/library_600x900_2x.jpg',
-                alt: 'Horror Game 1',
-            },
-            {
-                id: '2',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/534380/library_600x900_2x.jpg',
-                alt: 'Horror Game 2',
-            },
-            {
-                id: '3',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2420110/library_600x900_2x.jpg',
-                alt: 'Horror Game 3',
-            },
-            {
-                id: '4',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/322330/library_600x900_2x.jpg',
-                alt: 'Horror Game 4',
-            },
-            {
-                id: '5',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg',
-                alt: 'Horror Game 5',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/1203220/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-            {
-                id: '6',
-                src: 'https://steamcdn-a.akamaihd.net/steam/apps/2303350/library_600x900_2x.jpg',
-                alt: 'Horror Game 6',
-            },
-        ],
-    },
-]
-
 function Home() {
     const [stateGames, setStateGames] = useState([])
+    const [genres, setGenres] = useState([])
+
     const [imageInfo, setImageInfo] = useState(null)
     const [currentIndex, setCurrentIndex] = useState(0)
-
     const swiperRef = useRef(null)
 
     const fetchAllGames = async () => {
         const res = await GameService.getAllGame()
         const games = res?.games?.data || []
         setStateGames(games)
+        console.log(res)
+        console.log(games)
+    }
+    const fetchAllGerne = async () => {
+        const res = await GameService.getAllCategorylGerne()
+
+        setGenres(res)
+        console.log('Lmao:', res)
     }
 
     useEffect(() => {
         fetchAllGames()
+        fetchAllGerne()
     }, [])
 
     const handleThumbnailClick = (index) => {
@@ -237,6 +102,7 @@ function Home() {
     const handleImageError = (e) => {
         e.target.src = posterGame // nếu không có poster lấy poster mặc định là 404
     }
+    // thay game khi có ảnh poster lỗi hoặc những ảnh khác
     const getPosterUrl = (game) => {
         if (game.game_name.includes('Soundtrack')) {
             return game.header_image
@@ -245,7 +111,19 @@ function Home() {
         }
         return game.poster_url
     }
-    // chuyển giá
+
+    const [selectedGame, setSelectedGame] = useState(null)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+
+    const handleImageClick = (game) => {
+        setSelectedGame(game)
+        setModalIsOpen(true)
+    }
+
+    const handleCloseModal = () => {
+        setModalIsOpen(false)
+        setSelectedGame(null)
+    }
 
     return (
         <div className={cx('wrapper')}>
@@ -283,12 +161,23 @@ function Home() {
                                             </div>
                                         </div>
                                         <div className={cx('product-price-steam')}>
-                                            {/* !Chưa có dữ liệu oldPRice */}
+                                            {/* dữ liệu giá gốc lấy giá giảm / (1 - % giảm) */}
                                             {imageInfo?.option?.[0].percentSavings !== null && (
                                                 <p className={cx('last-price')}>
                                                     Giá gốc:{' '}
                                                     <strike>
-                                                        {formatCurrency(imageInfo?.option?.[0].priceDiscounted)}
+                                                        {formatCurrency(
+                                                            parseFloat(
+                                                                (
+                                                                    imageInfo?.option?.[0].priceDiscounted /
+                                                                    (1 -
+                                                                        Math.abs(
+                                                                            imageInfo?.option?.[0].percentSavings,
+                                                                        ) /
+                                                                            100)
+                                                                ).toFixed(2),
+                                                            ),
+                                                        )}
                                                     </strike>
                                                 </p>
                                             )}
@@ -377,25 +266,99 @@ function Home() {
                 </div>
 
                 {/* Slide thể loại đại diện game */}
-                {categoriesPoster.slice(0, 2).map((category, index) => (
+                {genres.slice(0, 3).map((category, index) => (
                     <div key={index} className={cx('swiper_background_poster_game')}>
-                        <h2 className={cx('title_poster_game')}>{`Thể loại - ${category.type}`}</h2>
+                        <h2 className={cx('title_poster_game')}>
+                            Thể loại - {category.description}{' '}
+                            <NavLink to={'/genreRepresentation'}>
+                                <span>
+                                    xem tất cả <FontAwesomeIcon icon={faChevronRight} />
+                                </span>
+                            </NavLink>
+                        </h2>
                         <Swiper
                             modules={[Navigation, Pagination]}
                             slidesPerView={7}
-                            spaceBetween={15}
+                            spaceBetween={5}
                             navigation={true}
                             pagination={{ clickable: true }}
                             className={cx('swiper_poster_game')}
                         >
                             {category.games.map((game, idx) => (
-                                <SwiperSlide key={idx} className={cx('swiper_slide_poster')}>
-                                    <img src={game.src} alt={game.alt} />
+                                <SwiperSlide
+                                    key={idx}
+                                    className={cx('swiper_slide_poster')}
+                                    onClick={() => handleImageClick(game)}
+                                >
+                                    <img src={game.poster_url} alt={game.game_name} onError={handleImageError} />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
                     </div>
                 ))}
+
+                {/* popup modal game poster */}
+                {selectedGame && (
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onRequestClose={handleCloseModal}
+                        className={cx('modal2')}
+                        overlayClassName={cx('overlay')}
+                    >
+                        <div className={cx('modal_content')}>
+                            <img
+                                src={selectedGame.screenshots?.[0].path_full}
+                                alt={selectedGame.game_name}
+                                className={cx('modal_background')}
+                            />
+                            <h2>{selectedGame.game_name}</h2>
+
+                            {/* giá */}
+                            <div className={cx('price_container_popup')}>
+                                <div className={cx('price_old')}>
+                                    {' '}
+                                    <strike>
+                                        {formatCurrency(
+                                            parseFloat(
+                                                (
+                                                    selectedGame?.option?.[0].priceDiscounted /
+                                                    (1 - Math.abs(selectedGame?.option?.[0].percentSavings) / 100)
+                                                ).toFixed(2),
+                                            ),
+                                        )}
+                                    </strike>
+                                </div>
+                                <div className={cx('price_rentalPrice')}>
+                                    Giá thuê: {formatCurrency(selectedGame?.option?.[0].rentalPrice)}
+                                </div>
+                                <div className={cx('price-discounted')}>
+                                    Giá hiện tại: {formatCurrency(selectedGame?.option?.[0].priceDiscounted)}
+                                </div>
+                                <div className={cx('price_percentSavings')}>
+                                    {selectedGame?.option?.[0].percentSavings + '%'}
+                                </div>
+                            </div>
+
+                            <div className={cx('poster_popup_gen')}>
+                                <img
+                                    src={selectedGame.poster_url}
+                                    alt={selectedGame.game_name}
+                                    className={cx('poster-game-popup')}
+                                />
+                                <p className={cx('description-game-popup')}>{selectedGame.description}</p>
+                            </div>
+                            <div className={cx('modal_buttons')}>
+                                <button className={cx('add-btn-close-popup')} onClick={handleCloseModal}>
+                                    Đóng
+                                </button>
+                                <button className={cx('button-detail-game-popup')} onClick={handleDetailClick}>
+                                    Xem chi tiết
+                                </button>
+                                <button className={cx('add-btn-card-popup')}>Thêm vào giỏ hàng</button>
+                            </div>
+                        </div>
+                    </Modal>
+                )}
 
                 {/* featured games [BETA] */}
                 <div className={cx('carousel')}>

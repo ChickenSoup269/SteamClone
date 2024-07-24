@@ -28,16 +28,13 @@ const cx = classNames.bind(styles)
 function GameDetails() {
     const [stateGames, setStateGames] = useState({})
     const { game_id, game_slug } = useParams()
-    const [currentPrice, setCurrentPrice] = useState(stateGames.option?.[0]?.priceDiscounted || '')
-    const [RentalPrice, setRentalPrice] = useState(stateGames.option?.[0]?.rentalPrice || '')
-    const [currentSalePrice, setCurrentSalePrice] = useState(stateGames.option?.[0]?.percentSavings || '')
-
+    const [currentPrice, setCurrentPrice] = useState('')
+    const [RentalPrice, setRentalPrice] = useState('')
+    const [currentSalePrice, setCurrentSalePrice] = useState('')
     const [currentMediaUrl, setCurrentMediaUrl] = useState('')
     const [currentIndex, setCurrentIndex] = useState(0)
-
     const [showModal, setShowModal] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
-
     const [largeImageUrl, setLargeImageUrl] = useState('')
 
     const mainVideoRef = useRef(null)
@@ -52,13 +49,15 @@ function GameDetails() {
             // Set default values
             if (res.movies && res.movies.length > 0) {
                 setCurrentMediaUrl(res.movies[0])
-                return
             } else if (res.screenshots && res.screenshots.length > 0) {
                 setCurrentMediaUrl(res.screenshots[0].path_full)
             }
-            setCurrentPrice(res.option[0].priceDiscounted)
-            setRentalPrice(res.option[0].rentalPrice)
-            setCurrentSalePrice(res.option[0].percentSavings)
+
+            if (res.option && res.option.length > 0) {
+                setCurrentPrice(res.option[0].priceDiscounted)
+                setRentalPrice(res.option[0].rentalPrice)
+                setCurrentSalePrice(res.option[0].percentSavings)
+            }
         } catch (error) {
             console.error('Error fetching game details:', error)
         }
@@ -80,15 +79,14 @@ function GameDetails() {
                 className: 'toast-notifications',
             })
         } else {
-            toast.error(`Có lỗi xảy ra`, {
+            toast.error('Có lỗi xảy ra', {
                 className: 'toast-notifications',
             })
         }
     }
-
     const handleThumbnailClick = (url, index) => {
         setCurrentMediaUrl(url)
-        setCurrentIndex(index) // Update the current index when a thumbnail is clicked
+        setCurrentIndex(index) // Update ảnh chính khi click từ thumbnail
     }
 
     const handleOptionChange = (e) => {
@@ -102,8 +100,6 @@ function GameDetails() {
             setCurrentSalePrice(selectedOption.percentSavings)
         }
     }
-
-    // nếu video có ảnh thumbnail thì sẽ xuất hiện đầu còn không thì lấy ảnh screenshots
 
     const openModal = (url) => {
         setLargeImageUrl(url)
@@ -198,6 +194,7 @@ function GameDetails() {
                                 )}
                             </Swiper>
                         </div>
+
                         {/* Phần thumbnail */}
                         <div className={cx('img-select')}>
                             <Swiper
@@ -281,10 +278,24 @@ function GameDetails() {
                             {/* <p className={cx('last-price')}>
                                 Giá gốc: <strike>{formatCurrency(currentPrice)}</strike>
                             </p> */}
-                            <p className={cx('game-title-name')}>{stateGames?.option?.[0].optionText}</p>
-                            <p className={cx('last-price')}>Giá gốc: {formatCurrency(currentPrice)}</p>
+                            {currentSalePrice !== null && (
+                                <p className={cx('last-price')}>
+                                    Giá gốc:{' '}
+                                    <strike>
+                                        {formatCurrency(
+                                            parseFloat(
+                                                (currentPrice / (1 - Math.abs(currentSalePrice) / 100)).toFixed(2),
+                                            ),
+                                        )}
+                                    </strike>
+                                </p>
+                            )}{' '}
+                            <p className={cx('last-price')}>
+                                Giá thuê: <span></span>
+                                {formatCurrency(RentalPrice)}
+                            </p>{' '}
                             <p className={cx('new-price')}>
-                                Giá thuê: <span>{formatCurrency(RentalPrice)}</span>{' '}
+                                Giá hiện tại: <span> {formatCurrency(currentPrice)}</span>{' '}
                                 {currentSalePrice !== null && (
                                     <span className={cx('sale_price_percent')}>{currentSalePrice + '%'}</span>
                                 )}
