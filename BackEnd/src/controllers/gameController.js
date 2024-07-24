@@ -27,19 +27,19 @@ const getGames = async (req, res) => {
 }
 // [GET] Detail
 const getGameDetailsController = async (req, res) => {
-  const { game_id, game_slug } = req.params
+  const { game_id } = req.params
   try {
     const game = await getGameDetails(game_id)
 
-    const decodedGameSlug = decodeURIComponent(game_slug).toLowerCase()
-    const decodedGameName = decodeURIComponent(game.game_name).toLowerCase()
+    // const decodedGameSlug = decodeURIComponent(game_slug).toLowerCase()
+    // const decodedGameName = decodeURIComponent(game.game_name).toLowerCase()
 
-    console.log("game_slug:", game_slug)
-    console.log("game.game_name:", game.game_name)
-    console.log("decodedGameSlug:", decodedGameSlug)
-    console.log("decodedGameName:", decodedGameName)
+    // console.log("game_slug:", game_slug)
+    // console.log("game.game_name:", game.game_name)
+    // console.log("decodedGameSlug:", decodedGameSlug)
+    // console.log("decodedGameName:", decodedGameName)
 
-    if (!game || decodedGameSlug !== decodedGameName) {
+    if (!game) {
       return res.status(404).json({ message: "Game not found." })
     }
 
@@ -79,17 +79,17 @@ const searchGamesController = async (req, res) => {
 }
 // [POST] games
 const insertGameController = async (req, res) => {
-  const { game_id, game_name } = req.body
+  const { game_id, game_name, description, header_image } = req.body
 
-  if (!game_id && !game_name) {
-    return res.status(400).json({ error: "game_id or game_name is required" })
+  if (!game_id && !game_name && !description && !header_image) {
+    return res.status(400).json({ error: "Input is required" })
   }
   try {
-    const game = { game_id, game_name }
+    const game = { game_id, game_name, description, header_image }
     const insertedGame = await insertGame(game)
     return res
       .status(201)
-      .json({ message: "Genre inserted successfully.", insertedGame })
+      .json({ message: "Game inserted successfully.", insertedGame })
   } catch (error) {
     console.error("Error inserting game:", error)
     if (
@@ -135,7 +135,7 @@ const updateGamesController = async (req, res) => {
       })
     } else {
       console.error("Error in updateGenreController:", error)
-      res.status(500).json({ error: "Failed to update genre." })
+      res.status(500).json({ error: "Failed to update game." })
     }
   }
 }

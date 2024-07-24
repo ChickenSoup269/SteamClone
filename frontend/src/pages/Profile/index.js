@@ -76,9 +76,9 @@ function Profile() {
             <WrapperHeader>Thông tin người dùng</WrapperHeader>
             <WrapperContentProfile>
                 <WrapperInput>
-                    <WrapperLabel htmlFor="name">Name</WrapperLabel>
+                    <WrapperLabel htmlFor="name">Username</WrapperLabel>
                     <InputForm style={{ width: '300px' }} id="name" value={username} onChange={handleOnchangeName} />
-                    <ButtonComponent
+                    {/* <ButtonComponent
                         onClick={handleUpdate}
                         size={40}
                         styleButton={{
@@ -89,7 +89,7 @@ function Profile() {
                         }}
                         textButton={'Cập nhật'}
                         styleTextButton={{ color: 'rgb(26, 148, 255)', fontSize: '15px', fontWeight: '700' }}
-                    ></ButtonComponent>
+                    ></ButtonComponent> */}
                 </WrapperInput>
                 <WrapperInput>
                     <WrapperLabel htmlFor="email">Email</WrapperLabel>

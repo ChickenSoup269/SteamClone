@@ -201,7 +201,7 @@ function Header() {
                 <div className={cx('actions')}>
                     {user?.access_token ? (
                         <>
-                            <NavLink to="/admin">
+                            <NavLink to="/system/admin">
                                 <Button outline className={cx('change-btn-color')}>
                                     Quản lý
                                     <FontAwesomeIcon icon={faUserTie} />

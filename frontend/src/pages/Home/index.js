@@ -5,8 +5,8 @@ import { Navigation, Pagination } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
 import { Helmet } from 'react-helmet'
 import Modal from 'react-modal'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 import * as GameService from '../../services/GameService'
 
@@ -23,8 +23,6 @@ import formatCurrency from '~/components/utilityFunction/formatCurrency'
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
 import posterGame from '~/assets/images/404 poster.jpg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight, faClose } from '@fortawesome/free-solid-svg-icons'
 
 const cx = classNames.bind(styles)
 
