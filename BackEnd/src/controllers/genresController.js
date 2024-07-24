@@ -1,5 +1,5 @@
 const { getGamesByGenres, getAllGenres,getDetailgenres,
-  insertGenres, deleteGenres, updateGenresById } = require('../services/genresServices');
+  insertGenres, deleteGenres, updateGenresById,getGenresbygame } = require('../services/genresServices');
 // Get All
 const getGenresController = async (req, res) => {
   try {
@@ -10,6 +10,16 @@ const getGenresController = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch genres' });
   }
 }
+// [Get] GenresbyGames
+const getGenresWithGamesController = async (req, res) => {
+  try {
+    const genresWithGames = await getGenresbygame();
+    res.status(200).json(genresWithGames);
+  } catch (error) {
+    console.error('Error in getGenresWithGamesController:', error);
+    res.status(500).json({ error: 'Failed to fetch genres with games' });
+  }
+};
 // [GET] Detail
 const getDetailController = async (req, res) => {
   try {
@@ -96,5 +106,6 @@ module.exports = {
   getDetailController,
   insertGenreController,
   deleteGenresController,
-  updateGenresController
+  updateGenresController,
+  getGenresWithGamesController
 };

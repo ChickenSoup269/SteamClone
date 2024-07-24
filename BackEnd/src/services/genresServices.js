@@ -33,8 +33,7 @@
         const db = client.db(config.dbName);
         const collection = db.collection('games');
         const games = await collection.find(
-          { genre_ids: genre_id },
-          { projection: { game_name: 1, header_image: 1, 'option.rentalPrice': 1 } }
+          { genre_ids: genre_id }
         ).toArray();
         return games;
     } catch (error) {
@@ -45,8 +44,44 @@
             await client.close();
             console.log('Closed MongoDB connection');
         }
+  }
+}
+//[GET] Genresbygame
+const getGenresbygame = async () => {
+  let client;
+  try {
+    client = new MongoClient(config.mongoUrl);
+    await client.connect();
+    console.log('Connected to MongoDB');
+    const db = client.db(config.dbName);
+    const collectionGenres = db.collection('genres');
+    const collectionGames = db.collection('games');
+
+    // [GET] list Genres with their respective games
+    const genresWithGames = await collectionGenres.aggregate([
+      {
+        $lookup: {
+          from: 'games',
+          localField: 'genre_id',
+          foreignField: 'genre_ids',
+          as: 'games'
+        }
+      }
+    ]).toArray();
+
+    console.log('Genres with Games:', genresWithGames);
+    return genresWithGames;
+  } catch (error) {
+    console.error('Error fetching genres:', error);
+    throw error;
+  } finally {
+    if (client) {
+      await client.close();
+      console.log('Closed MongoDB connection');
     }
   }
+};
+  
   //[POST]
   const insertGenres = async (genre) => {
     let client;
@@ -154,5 +189,6 @@
     getDetailgenres,
     insertGenres,
     deleteGenres,
-    updateGenresById
+    updateGenresById,
+    getGenresbygame
   };

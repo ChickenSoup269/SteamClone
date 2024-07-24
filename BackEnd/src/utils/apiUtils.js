@@ -101,8 +101,7 @@ const fetchDataAndSaveToMongo = async () => {
             let saleDuration = 0;
             let saleEndDate = null;
             let screenshots = [];
-            let videos = [];
-            let thumbnail = [];
+            let movies = [];
             let isFree = false;
             let dlc = [];
             let subs = [];
@@ -165,18 +164,12 @@ const fetchDataAndSaveToMongo = async () => {
             }
             // Movie & thumbnail
             if (gameDetails.movies) {
-                thumbnail = gameDetails.movies.reduce((acc, movie) => {
-                    if (movie.thumbnail) {
-                        acc.push(movie.thumbnail);
-                    }
-                    return acc;
-                }, []);
-                videos = gameDetails.movies.reduce((acc, movie) => {
-                    if (movie.webm && movie.webm.max) {
-                        acc.push(movie.webm.max);
-                    }
-                    return acc;
-                }, []);
+                movies = gameDetails.movies.map(movie => {
+                    return {
+                        thumbnail: movie.thumbnail,
+                        webm_max: movie.webm?.max || null
+                    };
+                });
             }
             const transformedGame = {
                 game_id: game.appid,
@@ -185,8 +178,7 @@ const fetchDataAndSaveToMongo = async () => {
                 header_image: gameDetails.header_image,
                 genre_ids: genre_ids,
                 option: subs,
-                movies: videos,
-                thumbnail : thumbnail,
+                movies_thumnail: movies,
                 screenshots: screenshots,
                 release_Date: releaseDate,
                 sale_end_date: saleEndDate || '',

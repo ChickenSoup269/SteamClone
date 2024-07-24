@@ -35,7 +35,6 @@ const getGamesFromMongo = (page, limit) => {
     }
   });
 };
-
 // [GET] Search
 const searchGames = async (query) => {
   let client
