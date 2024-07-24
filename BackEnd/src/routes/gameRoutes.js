@@ -14,7 +14,7 @@ router.put('/update/:game_id',updateGamesController)
 //[Search]
 router.get('/search',searchGamesController)
 //[Detail]
-router.get('/detail/:game_id/:game_slug', getGameDetailsController);
+router.get('/detail/:game_id', getGameDetailsController);
 // export
 router.get('/getAllGames', getGames);
 module.exports = router;

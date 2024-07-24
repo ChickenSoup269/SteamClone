@@ -2,7 +2,7 @@ import { Sidebar } from '~/components/Layout'
 import Home from '~/pages/Home'
 import Gamedetails from '~/pages/GameDetails'
 import Profile from '~/pages/Profile'
-import Admin from '~/pages/Admin'
+import AdminPage from '~/pages/AdminPage'
 import Search from '~/pages/Search'
 import Login from '~/pages/Login'
 import LogOut from '~/pages/LogOut'
@@ -33,7 +33,7 @@ const publicRoutes = [
 
 // Đăng nhập mới vào được
 const privateRoutes = [
-    { path: '/admin', component: Admin, layout: Sidebar },
+    { path: '/system/admin', component: AdminPage, layout: Sidebar },
     { path: '/profile', component: Profile },
     { path: '/library', component: Library },
     { path: '/notification', component: Notification },
