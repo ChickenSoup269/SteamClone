@@ -429,6 +429,13 @@ function Home() {
                     </div>
                 </div>
 
+                <div className={cx('button-group')}>
+                    <button>MỚI RA MẮT</button>
+                    <button>ƯU ĐÃI</button>
+                    <button>TRÒ CHƠI MIỄN PHÍ</button>
+                    <button>NHẮN NGƯỜI DÙNG</button>
+                </div>
+
                 {/* Slide ưa đãi card */}
                 {/* <div className={cx('swiper_card_sale')}>
                     <Swiper

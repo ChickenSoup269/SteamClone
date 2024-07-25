@@ -790,6 +790,33 @@
     box-shadow: var(--steamBoxShadowWhite);
 }
 
+// css button thể loại
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background-color: #1b2838; /* Background color similar to Steam's */
+    padding: 20px;
+    transition: calc(0.4s);
+
+    button {
+        background: linear-gradient(90deg, #06bfff 0%, #2d73ff 100%);
+        border: none;
+        border-radius: 5px;
+        color: white;
+        padding: 15px 30px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: var(--steamBoxShadow);
+        font-size: 1.8rem;
+        transition: calc(0.3s);
+
+        &:hover {
+            background: linear-gradient(to right, #4a91ff, #5cb3fd);
+        }
+    }
+}
+
 // reponsive
 @media screen and (max-width: 599px) {
     .full-screen-img {

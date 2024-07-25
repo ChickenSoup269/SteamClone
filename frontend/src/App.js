@@ -73,21 +73,11 @@ function App() {
                             />
                         )
                     })}
+
                     {/* Các trang phải đăng nhập mới vào được */}
                     {privateRoutes.map((route, index) => {
-                        const Layout = route.layout || DefaultLayout
                         const Page = route.component
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        )
+                        return <Route key={index} path={route.path} element={<Page />} />
                     })}
                 </Routes>
             </div>
