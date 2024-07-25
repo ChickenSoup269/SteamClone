@@ -33,6 +33,7 @@
         "react-router-dom": "^6.23.1",
         "react-scripts": "^5.0.1",
         "react-toastify": "^10.0.5",
+        "redux-persist": "^6.0.0",
         "styled-components": "^6.1.12",
         "swiper": "^11.1.4",
         "web-vitals": "^2.1.4"

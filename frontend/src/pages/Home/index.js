@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
@@ -18,11 +18,13 @@ import 'swiper/css/scrollbar'
 import 'swiper/css/thumbs'
 import 'swiper/css/autoplay'
 
-import {} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import formatCurrency from '~/components/utilityFunction/formatCurrency'
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
 import posterGame from '~/assets/images/404 poster.jpg'
+import { useDispatch, useSelector } from 'react-redux'
+import { addOrderGame } from '~/redux/slices/orderSlice'
 
 const cx = classNames.bind(styles)
 
@@ -44,6 +46,10 @@ function Home() {
     const [imageInfo, setImageInfo] = useState(null)
     const [currentIndex, setCurrentIndex] = useState(0)
     const swiperRef = useRef(null)
+
+    const user = useSelector((state) => state.user)
+    const location = useLocation()
+    const dispatch = useDispatch()
 
     const fetchAllGames = async () => {
         const res = await GameService.getAllGame()
@@ -123,6 +129,38 @@ function Home() {
         setSelectedGame(null)
     }
 
+    // Hàm fetch chi tiết game
+
+
+
+    // Hàm onClick thêm game vào giỏ hàng
+    const handleAddOrderGame = () => {
+        if (!user?.id) {
+            navigate('/login', {state: location?.pathname})
+        } else {
+            // {
+            //     name: { type: String, required: true },
+            //     amount: { type: Number, required: true },
+            //     image: { type: String, required: true },
+            //     price: { type: String, required: true },
+            //     product: {
+            //         type: mongoose.Schema.Types.ObjectId,
+            //         ref: 'Product',
+            //         required: true,
+            //     },
+            // },
+            dispatch(addOrderGame({
+                orderItem: {
+                    game_id: '2183580',
+                    game_name: 'Outstand',
+                    header_image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3025820/header.jpg?t=1718903296',
+                    game: '669e91429d20899ab7ebc559'
+                }
+            }))
+            
+        }
+    }
+
     return (
         <div className={cx('wrapper')}>
             <Helmet>
@@ -155,7 +193,7 @@ function Home() {
                                                 Xem chi tiết
                                             </button>
                                             <div className={cx('add-card')} id="card">
-                                                <button className={cx('add-btn-card')}>Thêm vào giỏ hàng</button>
+                                                <button className={cx('add-btn-card')} onClick={handleAddOrderGame}>Thêm vào giỏ hàng</button>
                                             </div>
                                         </div>
                                         <div className={cx('product-price-steam')}>
