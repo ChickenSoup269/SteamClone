@@ -330,6 +330,10 @@ img {
     color: var(--steamColorWhite);
 }
 
+.img-age {
+    width: 50px;
+}
+
 .product-price {
     margin: 1rem 0;
     font-size: 1.5rem;
@@ -575,6 +579,119 @@ $tab-wrap-border-radius: 6px;
         transform: translateY(-3px);
         border-radius: $tab-wrap-border-radius;
     }
+}
+
+// review game
+.rating label {
+    display: inline-block;
+    cursor: pointer;
+    color: #f1c40f; /* Màu vàng cho sao */
+    font-size: 1.5em;
+    margin-right: 5px;
+}
+
+.rating input[type='radio'] {
+    display: none;
+}
+
+.comment-box {
+    margin-top: 15px;
+}
+
+.comment-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.btn-review-game {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+
+    &:hover {
+        cursor: pointer;
+    }
+    &:active {
+        background-color: #2980b9;
+    }
+}
+
+// ngôn ngữ hỗ trợ
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.support-languages {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.support-languages th,
+.support-languages td {
+    padding: 8px;
+    text-align: center; /* Can change to 'left' if preferred */
+}
+
+.support-languages th {
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+// .support-languages tr:nth-child(even) {
+//     background-color: #2d2d2d;
+// }
+
+.support-languages tr:hover {
+    background-color: #f1f1f1;
+}
+
+.support-languages td {
+    font-size: 1.1em;
+}
+
+// Thành tựu
+.achievements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.achievement {
+    width: 150px;
+    text-align: center;
+}
+
+.achievement img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.achievement img:hover {
+    transform: scale(1.05);
+}
+
+.achievement p {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #333;
 }
 
 // reponsive

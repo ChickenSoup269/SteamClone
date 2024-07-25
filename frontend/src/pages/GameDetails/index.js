@@ -274,6 +274,13 @@ function GameDetails() {
                             <span>4.6 (21)</span>
                         </div>
 
+                        <div className={cx('img-age')}>
+                            <img
+                                src="https://store.akamai.steamstatic.com/public/shared/images/game_ratings/PEGI/12.png?v=3"
+                                alt=""
+                            />
+                        </div>
+
                         <div className={cx('product-price')}>
                             {/* <p className={cx('last-price')}>
                                 Giá gốc: <strike>{formatCurrency(currentPrice)}</strike>
@@ -349,7 +356,7 @@ function GameDetails() {
                     <input type="radio" id="tab3" name="tabGroup1" className={cx('tab')} />
                     <label htmlFor="tab3">Ngôn ngữ hỗ trợ</label>
                     <input type="radio" id="tab4" name="tabGroup1" className={cx('tab')} />
-                    <label htmlFor="tab4">Hehe</label>
+                    <label htmlFor="tab4">Thành tựu game</label>
 
                     <div className={cx('tab__content')}>
                         <h3>Đánh giá game</h3>
@@ -358,15 +365,46 @@ function GameDetails() {
                             eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
                             justo, fringilla vel, aliquet nec, vulputate eget, arcu.
                         </p>
+
+                        <div className={cx('review-section')}>
+                            <h4>Gửi đánh giá của bạn</h4>
+
+                            <div className={cx('rating')}>
+                                <label>
+                                    <input type="radio" name="rating" value="5" />
+                                    <span>&#9733;</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="4" />
+                                    <span>&#9733;</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="3" />
+                                    <span>&#9733;</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="2" />
+                                    <span>&#9733;</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="1" />
+                                    <span>&#9733;</span>
+                                </label>
+                            </div>
+
+                            <div className={cx('comment-box')}>
+                                <textarea rows="4" placeholder="Viết bình luận của bạn ở đây..."></textarea>
+                            </div>
+
+                            <button className={cx('btn-review-game')} type="button">
+                                Gửi đánh giá
+                            </button>
+                        </div>
                     </div>
 
                     <div className={cx('tab__content')}>
                         <h3>Medium Section</h3>
-                        <p>
-                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
-                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
-                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        </p>
+                        <p>{stateGames.description}</p>
                         <p>
                             In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
                             velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
@@ -375,40 +413,90 @@ function GameDetails() {
                     </div>
 
                     <div className={cx('tab__content')}>
-                        <h3>Long Section</h3>
-                        <p>
-                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
-                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
-                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        </p>
-                        <p>
-                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
-                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
-                            a purus blandit viverra.
-                        </p>
+                        <h4>Ngôn ngữ hỗ trợ</h4>
+                        <table className={cx('support-languages')}>
+                            <thead>
+                                <tr>
+                                    <th>Ngôn ngữ</th>
+                                    <th>Giao diện</th>
+                                    <th>Lồng tiếng</th>
+                                    <th>Phụ đề</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Tiếng Việt</td>
+                                    <td>✔</td>
+                                    <td></td>
+                                    <td>✔</td>
+                                </tr>
+                                <tr>
+                                    <td>Tiếng Anh</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                </tr>
+                                <tr>
+                                    <td>Tiếng Trung giản thể</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                </tr>
+                                <tr>
+                                    <td>Tiếng Trung phồn thể</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                </tr>
+                                <tr>
+                                    <td>Tiếng Nhật</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                    <td>✔</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div className={cx('tab__content')}>
-                        <h3>Hehe Section</h3>
-                        <p>
-                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
-                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
-                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        </p>
-                        <p>
-                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
-                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
-                            a purus blandit viverra.
-                        </p>
-                        <p>
-                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
-                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
-                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        </p>
-                        <p>
-                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
-                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
-                            a purus blandit viverra.
-                        </p>
+                        <h4>Thành tựu</h4>
+                        <div className={cx('achievements')}>
+                            <div className={cx('achievement')}>
+                                <img
+                                    src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1203220/881d22672f329a7e3f80ddaf7d5275a35c7a6a26.jpg"
+                                    alt="Achievement 1"
+                                />
+                                <p>67.3% Bộc lộ tài năng</p>
+                            </div>
+                            <div className={cx('achievement')}>
+                                <img
+                                    src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1203220/af68b54afe0a90f3ae4a24bb4c6633fe105f64e5.jpg"
+                                    alt="Achievement 2"
+                                />
+                                <p>Uy danh vang dội</p>
+                            </div>
+                            <div className={cx('achievement')}>
+                                <img
+                                    src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1203220/473f40d452c7fb1247b41569f294e75e249a0892.jpg"
+                                    alt="Achievement 3"
+                                />
+                                <p>Mặt Nạ Bất Hủ</p>
+                            </div>
+                            <div className={cx('achievement')}>
+                                <img
+                                    src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1203220/60b43dd8ab34f19a1060576ac204142c9baa5571.jpg"
+                                    alt="Achievement 3"
+                                />
+                                <p>Ngọc thô chưa mài</p>
+                            </div>
+                            <div className={cx('achievement')}>
+                                <img
+                                    src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1203220/866f1822f81e5876ed58cc030a68268c46375060.jpg"
+                                    alt="Achievement 3"
+                                />
+                                <p>54.7% Phong thái cao thủ</p>
+                            </div>
+                            {/* <!-- Thêm các thành tựu khác ở đây --> */}
+                        </div>
                     </div>
                 </div>
             </div>

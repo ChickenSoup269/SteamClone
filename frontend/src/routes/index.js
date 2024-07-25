@@ -1,4 +1,3 @@
-import { Sidebar } from '~/components/Layout'
 import Home from '~/pages/Home'
 import Gamedetails from '~/pages/GameDetails'
 import Profile from '~/pages/Profile'
@@ -28,17 +27,14 @@ const publicRoutes = [
     { path: '/cart', component: Cart },
     { path: '/gameType/:genre', component: GameType },
     { path: '/genreRepresentation', component: GenreRepresentation },
-    { path: '/*', component: Page404 },
-]
-
-// Đăng nhập mới vào được
-const privateRoutes = [
-    { path: '/system/admin', component: AdminPage, layout: Sidebar },
     { path: '/profile', component: Profile },
     { path: '/library', component: Library },
     { path: '/notification', component: Notification },
     { path: '/chatTogether', component: ChatTogether },
     { path: '/*', component: Page404 },
 ]
+
+// Đăng nhập mới vào được
+const privateRoutes = [{ path: '/system/admin', component: AdminPage }]
 
 export { publicRoutes, privateRoutes }
