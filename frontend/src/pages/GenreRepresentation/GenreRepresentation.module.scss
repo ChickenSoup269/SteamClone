@@ -1,33 +1,33 @@
 .wrapper-genre-search {
-    margin-top: 70px;
+    display: flex;
+    padding-top: 80px;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    overflow-x: hidden;
     color: var(--steamColorBlack);
 }
 /* Header/Blog Title */
-.header {
-    padding: 30px;
-    font-size: 40px;
-    text-align: center;
-    background: white;
-}
 
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
     float: left;
-    width: 75%;
+    width: 55%;
 }
 
 /* Right column */
 .rightcolumn {
-    float: left;
+    float: right;
     width: 25%;
-    padding-left: 20px;
 }
 
 /* Fake image */
 .fakeimg {
     background-color: #aaa;
-    width: 100%;
+    width: 50%;
     padding: 20px;
 }
 
@@ -36,6 +36,73 @@
     background-color: white;
     padding: 20px;
     margin-top: 20px;
+    border-radius: var(--steamBoder);
+
+    h4 {
+        font-size: 18px;
+        font-weight: 500;
+        color: #000;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .price-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 10px;
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .range-slider {
+        width: 400px;
+        position: relative;
+        margin: 15px 0 30px 0;
+    }
+
+    .range-fill {
+        height: 6px;
+        background-color: #36b37e;
+        position: absolute;
+        z-index: 1;
+    }
+
+    input[type='range'] {
+        -webkit-appearance: none;
+        width: 75%;
+        background: transparent;
+        position: absolute;
+        left: 0;
+    }
+
+    input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        background: #36b37e;
+        cursor: pointer;
+        margin-top: -5px;
+        position: relative;
+        z-index: 1;
+    }
+
+    input[type='range']::-webkit-slider-runnable-track {
+        width: 50%;
+        height: 5px;
+        background: #e8e8e8;
+        border-radius: 3px;
+        border: none;
+    }
 }
 
 /* Clear floats after the columns */
@@ -43,14 +110,6 @@
     content: '';
     display: table;
     clear: both;
-}
-
-/* Footer */
-.footer {
-    padding: 20px;
-    text-align: center;
-    background: #ddd;
-    margin-top: 20px;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */

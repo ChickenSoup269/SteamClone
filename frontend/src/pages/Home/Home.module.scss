@@ -314,6 +314,24 @@
     padding-top: 200px;
 }
 
+.game-image-festival {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 20px;
+    margin-top: 25px;
+    transition: calc(0.4s);
+
+    img {
+        width: 590px;
+        height: 100px;
+        object-fit: fill;
+        box-shadow: var(--activeLightShadow);
+        border-radius: var(--steamBoder);
+    }
+}
+
 // css thể loại game | thể loại đại diện game
 .swiper_background_genres {
     margin: 0px 0px 40px 50px;
@@ -517,7 +535,6 @@
     background: var(--activeLight);
     color: white;
     padding: 30px;
-    border-radius: 10px;
 }
 
 .carousel-left {
@@ -795,8 +812,9 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    background-color: #1b2838; /* Background color similar to Steam's */
+
     padding: 20px;
+    margin-top: 25px;
     transition: calc(0.4s);
 
     button {
@@ -807,6 +825,7 @@
         padding: 15px 30px;
         font-weight: 600;
         cursor: pointer;
+        text-transform: uppercase;
         box-shadow: var(--steamBoxShadow);
         font-size: 1.8rem;
         transition: calc(0.3s);

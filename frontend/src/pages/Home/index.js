@@ -45,16 +45,17 @@ function Home() {
     const [currentIndex, setCurrentIndex] = useState(0)
     const swiperRef = useRef(null)
 
+    const [selectedGame, setSelectedGame] = useState(null)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+
     const fetchAllGames = async () => {
         const res = await GameService.getAllGame()
         const games = res?.games?.data || []
         setStateGames(games)
-        console.log(res)
         console.log(games)
     }
     const fetchAllGerne = async () => {
         const res = await GameService.getAllCategorylGerne()
-
         setGenres(res)
         console.log('Lmao:', res)
     }
@@ -96,10 +97,15 @@ function Home() {
     const handleDetailClick = () => {
         navigate(`/detail/${imageInfo.game_id}/${imageInfo.game_name}`)
     }
+    const handleDetailClickGerne = () => {
+        // navigate(`/category/detailGernesbyGames/${genres.genre_id}`)
+        console.log(`/category/detailGernesbyGames/${imageInfo.genre_id}`)
+    }
 
     const handleImageError = (e) => {
         e.target.src = posterGame // nếu không có poster lấy poster mặc định là 404
     }
+
     // thay game khi có ảnh poster lỗi hoặc những ảnh khác
     const getPosterUrl = (game) => {
         if (game.game_name.includes('Soundtrack')) {
@@ -110,9 +116,7 @@ function Home() {
         return game.poster_url
     }
 
-    const [selectedGame, setSelectedGame] = useState(null)
-    const [modalIsOpen, setModalIsOpen] = useState(false)
-
+    // đống mở modal popup
     const handleImageClick = (game) => {
         setSelectedGame(game)
         setModalIsOpen(true)
@@ -235,7 +239,11 @@ function Home() {
                                 onClick={() => handleThumbnailClick(index)}
                             />
                             <img className={cx('glow')} src={game.header_image} alt="" />
-                            {/* <div className={cx('discount-badge')}>{game.sale[0]}</div> */}
+
+                            {/* có sale thì mới hiện */}
+                            {game?.option?.[0].percentSavings !== null && (
+                                <div className={cx('discount-badge')}>{game?.option?.[0].percentSavings + '%'}</div>
+                            )}
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -248,7 +256,7 @@ function Home() {
                     <Swiper
                         modules={[Navigation, Pagination]}
                         slidesPerView={4}
-                        spaceBetween={8}
+                        spaceBetween={-20}
                         navigation={true}
                         pagination={{ clickable: true }}
                         className={cx('swiper_game_genres')}
@@ -261,6 +269,13 @@ function Home() {
                             </SwiperSlide>
                         ))}
                     </Swiper>
+                </div>
+
+                <div className={cx('game-image-festival')}>
+                    <img
+                        src="https://shared.akamai.steamstatic.com/store_item_assets/steam/clusters/takeunder/7ecebf4977c0f365ecf3fa0b/takeunder_desktop_vietnamese.jpg?t=1721416109"
+                        alt=""
+                    />
                 </div>
 
                 {/* Slide thể loại đại diện game */}
@@ -430,10 +445,10 @@ function Home() {
                 </div>
 
                 <div className={cx('button-group')}>
-                    <button>MỚI RA MẮT</button>
-                    <button>ƯU ĐÃI</button>
-                    <button>TRÒ CHƠI MIỄN PHÍ</button>
-                    <button>NHẮN NGƯỜI DÙNG</button>
+                    <button>mới ra mắt</button>
+                    <button>ưu đãi</button>
+                    <button>trò chơi miễn phí</button>
+                    <button>nhẵn người dùng</button>
                 </div>
 
                 {/* Slide ưa đãi card */}

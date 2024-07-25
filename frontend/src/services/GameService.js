@@ -28,6 +28,12 @@ export const getAllCategorylGerne = async () => {
     return res.data
 }
 
+// Get detail category
+export const getDetailCategorylGerne = async (gerne_id) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/category/detailGernesbyGames/${gerne_id}`)
+    return res.data
+}
+
 // Create game
 export const createGame = async (data) => {
     try {
