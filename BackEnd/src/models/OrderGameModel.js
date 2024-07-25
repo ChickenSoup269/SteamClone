@@ -6,6 +6,7 @@ const orderSchema = new mongoose.Schema({
             game_id: { type: String, required: true },
             game_name: { type: String, required: true },
             header_image: { type: String, required: true },
+            price: { type: Number, required: true},
         },
     ],
     paymentMethod: { type: String, required: true },

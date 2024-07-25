@@ -29,25 +29,25 @@ export const orderSlice = createSlice({
         }
     },
     removeOrderGame: (state, action) => {
-        const {idProduct} = action.payload
-        const itemOrder = state?.orderItems?.filter((item) => item?.product !== idProduct)
-        const itemOrderSelected = state?.orderItemsSelected?.filter((item) => item?.product !== idProduct)
+        const {gameId} = action.payload
+        const itemOrder = state?.orderItems?.filter((item) => item?.game_id !== gameId)
+        const itemOrderSelected = state?.orderItemsSelected?.filter((item) => item?.game_id !== gameId)
         state.orderItems = itemOrder;
         state.orderItemsSelected = itemOrderSelected;
     },
     removeAllOrderGame: (state, action) => {
-        const {listChecked} = action.payload
-        const itemOrders = state?.orderItems?.filter((item) => !listChecked.includes(item.product))
-        const itemOrderSelected = state?.orderItemsSelected?.filter((item) => !listChecked.includes(item.product))
+        const {selectedGames} = action.payload
+        const itemOrders = state?.orderItems?.filter((item) => !selectedGames.includes(item.game_id))
+        const itemOrderSelected = state?.orderItemsSelected?.filter((item) => !selectedGames.includes(item.game_id))
         state.orderItems = itemOrders;
         state.orderItemsSelected = itemOrderSelected;
     },
     selectedOrder: (state, action) => {
-        const {listChecked} = action.payload
+        const {selectedGames} = action.payload
         const orderSelected = []
-        state.orderItems.forEach((order) => {
-            if (listChecked.includes(order.product)) {
-                orderSelected.push(order)
+        state.orderItems.forEach((game) => {
+            if (selectedGames.includes(game?.game_id)) {
+                orderSelected.push(game)
             }
         })
         state.orderItemsSelected = orderSelected
