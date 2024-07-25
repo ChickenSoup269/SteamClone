@@ -54,9 +54,9 @@ function GameDetails() {
             }
 
             if (res?.data?.option && res?.option?.length > 0) {
-                setCurrentPrice(res?.option[0]?.priceDiscounted)
-                setRentalPrice(res?.option[0]?.rentalPrice)
-                setCurrentSalePrice(res?.option[0]?.percentSavings)
+                setCurrentPrice(res?.data.option[0]?.priceDiscounted)
+                setRentalPrice(res?.data.option[0]?.rentalPrice)
+                setCurrentSalePrice(res?.data.option[0]?.percentSavings)
             }
         } catch (error) {
             console.error('Error fetching game details:', error)

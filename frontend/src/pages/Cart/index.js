@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faHeart, faTrash, faX } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useMutationHooks } from '~/hooks/useMutationHook'
 import * as OrderService from '../../services/OrderService'
 import { message } from 'antd'
@@ -21,6 +21,7 @@ import formatCurrency from '~/components/utilityFunction/formatCurrency'
 
 import classNames from 'classnames/bind'
 import styles from './Cart.module.scss'
+import { removeAllOrderGame, removeOrderGame, selectedOrder } from '~/redux/slices/orderSlice'
 
 const cx = classNames.bind(styles)
 
@@ -51,12 +52,13 @@ function Cart() {
 
     const user = useSelector((state) => state.user)
     const order = useSelector((state) => state.order)
+    const dispatch = useDispatch();
+
     // lấy order game ra đọc từng mục
     // const game = order.orderItems.length > 0 ? order.orderItems[0] : null
 
     // Dùng để map
-    const orderItems = order.orderItems
-    console.log('order', order)
+    const orderItems = order?.orderItems
 
     const [quantities, setQuantities] = useState(
         orderItems.reduce((acc, game) => {
@@ -78,6 +80,11 @@ function Cart() {
             prevSelected.includes(game_id) ? prevSelected.filter((id) => id !== game_id) : [...prevSelected, game_id],
         )
     }
+
+    // Thay đổi orderItemsSelected trong state
+    useEffect(() => {
+        dispatch(selectedOrder({ selectedGames }))
+    }, [selectedGames])
 
     const handleSelectAll = () => {
         if (selectedGames.length === orderItems.length) {
@@ -142,6 +149,7 @@ function Cart() {
                 className: 'toast-notifications',
             })
         } else if (action === '2') {
+            dispatch(removeOrderGame({ gameId }))
             toast.success(`Đã xóa sản phẩm game ID: ${gameId}!`, {
                 className: 'toast-notifications',
             })
@@ -151,6 +159,13 @@ function Cart() {
             })
         }
         console.log(`Game ID: ${gameId}, Action: ${action === '1' ? 'Added to Wishlist' : 'Removed'}`)
+    }
+
+    // Hàm xóa tất cả game khi chọn tất cả game
+    const handleRemoveAllOrder = () => {
+        if (selectedGames?.length > 1) {
+            dispatch(removeAllOrderGame({ selectedGames }));
+        }
     }
 
     const openModal = () => {
@@ -163,8 +178,6 @@ function Cart() {
         }
     }
     const closeModal = () => setIsModalOpen(false)
-
-    // State user và state order
 
     const mutationAddOrder = useMutationHooks((data) => {
         const { token, ...rests } = data
@@ -197,18 +210,17 @@ function Cart() {
             mutationAddOrder.mutate(
                 {
                     token: user?.access_token,
-                    orderItems: order?.orderItems,
+                    orderItems: order?.orderItemsSelected,
                     paymentMethod: paymentMethod,
                     user: user?.id,
                 },
                 {
                     onSuccess: () => {
                         message.success('Purchase successful')
-                        // setIsLoadingAddOrder(false);
+                        setIsModalOpen(false);
                     },
                     onError: () => {
                         message.error('Purchase failed. Please try again.')
-                        // setIsLoadingAddOrder(false);
                     },
                 },
             )
@@ -281,7 +293,7 @@ function Cart() {
                                             <input
                                                 type="checkbox"
                                                 className={cx('checkbox_game')}
-                                                checked={selectedGames.includes(game.game_id)}
+                                                checked={selectedGames.includes(game?.game_id)}
                                                 onChange={() => handleCheckboxChange(game.game_id)}
                                             />
                                             <div className={cx('checkbox__checkmark')}></div>
@@ -575,7 +587,7 @@ function Cart() {
                     <NavLink to={'/'}>
                         <button>Tiếp tục mua sắm</button>
                     </NavLink>
-                    <p>Gỡ bỏ tất cả sản phẩm</p>
+                    <p onClick={handleRemoveAllOrder}>Gỡ bỏ tất cả các game</p>
                 </div>
             </div>
         </div>
