@@ -167,6 +167,7 @@ function Cart() {
     }
     const closeModal = () => setIsModalOpen(false)
 
+    // State user và state order
     const user = useSelector((state) => state.user);
     const order = useSelector((state) => state.order);
     console.log('order', order)
@@ -208,11 +209,11 @@ function Cart() {
                 },
                 {
                   onSuccess: () => {
-                    message.success("Đặt hàng thành công");
+                    message.success("Purchase successful");
                     // setIsLoadingAddOrder(false);
                   },
                   onError: () => {
-                    message.error("Đặt hàng không thành công");
+                    message.error("Purchase failed. Please try again.");
                     // setIsLoadingAddOrder(false);
                   },
                 }

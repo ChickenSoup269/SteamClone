@@ -43,20 +43,20 @@ function GameDetails() {
     const fetchGetDetailsGame = async () => {
         try {
             const res = await GameService.getDetailsGame(game_id, game_slug)
-            console.log('API Response:', res)
-            setStateGames(res)
+            console.log('API Response:', res?.data)
+            setStateGames(res?.data)
 
             // Set default values
-            if (res.movies && res.movies.length > 0) {
-                setCurrentMediaUrl(res.movies[0])
-            } else if (res.screenshots && res.screenshots.length > 0) {
-                setCurrentMediaUrl(res.screenshots[0].path_full)
+            if (res?.data?.movies && res?.data?.movies?.length > 0) {
+                setCurrentMediaUrl(res?.data.movies[0])
+            } else if (res?.data?.screenshots && res?.data?.screenshots?.length > 0) {
+                setCurrentMediaUrl(res?.data?.screenshots[0]?.path_full)
             }
 
-            if (res.option && res.option.length > 0) {
-                setCurrentPrice(res.option[0].priceDiscounted)
-                setRentalPrice(res.option[0].rentalPrice)
-                setCurrentSalePrice(res.option[0].percentSavings)
+            if (res?.data?.option && res?.option?.length > 0) {
+                setCurrentPrice(res?.option[0]?.priceDiscounted)
+                setRentalPrice(res?.option[0]?.rentalPrice)
+                setCurrentSalePrice(res?.option[0]?.percentSavings)
             }
         } catch (error) {
             console.error('Error fetching game details:', error)
@@ -311,7 +311,7 @@ function GameDetails() {
 
                         <div className={cx('product-detail')}>
                             <p className={cx('short_description')}>{stateGames.description}</p>
-                            <p className={cx('game_author_date')}>
+                            {/* <p className={cx('game_author_date')}>
                                 <p>
                                     Ngày phát hành: <span>{stateGames.release_Date}</span>
                                 </p>
@@ -321,7 +321,7 @@ function GameDetails() {
                                 <p>
                                     Nhà phát hành: <span>{stateGames.publishers.join(', ')}</span>
                                 </p>
-                            </p>
+                            </p> */}
                         </div>
 
                         <div className={cx('purchase-info')}>

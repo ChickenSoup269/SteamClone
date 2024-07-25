@@ -28,39 +28,21 @@ export const orderSlice = createSlice({
             state.orderItems.push(orderItem)
         }
     },
-    increaseAmount: (state, action) => {
-        const {idProduct} = action.payload
-        const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
-        const itemOrderSelected = state?.orderItemsSelected?.find((item) => item?.product === idProduct)
-        itemOrder.amount++;
-        if (itemOrderSelected) {
-            itemOrderSelected.amount++;
-        }
-    },
-    decreaseAmount: (state, action) => {
-        const {idProduct} = action.payload
-        const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
-        const itemOrderSelected = state?.orderItemsSelected?.find((item) => item?.product === idProduct)
-        itemOrder.amount--;
-        if (itemOrderSelected) {
-            itemOrderSelected.amount--;
-        }
-    },
-    removeGameCart: (state, action) => {
+    removeOrderGame: (state, action) => {
         const {idProduct} = action.payload
         const itemOrder = state?.orderItems?.filter((item) => item?.product !== idProduct)
         const itemOrderSelected = state?.orderItemsSelected?.filter((item) => item?.product !== idProduct)
         state.orderItems = itemOrder;
         state.orderItemsSelected = itemOrderSelected;
     },
-    removeAllGameCart: (state, action) => {
+    removeAllOrderGame: (state, action) => {
         const {listChecked} = action.payload
         const itemOrders = state?.orderItems?.filter((item) => !listChecked.includes(item.product))
         const itemOrderSelected = state?.orderItemsSelected?.filter((item) => !listChecked.includes(item.product))
         state.orderItems = itemOrders;
         state.orderItemsSelected = itemOrderSelected;
     },
-    selectedCart: (state, action) => {
+    selectedOrder: (state, action) => {
         const {listChecked} = action.payload
         const orderSelected = []
         state.orderItems.forEach((order) => {
@@ -74,6 +56,6 @@ export const orderSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addOrderGame, increaseAmount, decreaseAmount, removeGameCart, removeAllGameCart, selectedCart } = orderSlice.actions
+export const { addOrderGame, removeOrderGame, removeAllOrderGame, selectedOrder } = orderSlice.actions
 
 export default orderSlice.reducer

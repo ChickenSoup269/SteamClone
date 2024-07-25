@@ -70,10 +70,13 @@ function Home() {
         fetchAllGerne()
     }, [])
 
+    const [selectedGameID, setSelectedGameID] = useState(null);
+
     const handleThumbnailClick = (index) => {
         const selectedGame = stateGames[index]
         setCurrentIndex(index)
         setImageInfo(selectedGame)
+        setSelectedGameID(selectedGame?.game_id);
     }
 
     const handleSlideChange = () => {
@@ -130,34 +133,34 @@ function Home() {
     }
 
     // Hàm fetch chi tiết game
+    const fetchGetDetailsGame = async ({ queryKey }) => {
+        const id = queryKey[1];
+        if (id) {
+          const res = await GameService.getDetailsGame(id);
+          return res.data;
+        }
+      };
 
-
+    // Hook của React Query để fetch dữ liệu chi tiết game dựa trên selectedGameID
+    const { isLoading, data: gameDetails } = useQuery({
+        queryKey: ['games-details', selectedGameID],
+        queryFn: fetchGetDetailsGame,
+        enabled: !!selectedGameID
+    });
 
     // Hàm onClick thêm game vào giỏ hàng
     const handleAddOrderGame = () => {
         if (!user?.id) {
             navigate('/login', {state: location?.pathname})
         } else {
-            // {
-            //     name: { type: String, required: true },
-            //     amount: { type: Number, required: true },
-            //     image: { type: String, required: true },
-            //     price: { type: String, required: true },
-            //     product: {
-            //         type: mongoose.Schema.Types.ObjectId,
-            //         ref: 'Product',
-            //         required: true,
-            //     },
-            // },
             dispatch(addOrderGame({
                 orderItem: {
-                    game_id: '2183580',
-                    game_name: 'Outstand',
-                    header_image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3025820/header.jpg?t=1718903296',
-                    game: '669e91429d20899ab7ebc559'
+                    game_id: gameDetails?.game_id,
+                    game_name: gameDetails?.game_name,
+                    header_image: gameDetails?.header_image,
+                    game: gameDetails?._id
                 }
             }))
-            
         }
     }
 
