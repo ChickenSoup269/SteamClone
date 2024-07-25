@@ -14,6 +14,10 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import classNames from 'classnames/bind'
 import styles from './Cart.module.scss'
+import { useSelector } from 'react-redux'
+import { useMutationHooks } from '~/hooks/useMutationHook'
+import * as OrderService from "../../services/OrderService";
+import { message } from 'antd'
 
 const cx = classNames.bind(styles)
 
@@ -163,6 +167,17 @@ function Cart() {
     }
     const closeModal = () => setIsModalOpen(false)
 
+    // State user và state order
+    const user = useSelector((state) => state.user);
+    const order = useSelector((state) => state.order);
+    console.log('order', order)
+
+    const mutationAddOrder = useMutationHooks((data) => {
+        const { token, ...rests } = data;
+        const res = OrderService.createOrder(token, { ...rests });
+        return res;
+      });
+
     const handlePayMent = () => {
         let isValid = true
         let errorMsg = ''
@@ -185,7 +200,24 @@ function Cart() {
         if (isValid) {
             setIsSubmitting(true)
             // Thực hiện thanh toán
-            // ...
+            mutationAddOrder.mutate(
+                {
+                  token: user?.access_token,
+                  orderItems: order?.orderItems,
+                  paymentMethod: paymentMethod,
+                  user: user?.id,
+                },
+                {
+                  onSuccess: () => {
+                    message.success("Purchase successful");
+                    // setIsLoadingAddOrder(false);
+                  },
+                  onError: () => {
+                    message.error("Purchase failed. Please try again.");
+                    // setIsLoadingAddOrder(false);
+                  },
+                }
+              );
         } else {
             setErrorMessage(errorMsg)
         }

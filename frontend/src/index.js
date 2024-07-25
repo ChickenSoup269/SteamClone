@@ -8,7 +8,7 @@ import { ChatProvider } from './contexts/ChatContext'
 import Chatbox from '~/components/ChatBot'
 import GlobalStyles from '~/components/GobalStyles'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const queryClient = new QueryClient()
@@ -24,7 +24,7 @@ root.render(
                 </Provider>
             </ChatProvider>
         </GlobalStyles>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>,
 
     // </React.StrictMode>,

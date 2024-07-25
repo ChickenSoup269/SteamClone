@@ -74,10 +74,10 @@ const AdminGame = () => {
         const res = await GameService.getDetailsGame(rowSelected)
         if (res) {
             setStateGameDetails({
-                game_id: res?.game_id,
-                game_name: res?.game_name,
-                description: res?.description,
-                header_image: res?.header_image,
+                game_id: res?.data?.game_id,
+                game_name: res?.data?.game_name,
+                description: res?.data?.description,
+                header_image: res?.data?.header_image,
             })
         }
         setIsLoadingUpdate(false)

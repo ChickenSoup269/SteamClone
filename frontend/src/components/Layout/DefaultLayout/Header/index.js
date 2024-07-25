@@ -100,6 +100,7 @@ function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
     const user = useSelector((state) => state.user)
+    const order = useSelector((state) => state.order)
 
     const [userAvatar, setUserAvatar] = useState()
 
@@ -243,7 +244,7 @@ function Header() {
                         <Tippy content="Giỏ hàng" placement="bottom">
                             <button className={cx('cart-btn')} style={{ color: getIconColor() }}>
                                 <FontAwesomeIcon icon={faBasketShopping} />
-                                <span className={cx('badge')}>3</span>
+                                <span className={cx('badge')}>{order?.orderItems?.length}</span>
                             </button>
                         </Tippy>
                     </NavLink>
