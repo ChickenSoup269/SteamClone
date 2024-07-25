@@ -743,6 +743,83 @@ td {
     color: #333;
 }
 
+// css reivew 2.0
+.rating-review-item {
+    display: flex;
+    align-items: center;
+
+    .left-rating {
+        flex: 1 1 20%;
+        max-width: 20%;
+
+        .star-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            h3 {
+                margin: 0 12px 0 0;
+                font-size: 40px;
+            }
+            .fa-star {
+                font-size: 30px;
+                color: #28a745;
+            }
+        }
+        .number-rating {
+            span {
+                display: block;
+                margin-bottom: 2px;
+                color: #474848;
+                font-size: 14px;
+            }
+        }
+    }
+    .right-rating {
+        flex: 1 1 80%;
+        max-width: 80%;
+        ul.order-list {
+            margin-bottom: 0;
+            padding-left: 0;
+            list-style: none;
+            li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .star-value {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 15px;
+                    min-width: 25px;
+                    h5 {
+                        margin: 0 2px 0 0;
+                        font-size: 16px;
+                    }
+                    .fa-star {
+                        font-size: 14px;
+                    }
+                }
+                .progress {
+                    flex: 1 1 315px;
+                    max-width: 315px;
+                    height: 6px;
+                    margin-right: 20px;
+                    margin-bottom: 0;
+                    background-color: #ddd;
+                }
+                .rating-hit {
+                    color: #b2b2b2;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+
 // reponsive
 @media screen and (min-width: 992px) {
     .card {

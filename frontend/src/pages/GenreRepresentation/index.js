@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 import * as GameService from '../../services/GameService'
-
+import posterGame from '~/assets/images/404 poster.jpg'
 import formatCurrency from '~/components/utilityFunction/formatCurrency'
 import classNames from 'classnames/bind'
 import styles from './GenreRepresentation.module.scss'
@@ -51,6 +51,10 @@ function GenreRepresentation() {
         }
     }, [minPrice, maxPrice])
 
+    const handleImageError = (e) => {
+        e.target.src = posterGame // nếu không có poster lấy poster mặc định là 404
+    }
+
     return (
         <div className={cx('wrapper-genre-search')}>
             <div className={cx('leftcolumn')}>
@@ -62,7 +66,7 @@ function GenreRepresentation() {
                                 className={cx('card')}
                                 onClick={() => handleDetailClick(game.game_id, game.game_name)}
                             >
-                                <img src={game.poster_url} alt={game.game_name} />
+                                <img src={game.poster_url} alt={game.game_name} onError={handleImageError} />
                                 <h2>{game.game_name}</h2>
                                 <h5 className={cx('genre')}>{game.genre_ids.join(', ')}</h5>
                                 <p className={cx('price')}>

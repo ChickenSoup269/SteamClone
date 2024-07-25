@@ -53,16 +53,15 @@ function GameDetails() {
                 setCurrentMediaUrl(res?.data?.screenshots[0]?.path_full)
             }
 
-            if (res?.data?.option && res?.data.option?.length > 0) {
-                setCurrentPrice(res?.data.option[0]?.priceDiscounted)
-                setRentalPrice(res?.data.option[0]?.rentalPrice)
-                setCurrentSalePrice(res?.data.option[0]?.percentSavings)
+            if (res?.data?.option && res?.data?.option?.length > 0) {
+                setCurrentPrice(res?.data?.option[0]?.priceDiscounted)
+                setRentalPrice(res?.data?.option[0]?.rentalPrice)
+                setCurrentSalePrice(res?.data?.option[0]?.percentSavings)
             }
         } catch (error) {
             console.error('Error fetching game details:', error)
         }
     }
-
     useEffect(() => {
         fetchGetDetailsGame()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -359,11 +358,114 @@ function GameDetails() {
 
                     <div className={cx('tab__content')}>
                         <h3>Đánh giá game</h3>
-                        <p>
-                            Praesent nonummy mi in odio. Nullam accumsan lorem in dui. Vestibulum turpis sem, aliquet
-                            eget, lobortis pellentesque, rutrum eu, nisl. Nullam accumsan lorem in dui. Donec pede
-                            justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        </p>
+                        <div className={cx('container')}>
+                            <div className={cx('row')}>
+                                <div className={cx('col-md-12')}>
+                                    <div className={cx('rating-review-item')}>
+                                        <div className={cx('left-rating')}>
+                                            <div className={cx('star-rating')}>
+                                                <h3>4.3</h3>
+                                                <i className={cx('fas', 'fa-star')}></i>
+                                                <span className={cx('icon', 'icon-rating-star')}></span>
+                                            </div>
+                                            <div className={cx('number-rating')}>
+                                                <span>1,572 Ratings &</span>
+                                                <span>245 Reviews</span>
+                                            </div>
+                                        </div>
+                                        <div className={cx('right-rating')}>
+                                            <ul className={cx('order-list')}>
+                                                <li>
+                                                    <div className={cx('star-value')}>
+                                                        <h5>5</h5>
+                                                        <i className={cx('fas', 'fa-star')}></i>
+                                                    </div>
+                                                    <div className={cx('progress')}>
+                                                        <div
+                                                            className={cx('progress-bar', 'bg-success')}
+                                                            role="progressbar"
+                                                            style={{ width: '90%' }}
+                                                            aria-valuenow="90"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <div className={cx('rating-hit')}>914</div>
+                                                </li>
+                                                <li>
+                                                    <div className={cx('star-value')}>
+                                                        <h5>4</h5>
+                                                        <i className={cx('fas', 'fa-star')}></i>
+                                                    </div>
+                                                    <div className={cx('progress')}>
+                                                        <div
+                                                            className={cx('progress-bar', 'bg-success')}
+                                                            role="progressbar"
+                                                            style={{ width: '50%' }}
+                                                            aria-valuenow="50"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <div className={cx('rating-hit')}>419</div>
+                                                </li>
+                                                <li>
+                                                    <div className={cx('star-value')}>
+                                                        <h5>3</h5>
+                                                        <i className={cx('fas', 'fa-star')}></i>
+                                                    </div>
+                                                    <div className={cx('progress')}>
+                                                        <div
+                                                            className={cx('progress-bar', 'bg-success')}
+                                                            role="progressbar"
+                                                            style={{ width: '30%' }}
+                                                            aria-valuenow="30"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <div className={cx('rating-hit')}>148</div>
+                                                </li>
+                                                <li>
+                                                    <div className={cx('star-value')}>
+                                                        <h5>2</h5>
+                                                        <i className={cx('fas', 'fa-star')}></i>
+                                                    </div>
+                                                    <div className={cx('progress')}>
+                                                        <div
+                                                            className={cx('progress-bar', 'bg-warning')}
+                                                            role="progressbar"
+                                                            style={{ width: '15%' }}
+                                                            aria-valuenow="15"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <div className={cx('rating-hit')}>40</div>
+                                                </li>
+                                                <li>
+                                                    <div className={cx('star-value')}>
+                                                        <h5>1</h5>
+                                                        <i className={cx('fas', 'fa-star')}></i>
+                                                    </div>
+                                                    <div className={cx('progress')}>
+                                                        <div
+                                                            className={cx('progress-bar', 'bg-danger')}
+                                                            role="progressbar"
+                                                            style={{ width: '10%' }}
+                                                            aria-valuenow="10"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <div className={cx('rating-hit')}>51</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div className={cx('review-section')}>
                             <h4>Gửi đánh giá của bạn</h4>

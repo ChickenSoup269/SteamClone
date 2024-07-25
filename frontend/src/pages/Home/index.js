@@ -8,6 +8,7 @@ import Modal from 'react-modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
+import { useDispatch, useSelector } from 'react-redux'
 import * as GameService from '../../services/GameService'
 
 import 'swiper/css'
@@ -23,7 +24,7 @@ import formatCurrency from '~/components/utilityFunction/formatCurrency'
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
 import posterGame from '~/assets/images/404 poster.jpg'
-import { useDispatch, useSelector } from 'react-redux'
+
 import { addOrderGame } from '~/redux/slices/orderSlice'
 Modal.setAppElement('#root')
 const cx = classNames.bind(styles)
@@ -81,6 +82,7 @@ function Home() {
         setCurrentIndex(index)
         setImageInfo(selectedGame)
         setSelectedGameID(selectedGame?.game_id)
+        setSelectedGame(selectedGame) // Đảm bảo selectedGame được cập nhật
     }
 
     const handleSlideChange = () => {
@@ -158,10 +160,20 @@ function Home() {
 
     // Hàm onClick thêm game vào giỏ hàng
     const handleAddOrderGame = () => {
+        console.log('Add to cart button clicked')
+        console.log('Selected Game:', selectedGame)
+
         if (!user?.id) {
+            console.log('User not logged in, redirecting to login page')
             navigate('/login', { state: location?.pathname })
         } else {
+            if (!selectedGame) {
+                console.error('No game selected or selectedGame is null')
+                return
+            }
+
             try {
+                // Dispatch action to Redux store
                 dispatch(
                     addOrderGame({
                         orderItem: {
@@ -169,7 +181,7 @@ function Home() {
                             game_name: selectedGame?.game_name,
                             header_image: selectedGame?.header_image,
                             game: selectedGame?._id,
-                            price: selectedGame?.option?.[0].priceDiscounted,
+                            price: selectedGame?.option?.[0]?.priceDiscounted, // Ensure this value is correct
                         },
                     }),
                 )
@@ -210,7 +222,7 @@ function Home() {
                                                 Xem chi tiết
                                             </button>
                                             <div className={cx('add-card')} id="card">
-                                                <button className={cx('add-btn-card')} onClick={handleAddOrderGame}>
+                                                <button onClick={handleAddOrderGame} className={cx('add-btn-card')}>
                                                     Thêm vào giỏ hàng
                                                 </button>
                                             </div>
