@@ -622,6 +622,55 @@ $tab-wrap-border-radius: 6px;
     }
 }
 
+// css cấu hình
+.system-requirements {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.requirement {
+    margin-bottom: 20px;
+}
+
+.requirement h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.requirement ul {
+    list-style: none;
+    padding: 0;
+}
+
+.requirement ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.requirement ul li:last-child {
+    border-bottom: none;
+}
+
+.requirement ul li strong {
+    color: #2c3e50;
+}
+
+.minimum {
+    border-left: 4px solid #e74c3c;
+    padding-left: 16px;
+}
+
+.recommended {
+    border-left: 4px solid #3498db;
+    padding-left: 16px;
+}
+
 // ngôn ngữ hỗ trợ
 table {
     border-collapse: collapse;

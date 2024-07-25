@@ -100,6 +100,7 @@ function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
     const user = useSelector((state) => state.user)
+    const order = useSelector((state) => state.order)
 
     const [userAvatar, setUserAvatar] = useState()
 
@@ -125,6 +126,20 @@ function Header() {
             transform: isActive ? ' scale(0.9)' : 'none',
         }
     }
+
+    const [animationClass, setAnimationClass] = useState('')
+
+    useEffect(() => {
+        if (order?.orderItems?.length > 0) {
+            setAnimationClass('badge-animation')
+            // xóa animtion khi hết thời gian
+            const timer = setTimeout(() => {
+                setAnimationClass('')
+            }, 500)
+
+            return () => clearTimeout(timer)
+        }
+    }, [order?.orderItems?.length])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -226,6 +241,14 @@ function Header() {
                                     </button>
                                 </Tippy>
                             </NavLink>
+                            <NavLink to="/cart">
+                                <Tippy content="Giỏ hàng" placement="bottom">
+                                    <button className={cx('cart-btn')} style={{ color: getIconColor() }}>
+                                        <FontAwesomeIcon icon={faBasketShopping} />
+                                        <span className={cx('badge', animationClass)}>{order?.orderItems?.length}</span>
+                                    </button>
+                                </Tippy>
+                            </NavLink>
                         </>
                     ) : (
                         <>
@@ -239,14 +262,7 @@ function Header() {
                             </NavLink>
                         </>
                     )}
-                    <NavLink to="/cart">
-                        <Tippy content="Giỏ hàng" placement="bottom">
-                            <button className={cx('cart-btn')} style={{ color: getIconColor() }}>
-                                <FontAwesomeIcon icon={faBasketShopping} />
-                                <span className={cx('badge')}>3</span>
-                            </button>
-                        </Tippy>
-                    </NavLink>
+
                     <Tippy content="Màu giao diện">
                         <input
                             className={cx('switch')}

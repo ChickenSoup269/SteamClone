@@ -43,20 +43,20 @@ function GameDetails() {
     const fetchGetDetailsGame = async () => {
         try {
             const res = await GameService.getDetailsGame(game_id, game_slug)
-            console.log('API Response:', res)
-            setStateGames(res)
+            console.log('API Response:', res?.data)
+            setStateGames(res?.data)
 
             // Set default values
-            if (res.movies && res.movies.length > 0) {
-                setCurrentMediaUrl(res.movies[0])
-            } else if (res.screenshots && res.screenshots.length > 0) {
-                setCurrentMediaUrl(res.screenshots[0].path_full)
+            if (res?.data?.movies && res?.data?.movies?.length > 0) {
+                setCurrentMediaUrl(res?.data.movies[0])
+            } else if (res?.data?.screenshots && res?.data?.screenshots?.length > 0) {
+                setCurrentMediaUrl(res?.data?.screenshots[0]?.path_full)
             }
 
-            if (res.option && res.option.length > 0) {
-                setCurrentPrice(res.option[0].priceDiscounted)
-                setRentalPrice(res.option[0].rentalPrice)
-                setCurrentSalePrice(res.option[0].percentSavings)
+            if (res?.data?.option && res?.option?.length > 0) {
+                setCurrentPrice(res?.option[0]?.priceDiscounted)
+                setRentalPrice(res?.option[0]?.rentalPrice)
+                setCurrentSalePrice(res?.option[0]?.percentSavings)
             }
         } catch (error) {
             console.error('Error fetching game details:', error)
@@ -311,7 +311,7 @@ function GameDetails() {
 
                         <div className={cx('product-detail')}>
                             <p className={cx('short_description')}>{stateGames.description}</p>
-                            <p className={cx('game_author_date')}>
+                            {/* <p className={cx('game_author_date')}>
                                 <p>
                                     Ngày phát hành: <span>{stateGames.release_Date}</span>
                                 </p>
@@ -321,7 +321,7 @@ function GameDetails() {
                                 <p>
                                     Nhà phát hành: <span>{stateGames.publishers.join(', ')}</span>
                                 </p>
-                            </p>
+                            </p> */}
                         </div>
 
                         <div className={cx('purchase-info')}>
@@ -351,7 +351,7 @@ function GameDetails() {
                     <label htmlFor="tab1">Đánh giá</label>
 
                     <input type="radio" id="tab2" name="tabGroup1" className={cx('tab')} />
-                    <label htmlFor="tab2">Nội dung game</label>
+                    <label htmlFor="tab2">Cấu hình </label>
 
                     <input type="radio" id="tab3" name="tabGroup1" className={cx('tab')} />
                     <label htmlFor="tab3">Ngôn ngữ hỗ trợ</label>
@@ -405,11 +405,67 @@ function GameDetails() {
                     <div className={cx('tab__content')}>
                         <h3>Medium Section</h3>
                         <p>{stateGames.description}</p>
-                        <p>
-                            In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Morbi mattis ullamcorper
-                            velit. Pellentesque posuere. Etiam ut purus mattis mauris sodales aliquam. Praesent nec nisl
-                            a purus blandit viverra.
-                        </p>
+                        <div class="system-requirements">
+                            <div class="requirement minimum">
+                                <h2>Tối thiểu</h2>
+                                <ul>
+                                    <li>
+                                        <strong>HĐH:</strong> Windows 10 64-bit Operating System
+                                    </li>
+                                    <li>
+                                        <strong>Bộ xử lý:</strong> Intel Core i5-4460
+                                    </li>
+                                    <li>
+                                        <strong>Bộ nhớ:</strong> 8 GB RAM
+                                    </li>
+                                    <li>
+                                        <strong>Đồ họa:</strong> Nvidia GTX 750ti 4G / AMD Radeon RX550
+                                    </li>
+                                    <li>
+                                        <strong>DirectX:</strong> Phiên bản 11
+                                    </li>
+                                    <li>
+                                        <strong>Kết nối:</strong> Cáp mạng Internet
+                                    </li>
+                                    <li>
+                                        <strong>Lưu trữ:</strong> 55 GB chỗ trống khả dụng
+                                    </li>
+                                    <li>
+                                        <strong>Ghi chú thêm:</strong> SSD is highly recommended
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="requirement recommended">
+                                <h2>Khuyến nghị</h2>
+                                <ul>
+                                    <li>
+                                        <strong>HĐH:</strong> Windows 10 64-bit Operating System
+                                    </li>
+                                    <li>
+                                        <strong>Bộ xử lý:</strong> Intel Core i7-7700
+                                    </li>
+                                    <li>
+                                        <strong>Bộ nhớ:</strong> 16 GB RAM
+                                    </li>
+                                    <li>
+                                        <strong>Đồ họa:</strong> Nvidia GTX 1060 6G / AMD Radeon RX 580 2304SP / Intel
+                                        ARC A380
+                                    </li>
+                                    <li>
+                                        <strong>DirectX:</strong> Phiên bản 11
+                                    </li>
+                                    <li>
+                                        <strong>Kết nối:</strong> Cáp mạng Internet
+                                    </li>
+                                    <li>
+                                        <strong>Lưu trữ:</strong> 55 GB chỗ trống khả dụng
+                                    </li>
+                                    <li>
+                                        <strong>Ghi chú thêm:</strong> SSD is highly recommended
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
 
                     <div className={cx('tab__content')}>

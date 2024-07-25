@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Autoplay } from 'swiper/modules'
@@ -18,11 +18,13 @@ import 'swiper/css/scrollbar'
 import 'swiper/css/thumbs'
 import 'swiper/css/autoplay'
 
-import {} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import formatCurrency from '~/components/utilityFunction/formatCurrency'
 import classNames from 'classnames/bind'
 import styles from './Home.module.scss'
 import posterGame from '~/assets/images/404 poster.jpg'
+import { useDispatch, useSelector } from 'react-redux'
+import { addOrderGame } from '~/redux/slices/orderSlice'
 
 const cx = classNames.bind(styles)
 
@@ -45,17 +47,20 @@ function Home() {
     const [currentIndex, setCurrentIndex] = useState(0)
     const swiperRef = useRef(null)
 
-    const [selectedGame, setSelectedGame] = useState(null)
-    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const user = useSelector((state) => state.user)
+    const location = useLocation()
+    const dispatch = useDispatch()
 
     const fetchAllGames = async () => {
         const res = await GameService.getAllGame()
         const games = res?.games?.data || []
         setStateGames(games)
+        console.log(res)
         console.log(games)
     }
     const fetchAllGerne = async () => {
         const res = await GameService.getAllCategorylGerne()
+
         setGenres(res)
         console.log('Lmao:', res)
     }
@@ -65,10 +70,13 @@ function Home() {
         fetchAllGerne()
     }, [])
 
+    const [selectedGameID, setSelectedGameID] = useState(null)
+
     const handleThumbnailClick = (index) => {
         const selectedGame = stateGames[index]
         setCurrentIndex(index)
         setImageInfo(selectedGame)
+        setSelectedGameID(selectedGame?.game_id)
     }
 
     const handleSlideChange = () => {
@@ -97,15 +105,10 @@ function Home() {
     const handleDetailClick = () => {
         navigate(`/detail/${imageInfo.game_id}/${imageInfo.game_name}`)
     }
-    const handleDetailClickGerne = () => {
-        // navigate(`/category/detailGernesbyGames/${genres.genre_id}`)
-        console.log(`/category/detailGernesbyGames/${imageInfo.genre_id}`)
-    }
 
     const handleImageError = (e) => {
         e.target.src = posterGame // nếu không có poster lấy poster mặc định là 404
     }
-
     // thay game khi có ảnh poster lỗi hoặc những ảnh khác
     const getPosterUrl = (game) => {
         if (game.game_name.includes('Soundtrack')) {
@@ -116,7 +119,9 @@ function Home() {
         return game.poster_url
     }
 
-    // đống mở modal popup
+    const [selectedGame, setSelectedGame] = useState(null)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+
     const handleImageClick = (game) => {
         setSelectedGame(game)
         setModalIsOpen(true)
@@ -125,6 +130,41 @@ function Home() {
     const handleCloseModal = () => {
         setModalIsOpen(false)
         setSelectedGame(null)
+    }
+
+    // Hàm fetch chi tiết game
+    const fetchGetDetailsGame = async ({ queryKey }) => {
+        const id = queryKey[1]
+        if (id) {
+            const res = await GameService.getDetailsGame(id)
+            return res.data
+        }
+    }
+
+    // Hook của React Query để fetch dữ liệu chi tiết game dựa trên selectedGameID
+    const { isLoading, data: gameDetails } = useQuery({
+        queryKey: ['games-details', selectedGameID],
+        queryFn: fetchGetDetailsGame,
+        enabled: !!selectedGameID,
+    })
+
+    // Hàm onClick thêm game vào giỏ hàng
+    const handleAddOrderGame = () => {
+        if (!user?.id) {
+            navigate('/login', { state: location?.pathname })
+        } else {
+            dispatch(
+                addOrderGame({
+                    orderItem: {
+                        game_id: gameDetails?.game_id,
+                        game_name: gameDetails?.game_name,
+                        header_image: gameDetails?.header_image,
+                        game: gameDetails?._id,
+                        price: gameDetails?.option?.[0].priceDiscounted,
+                    },
+                }),
+            )
+        }
     }
 
     return (
@@ -159,7 +199,9 @@ function Home() {
                                                 Xem chi tiết
                                             </button>
                                             <div className={cx('add-card')} id="card">
-                                                <button className={cx('add-btn-card')}>Thêm vào giỏ hàng</button>
+                                                <button className={cx('add-btn-card')} onClick={handleAddOrderGame}>
+                                                    Thêm vào giỏ hàng
+                                                </button>
                                             </div>
                                         </div>
                                         <div className={cx('product-price-steam')}>

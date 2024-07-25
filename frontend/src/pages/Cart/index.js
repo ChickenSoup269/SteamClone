@@ -12,6 +12,13 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
 
+import { useSelector } from 'react-redux'
+import { useMutationHooks } from '~/hooks/useMutationHook'
+import * as OrderService from '../../services/OrderService'
+import { message } from 'antd'
+
+import formatCurrency from '~/components/utilityFunction/formatCurrency'
+
 import classNames from 'classnames/bind'
 import styles from './Cart.module.scss'
 
@@ -24,29 +31,6 @@ function Cart() {
                 0: 'Cho tài khoản của tôi',
                 1: 'Đây là một món quà',
             },
-        },
-    ]
-    const games = [
-        {
-            id: 1,
-            image: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/534380/header.jpg?t=1717592174',
-            title: 'Dying light 2',
-            price: '880.000₫',
-            platforms: [faWindows, faApple, faLinux],
-        },
-        {
-            id: 2,
-            image: 'https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg?t=1685562483',
-            title: 'Cyberpunk 2077',
-            price: '900.000₫',
-            platforms: [faWindows],
-        },
-        {
-            id: 3,
-            image: 'https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg?t=1685562483',
-            title: 'Cyberpunk 2077',
-            price: '900.000₫',
-            platforms: [faWindows],
         },
     ]
 
@@ -65,9 +49,18 @@ function Cart() {
     const [errorMessage, setErrorMessage] = useState('')
     const [validFields, setValidFields] = useState({})
 
+    const user = useSelector((state) => state.user)
+    const order = useSelector((state) => state.order)
+    // lấy order game ra đọc từng mục
+    // const game = order.orderItems.length > 0 ? order.orderItems[0] : null
+
+    // Dùng để map
+    const orderItems = order.orderItems
+    console.log('order', order)
+
     const [quantities, setQuantities] = useState(
-        games.reduce((acc, game) => {
-            acc[game.id] = 1
+        orderItems.reduce((acc, game) => {
+            acc[game.game_id] = 1
             return acc
         }, {}),
     )
@@ -80,19 +73,17 @@ function Cart() {
         })
     }
 
-    const handleSelectAll = () => {
-        if (selectedGames.length === games.length) {
-            setSelectedGames([])
-        } else {
-            setSelectedGames(games.map((game) => game.id))
-        }
+    const handleCheckboxChange = (game_id) => {
+        setSelectedGames((prevSelected) =>
+            prevSelected.includes(game_id) ? prevSelected.filter((id) => id !== game_id) : [...prevSelected, game_id],
+        )
     }
 
-    const handleCheckboxChange = (gameId) => {
-        if (selectedGames.includes(gameId)) {
-            setSelectedGames(selectedGames.filter((id) => id !== gameId))
+    const handleSelectAll = () => {
+        if (selectedGames.length === orderItems.length) {
+            setSelectedGames([])
         } else {
-            setSelectedGames([...selectedGames, gameId])
+            setSelectedGames(orderItems.map((game) => game.game_id))
         }
     }
 
@@ -103,11 +94,21 @@ function Cart() {
 
     // Tính tổng và lấy đơn vị vnđ
     const calculateTotalPrice = () => {
-        const selectedGameObjects = games.filter((game) => selectedGames.includes(game.id))
+        const selectedGameObjects = orderItems.filter((game) => selectedGames.includes(game.game_id))
+
         const totalPrice = selectedGameObjects.reduce((sum, game) => {
-            const price = parseFloat(game.price.replace('₫', '').replace(/\./g, ''))
-            return sum + price * quantities[game.id]
+            // tính chia
+            const formateVND = game.price / 100
+            const priceString = formateVND.toString()
+
+            // Xử lý chuỗi để loại bỏ ký tự không cần thiết
+            const price = parseFloat(priceString.replace('₫', '').replace(/\./g, ''))
+
+            // Tính tổng giá
+            return sum + price * (quantities[game.game_id] || 1)
         }, 0)
+
+        // Định dạng tổng giá và trả về
         return totalPrice.toLocaleString('vi-VN') + '₫'
     }
 
@@ -163,6 +164,14 @@ function Cart() {
     }
     const closeModal = () => setIsModalOpen(false)
 
+    // State user và state order
+
+    const mutationAddOrder = useMutationHooks((data) => {
+        const { token, ...rests } = data
+        const res = OrderService.createOrder(token, { ...rests })
+        return res
+    })
+
     const handlePayMent = () => {
         let isValid = true
         let errorMsg = ''
@@ -185,12 +194,30 @@ function Cart() {
         if (isValid) {
             setIsSubmitting(true)
             // Thực hiện thanh toán
-            // ...
+            mutationAddOrder.mutate(
+                {
+                    token: user?.access_token,
+                    orderItems: order?.orderItems,
+                    paymentMethod: paymentMethod,
+                    user: user?.id,
+                },
+                {
+                    onSuccess: () => {
+                        message.success('Purchase successful')
+                        // setIsLoadingAddOrder(false);
+                    },
+                    onError: () => {
+                        message.error('Purchase failed. Please try again.')
+                        // setIsLoadingAddOrder(false);
+                    },
+                },
+            )
         } else {
             setErrorMessage(errorMsg)
         }
     }
 
+    // kiểm lỗi card payment
     const validateField = (field, value) => {
         let isValid = false
         switch (field) {
@@ -230,12 +257,12 @@ function Cart() {
                     <p>
                         <NavLink to="/">Trang chủ </NavLink> <FontAwesomeIcon icon={faArrowRight} /> Giỏ hàng của bạn
                     </p>
-                    <h2>Giỏ hàng của bạn</h2>
+                    <h2>Giỏ hàng của bạn </h2>
                     <div className={cx('select_all')}>
                         <label>
                             <input
                                 type="checkbox"
-                                checked={selectedGames.length === games.length}
+                                checked={selectedGames.length === orderItems.length}
                                 onChange={handleSelectAll}
                             />{' '}
                             Chọn tất cả
@@ -246,92 +273,94 @@ function Cart() {
                 <div className={cx('container_cart_game_pay')}>
                     {/* Column left - Game information */}
                     <div className={cx('content_games')}>
-                        {games.map((game) => (
-                            <div className={cx('content_game_cart')} key={game.id}>
-                                <div className={cx('check_select')}>
-                                    <label className={cx('checkbox_for_game')}>
-                                        <input
-                                            type="checkbox"
-                                            className={cx('checkbox_game')}
-                                            checked={selectedGames.includes(game.id)}
-                                            onChange={() => handleCheckboxChange(game.id)}
-                                        />
-                                        <div className={cx('checkbox__checkmark')}></div>
-                                    </label>
-                                </div>
-
-                                <div className={cx('image_game')}>
-                                    <img src={game.image} alt="" />
-                                </div>
-
-                                <div className={cx('title_game_cart')}>
-                                    {game.title}
-                                    <div className={cx('icon_for_system')}>
-                                        {game.platforms.map((platform, index) => (
-                                            <FontAwesomeIcon
-                                                key={index}
-                                                icon={platform}
-                                                className={cx('icon_system')}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className={cx('price')}>{game.price}</div>
-                                <div className={cx('content_button_select')}>
-                                    <Tippy content="Tặng/Mua game" placement="bottom">
-                                        <select
-                                            name=""
-                                            id=""
-                                            onChange={(e) => handleEditionChange(game.id, e)}
-                                            value={gameSelections[game.id] || '0'}
-                                        >
-                                            {Object.keys(dataChose[0].selectBuy).map((index) => (
-                                                <option key={index} value={index}>
-                                                    {dataChose[0].selectBuy[index]}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </Tippy>
-                                    <div className={cx('number_game')}>
-                                        <span
-                                            onClick={() => decrement(game.id)}
-                                            className={cx('input-number-decrement')}
-                                        >
-                                            –
-                                        </span>
-                                        <Tippy content="Số lượng">
+                        {orderItems.length > 0 ? (
+                            orderItems.map((game) => (
+                                <div className={cx('content_game_cart')} key={game.game_id}>
+                                    <div className={cx('check_select')}>
+                                        <label className={cx('checkbox_for_game')}>
                                             <input
-                                                className={cx('input-number')}
-                                                type="number"
-                                                value={quantities[game.id]}
-                                                onChange={(e) => handleQuantityChange(game.id, Number(e.target.value))}
-                                                min={1}
-                                                max={10}
+                                                type="checkbox"
+                                                className={cx('checkbox_game')}
+                                                checked={selectedGames.includes(game.game_id)}
+                                                onChange={() => handleCheckboxChange(game.game_id)}
                                             />
-                                        </Tippy>
-                                        <span
-                                            onClick={() => increment(game.id)}
-                                            className={cx('input-number-increment')}
-                                        >
-                                            +
-                                        </span>
+                                            <div className={cx('checkbox__checkmark')}></div>
+                                        </label>
                                     </div>
-                                    <div className={cx('button_add_delete')}>
-                                        <Tippy content="Thêm vào danh sách ước">
-                                            <button value="1" onClick={() => addSuccess(game.id, '1')}>
-                                                <FontAwesomeIcon icon={faHeart} />
-                                            </button>
+
+                                    <div className={cx('image_game')}>
+                                        <img src={game.header_image} alt={game.game_name} />
+                                    </div>
+
+                                    <div className={cx('title_game_cart')}>
+                                        {game.game_name}
+                                        <div className={cx('icon_for_system')}>
+                                            <FontAwesomeIcon icon={faWindows} className={cx('icon_system')} />
+                                            <FontAwesomeIcon icon={faApple} className={cx('icon_system')} />
+                                            <FontAwesomeIcon icon={faLinux} className={cx('icon_system')} />
+                                        </div>
+                                    </div>
+
+                                    <div className={cx('price')}>{formatCurrency(game.price)}</div>
+                                    <div className={cx('content_button_select')}>
+                                        <Tippy content="Tặng/Mua game" placement="bottom">
+                                            <select
+                                                name=""
+                                                id=""
+                                                onChange={(e) => handleEditionChange(game.game_id, e)}
+                                                value={gameSelections[game.game_id] || '0'}
+                                            >
+                                                {Object.keys(dataChose[0].selectBuy).map((index) => (
+                                                    <option key={index} value={index}>
+                                                        {dataChose[0].selectBuy[index]}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </Tippy>
-                                        <Tippy content="Gỡ bỏ">
-                                            <button value="2" onClick={() => addSuccess(game.id, '2')}>
-                                                <FontAwesomeIcon icon={faTrash} />
-                                            </button>
-                                        </Tippy>
+                                        <div className={cx('number_game')}>
+                                            <span
+                                                onClick={() => decrement(game.game_id)}
+                                                className={cx('input-number-decrement')}
+                                            >
+                                                –
+                                            </span>
+                                            <Tippy content="Số lượng">
+                                                <input
+                                                    className={cx('input-number')}
+                                                    type="number"
+                                                    value={quantities[game.game_id]}
+                                                    onChange={(e) =>
+                                                        handleQuantityChange(game.game_id, Number(e.target.value))
+                                                    }
+                                                    min={1}
+                                                    max={10}
+                                                />
+                                            </Tippy>
+                                            <span
+                                                onClick={() => increment(game.game_id)}
+                                                className={cx('input-number-increment')}
+                                            >
+                                                +
+                                            </span>
+                                        </div>
+                                        <div className={cx('button_add_delete')}>
+                                            <Tippy content="Thêm vào danh sách ước">
+                                                <button value="1" onClick={() => addSuccess(game.game_id, '1')}>
+                                                    <FontAwesomeIcon icon={faHeart} />
+                                                </button>
+                                            </Tippy>
+                                            <Tippy content="Gỡ bỏ">
+                                                <button value="2" onClick={() => addSuccess(game.game_id, '2')}>
+                                                    <FontAwesomeIcon icon={faTrash} />
+                                                </button>
+                                            </Tippy>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <p>Giỏ hàng của bạn trống</p>
+                        )}
                     </div>
 
                     {/* Column right - contains total amount and number of games */}
