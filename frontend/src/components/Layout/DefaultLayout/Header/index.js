@@ -198,7 +198,7 @@ function Header() {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink style={navLinkStyles} to="/genreRepresentation">
+                            <NavLink style={navLinkStyles} to="/category/detailGenresByGames/28">
                                 Thể loại
                             </NavLink>
                         </li>

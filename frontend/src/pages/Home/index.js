@@ -25,7 +25,7 @@ import styles from './Home.module.scss'
 import posterGame from '~/assets/images/404 poster.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { addOrderGame } from '~/redux/slices/orderSlice'
-
+Modal.setAppElement('#root')
 const cx = classNames.bind(styles)
 
 const slidesData = [
@@ -44,10 +44,16 @@ function Home() {
     const [genres, setGenres] = useState([])
 
     const [imageInfo, setImageInfo] = useState(null)
-    const [currentIndex, setCurrentIndex] = useState(0)
+    const [selectedGame, setSelectedGame] = useState(null)
+    const [selectedGameID, setSelectedGameID] = useState(null)
     const swiperRef = useRef(null)
 
+    const [currentIndex, setCurrentIndex] = useState(0)
+
     const user = useSelector((state) => state.user)
+
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+
     const location = useLocation()
     const dispatch = useDispatch()
 
@@ -55,22 +61,20 @@ function Home() {
         const res = await GameService.getAllGame()
         const games = res?.games?.data || []
         setStateGames(games)
-        console.log(res)
-        console.log(games)
+        // console.log(res)
+        // console.log(games)
     }
+
     const fetchAllGerne = async () => {
         const res = await GameService.getAllCategorylGerne()
-
         setGenres(res)
-        console.log('Lmao:', res)
+        // console.log('Lmao:', res)
     }
 
     useEffect(() => {
         fetchAllGames()
         fetchAllGerne()
     }, [])
-
-    const [selectedGameID, setSelectedGameID] = useState(null)
 
     const handleThumbnailClick = (index) => {
         const selectedGame = stateGames[index]
@@ -103,7 +107,14 @@ function Home() {
     const navigate = useNavigate()
 
     const handleDetailClick = () => {
-        navigate(`/detail/${imageInfo.game_id}/${imageInfo.game_name}`)
+        if (selectedGame) {
+            navigate(`/detail/${selectedGame.game_id}/${selectedGame.game_name}`)
+        } else {
+            navigate(`/detail/${imageInfo.game_id}/${imageInfo.game_name}`)
+        }
+    }
+    const handleDetailGenre = () => {
+        navigate(`/category/detailGenresByGames/${genres.genre_id}`)
     }
 
     const handleImageError = (e) => {
@@ -118,9 +129,6 @@ function Home() {
         }
         return game.poster_url
     }
-
-    const [selectedGame, setSelectedGame] = useState(null)
-    const [modalIsOpen, setModalIsOpen] = useState(false)
 
     const handleImageClick = (game) => {
         setSelectedGame(game)
@@ -142,7 +150,7 @@ function Home() {
     }
 
     // Hook của React Query để fetch dữ liệu chi tiết game dựa trên selectedGameID
-    const { isLoading, data: gameDetails } = useQuery({
+    useQuery({
         queryKey: ['games-details', selectedGameID],
         queryFn: fetchGetDetailsGame,
         enabled: !!selectedGameID,
@@ -153,20 +161,23 @@ function Home() {
         if (!user?.id) {
             navigate('/login', { state: location?.pathname })
         } else {
-            dispatch(
-                addOrderGame({
-                    orderItem: {
-                        game_id: gameDetails?.game_id,
-                        game_name: gameDetails?.game_name,
-                        header_image: gameDetails?.header_image,
-                        game: gameDetails?._id,
-                        price: gameDetails?.option?.[0].priceDiscounted,
-                    },
-                }),
-            )
+            try {
+                dispatch(
+                    addOrderGame({
+                        orderItem: {
+                            game_id: selectedGame?.game_id,
+                            game_name: selectedGame?.game_name,
+                            header_image: selectedGame?.header_image,
+                            game: selectedGame?._id,
+                            price: selectedGame?.option?.[0].priceDiscounted,
+                        },
+                    }),
+                )
+            } catch (error) {
+                console.error('Failed to add game to cart:', error)
+            }
         }
     }
-
     return (
         <div className={cx('wrapper')}>
             <Helmet>
@@ -303,10 +314,10 @@ function Home() {
                         pagination={{ clickable: true }}
                         className={cx('swiper_game_genres')}
                     >
-                        {slidesData.map((slide) => (
+                        {slidesData.map((slide, index) => (
                             <SwiperSlide key={slide.id}>
                                 <div className={cx(slide.backgroundClass)}>
-                                    <h3>{slide.title}</h3>
+                                    {genres[index] && <h3 onClick={handleDetailGenre}>{genres[index].description}</h3>}
                                 </div>
                             </SwiperSlide>
                         ))}
@@ -325,7 +336,7 @@ function Home() {
                     <div key={index} className={cx('swiper_background_poster_game')}>
                         <h2 className={cx('title_poster_game')}>
                             Thể loại - {category.description}{' '}
-                            <NavLink to={'/genreRepresentation'}>
+                            <NavLink to={`/category/detailGenresByGames/${category.genre_id}`}>
                                 <span>
                                     xem tất cả <FontAwesomeIcon icon={faChevronRight} />
                                 </span>
@@ -359,6 +370,7 @@ function Home() {
                         onRequestClose={handleCloseModal}
                         className={cx('modal2')}
                         overlayClassName={cx('overlay')}
+                        appElement={document.getElementById('root')} // Thay 'root' bằng id của phần tử chứa ứng dụng của bạn
                     >
                         <div className={cx('modal_content')}>
                             <div className={cx('image_container')}>
@@ -375,7 +387,7 @@ function Home() {
                             </div>
                             <h2 className={cx('game_name_popup')}>{selectedGame.game_name}</h2>
 
-                            {/* giá */}
+                            {/* Giá */}
                             <div className={cx('price_container_popup')}>
                                 {selectedGame?.option?.[0].percentSavings !== null && (
                                     <div className={cx('price_old')}>
@@ -412,22 +424,24 @@ function Home() {
                                     src={selectedGame.poster_url}
                                     alt={selectedGame.game_name}
                                     className={cx('poster-game-popup')}
+                                    onError={handleImageError}
                                 />
                                 <p className={cx('description-game-popup')}>{selectedGame.description}</p>
                             </div>
                             <div className={cx('modal_buttons')}>
-                                <button className={cx('add-btn-close-popup')} onClick={handleCloseModal}>
+                                <button onClick={handleCloseModal} className={cx('add-btn-close-popup')}>
                                     Đóng
                                 </button>
-                                <button className={cx('button-detail-game-popup')} onClick={handleDetailClick}>
+                                <button onClick={handleDetailClick} className={cx('button-detail-game-popup')}>
                                     Xem chi tiết
                                 </button>
-                                <button className={cx('add-btn-card-popup')}>Thêm vào giỏ hàng</button>
+                                <button onClick={handleAddOrderGame} className={cx('add-btn-card-popup')}>
+                                    Thêm vào giỏ hàng
+                                </button>
                             </div>
                         </div>
                     </Modal>
                 )}
-
                 {/* featured games [BETA] */}
                 <div className={cx('carousel')}>
                     <div className={cx('carousel-left')}>

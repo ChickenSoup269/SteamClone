@@ -477,7 +477,8 @@
     border-left: 1rem solid var(--primary);
 
     span {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        text-decoration: underline;
         color: var(--activeScrollBar);
 
         &:hover {
@@ -639,6 +640,8 @@
     z-index: 1000;
 }
 
+// animation test
+
 /* Modal container */
 .modal2 {
     position: fixed;
@@ -650,7 +653,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 5;
     width: 510px;
-
     overflow: auto;
 }
 
@@ -791,7 +793,7 @@
     padding: 1rem 1.8rem;
     margin-top: 1.2rem;
     color: var(--steamColorWhite);
-    background-color: red;
+    background-color: rgb(238, 58, 58);
     transform: scale(0.9);
     transition: calc(0.3s);
     box-shadow: var(--steamBoxShadow);

@@ -54,6 +54,8 @@ html {
     --activeButtonPayCart: var(--steamBackground);
     --activeLightShadow: var(--steamBoxShadow);
     --activeCardFree: var(--bgContent);
+    --activeTextLightDark: black;
+
     // =========
     --hoverTextLight: var(--steamTextShadowBlack);
 }
@@ -73,6 +75,8 @@ html {
     --activeButtonPayCart: linear-gradient(to right, #1ba5ef 0%, #1f46bb 60%);
     --activeLightShadow: var(--steamBoxShadowWhite);
     --activeCardFree: #ffffff;
+
+    --activeTextLightDark: #ffffff;
 
     // =========
     --hoverTextLight: var(--steamTextShadow);

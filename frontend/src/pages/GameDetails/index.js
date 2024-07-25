@@ -53,10 +53,10 @@ function GameDetails() {
                 setCurrentMediaUrl(res?.data?.screenshots[0]?.path_full)
             }
 
-            if (res?.data?.option && res?.option?.length > 0) {
-                setCurrentPrice(res?.option[0]?.priceDiscounted)
-                setRentalPrice(res?.option[0]?.rentalPrice)
-                setCurrentSalePrice(res?.option[0]?.percentSavings)
+            if (res?.data?.option && res?.data.option?.length > 0) {
+                setCurrentPrice(res?.data.option[0]?.priceDiscounted)
+                setRentalPrice(res?.data.option[0]?.rentalPrice)
+                setCurrentSalePrice(res?.data.option[0]?.percentSavings)
             }
         } catch (error) {
             console.error('Error fetching game details:', error)
@@ -298,8 +298,7 @@ function GameDetails() {
                                 </p>
                             )}{' '}
                             <p className={cx('last-price')}>
-                                Giá thuê: <span></span>
-                                {formatCurrency(RentalPrice)}
+                                Giá thuê: <span> {formatCurrency(RentalPrice)}</span>
                             </p>{' '}
                             <p className={cx('new-price')}>
                                 Giá hiện tại: <span> {formatCurrency(currentPrice)}</span>{' '}
@@ -311,7 +310,7 @@ function GameDetails() {
 
                         <div className={cx('product-detail')}>
                             <p className={cx('short_description')}>{stateGames.description}</p>
-                            {/* <p className={cx('game_author_date')}>
+                            <p className={cx('game_author_date')}>
                                 <p>
                                     Ngày phát hành: <span>{stateGames.release_Date}</span>
                                 </p>
@@ -321,7 +320,7 @@ function GameDetails() {
                                 <p>
                                     Nhà phát hành: <span>{stateGames.publishers.join(', ')}</span>
                                 </p>
-                            </p> */}
+                            </p>
                         </div>
 
                         <div className={cx('purchase-info')}>
@@ -405,8 +404,8 @@ function GameDetails() {
                     <div className={cx('tab__content')}>
                         <h3>Medium Section</h3>
                         <p>{stateGames.description}</p>
-                        <div class="system-requirements">
-                            <div class="requirement minimum">
+                        <div className={cx('system-requirements')}>
+                            <div className={cx('requirement minimum')}>
                                 <h2>Tối thiểu</h2>
                                 <ul>
                                     <li>
@@ -435,7 +434,7 @@ function GameDetails() {
                                     </li>
                                 </ul>
                             </div>
-                            <div class="requirement recommended">
+                            <div className={cx('requirement recommended')}>
                                 <h2>Khuyến nghị</h2>
                                 <ul>
                                     <li>

@@ -26,7 +26,7 @@ const publicRoutes = [
     { path: '/resetPass', component: ForgotPassword },
     { path: '/cart', component: Cart },
     { path: '/gameType/:genre', component: GameType },
-    { path: '/genreRepresentation', component: GenreRepresentation },
+    { path: '/category/detailGenresByGames/:genre_id', component: GenreRepresentation },
     { path: '/profile', component: Profile },
     { path: '/library', component: Library },
     { path: '/notification', component: Notification },
