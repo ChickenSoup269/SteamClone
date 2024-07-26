@@ -63,13 +63,13 @@ function Home() {
         const games = res?.games?.data || []
         setStateGames(games)
         // console.log(res)
-        // console.log(games)
+        console.log('Tất cả game:', games)
     }
 
     const fetchAllGerne = async () => {
         const res = await GameService.getAllCategorylGerne()
         setGenres(res)
-        // console.log('Lmao:', res)
+        console.log('Thể loại:', res)
     }
 
     useEffect(() => {
