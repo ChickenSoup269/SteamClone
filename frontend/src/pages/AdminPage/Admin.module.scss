@@ -1,0 +1,17 @@
+/* AdminPage.module.css */
+.container {
+    display: flex;
+    color: #ccc;
+}
+
+.menu {
+    width: 256px;
+    box-shadow: 1px 1px 2px #ccc;
+    height: 100vh;
+}
+
+.content {
+    flex: 1;
+    padding: 15px;
+    color: #ccc;
+}

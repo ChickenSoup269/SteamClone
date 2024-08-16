@@ -60,26 +60,38 @@ const searchGames = async (query) => {
 }
 
 // [GET] Detail
-const getGameDetails = async (game_id) => {
-  let client
-  try {
-    client = new MongoClient(config.mongoUrl)
-    await client.connect()
-    console.log("Connected to MongoDB")
-    const db = client.db(config.dbName)
-    const collection = db.collection("games")
-    const game = await collection.findOne({ game_id: parseInt(game_id) })
-    return game
-  } catch (error) {
-    console.error("Error getting game details:", error)
-    throw error
-  } finally {
-    if (client) {
-      await client.close()
-      console.log("Closed MongoDB connection")
+const getGameDetails = (game_id) => {
+  return new Promise(async (resolve, reject) => {
+    let client;
+    try {
+      client = new MongoClient(config.mongoUrl);
+      await client.connect();
+      console.log("Connected to MongoDB");
+      const db = client.db(config.dbName);
+      const collection = db.collection("games");
+      const game = await collection.findOne({ game_id: parseInt(game_id) });
+
+      resolve({
+        status: 'OK',
+        message: 'Success',
+        data: game,
+      });
+    } catch (error) {
+      console.error("Error getting game details:", error);
+      reject({
+        status: 'ERROR',
+        message: 'Error getting game details',
+        error: error.message,
+      });
+    } finally {
+      if (client) {
+        await client.close();
+        console.log("Closed MongoDB connection");
+      }
     }
-  }
-}
+  });
+};
+
 // [GET]
 const getGamesOnSale = async () => {
   let client

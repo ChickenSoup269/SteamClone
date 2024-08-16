@@ -23,17 +23,17 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-    background-color: rgba(255, 255, 255, 0.37);
-    padding: 8px 16px;
+    background-color: var(--steamBackground);
+    padding: 16px 16px;
     border-radius: var(--steamBoder);
     color: rgb(255, 255, 255);
     transition: calc(0.4s);
 
     &:hover {
         transition: calc(0.2s);
-        box-shadow: var(--steamBoxShadow);
         background-color: var(--steamColorWhite);
         color: var(--steamColorBlack);
+        box-shadow: var(--steamBoxShadow);
     }
 
     &:active {
@@ -330,18 +330,22 @@ img {
     color: var(--steamColorWhite);
 }
 
+.img-age {
+    width: 50px;
+}
+
 .product-price {
     margin: 1rem 0;
     font-size: 1.5rem;
     font-weight: 700;
-
+    line-height: 20px;
     span {
         font-weight: 400;
     }
 }
 
 .last-price {
-    font-weight: 400;
+    font-weight: 600;
     strike {
         text-decoration: none;
         position: relative;
@@ -365,11 +369,11 @@ img {
 }
 
 .new-price {
-    font-weight: 400;
+    font-weight: 600;
     span {
         color: var(--steamPrice);
         font-size: 1.4rem;
-        font-weight: 500;
+        font-weight: 600;
     }
 }
 
@@ -453,7 +457,7 @@ img {
     border: 0;
     outline: 0;
     color: var(--steamColorWhite);
-    width: 32rem;
+    width: 36rem;
     padding: 1rem 4rem 1rem 1rem;
     background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
         linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
@@ -574,6 +578,245 @@ $tab-wrap-border-radius: 6px;
         color: var(--steamColorBlack);
         transform: translateY(-3px);
         border-radius: $tab-wrap-border-radius;
+    }
+}
+
+// review game
+.rating label {
+    display: inline-block;
+    cursor: pointer;
+    color: #f1c40f; /* Màu vàng cho sao */
+    font-size: 1.5em;
+    margin-right: 5px;
+}
+
+.rating input[type='radio'] {
+    display: none;
+}
+
+.comment-box {
+    margin-top: 15px;
+}
+
+.comment-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.btn-review-game {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+
+    &:hover {
+        cursor: pointer;
+    }
+    &:active {
+        background-color: #2980b9;
+    }
+}
+
+// css cấu hình
+.system-requirements {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.requirement {
+    margin-bottom: 20px;
+}
+
+.requirement h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.requirement ul {
+    list-style: none;
+    padding: 0;
+}
+
+.requirement ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.requirement ul li:last-child {
+    border-bottom: none;
+}
+
+.requirement ul li strong {
+    color: #2c3e50;
+}
+
+.minimum {
+    border-left: 4px solid #e74c3c;
+    padding-left: 16px;
+}
+
+.recommended {
+    border-left: 4px solid #3498db;
+    padding-left: 16px;
+}
+
+// ngôn ngữ hỗ trợ
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.support-languages {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.support-languages th,
+.support-languages td {
+    padding: 8px;
+    text-align: center; /* Can change to 'left' if preferred */
+}
+
+.support-languages th {
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+// .support-languages tr:nth-child(even) {
+//     background-color: #2d2d2d;
+// }
+
+.support-languages tr:hover {
+    background-color: #f1f1f1;
+}
+
+.support-languages td {
+    font-size: 1.1em;
+}
+
+// Thành tựu
+.achievements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.achievement {
+    width: 150px;
+    text-align: center;
+}
+
+.achievement img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.achievement img:hover {
+    transform: scale(1.05);
+}
+
+.achievement p {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+// css reivew 2.0
+.rating-review-item {
+    display: flex;
+    align-items: center;
+
+    .left-rating {
+        flex: 1 1 20%;
+        max-width: 20%;
+
+        .star-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            h3 {
+                margin: 0 12px 0 0;
+                font-size: 40px;
+            }
+            .fa-star {
+                font-size: 30px;
+                color: #28a745;
+            }
+        }
+        .number-rating {
+            span {
+                display: block;
+                margin-bottom: 2px;
+                color: #474848;
+                font-size: 14px;
+            }
+        }
+    }
+    .right-rating {
+        flex: 1 1 80%;
+        max-width: 80%;
+        ul.order-list {
+            margin-bottom: 0;
+            padding-left: 0;
+            list-style: none;
+            li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .star-value {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 15px;
+                    min-width: 25px;
+                    h5 {
+                        margin: 0 2px 0 0;
+                        font-size: 16px;
+                    }
+                    .fa-star {
+                        font-size: 14px;
+                    }
+                }
+                .progress {
+                    flex: 1 1 315px;
+                    max-width: 315px;
+                    height: 6px;
+                    margin-right: 20px;
+                    margin-bottom: 0;
+                    background-color: #ddd;
+                }
+                .rating-hit {
+                    color: #b2b2b2;
+                    font-size: 16px;
+                }
+            }
+        }
     }
 }
 

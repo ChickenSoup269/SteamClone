@@ -1,14 +1,19 @@
 .wrapper {
     position: relative;
-}
-
-.full-background::before {
-    content: '';
-    background: url('../../assets/images/background_img_re.jpg') no-repeat center center/cover;
-    position: absolute;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
-    z-index: -1;
+    background: url('../../assets/images/background_img_re.jpg') no-repeat center center/cover;
+
+    &::before {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5); // Optional: add a dark overlay
+        z-index: -1;
+    }
 }
 
 .container-register {
@@ -23,8 +28,8 @@
     position: relative;
     min-width: 350px;
     height: 400px;
-    background: #181a21;
-    color: #fff;
+    background: linear-gradient(#392763c0, #72ebed);
+    color: var(--steamColorWhite);
     padding: 20px 30px 25px 30px;
     border-radius: var(--steamBoder);
     box-shadow: var(--steamBoxShadowHover);
@@ -86,7 +91,7 @@
 
 // Check type input
 .input-field:required:not(:focus) {
-    border-bottom: 2px solid var(--primary);
+    border-bottom: 2px solid #c8906b;
     transition: 0.2s;
 }
 
@@ -130,7 +135,7 @@
     border-radius: var(--steamBoder);
     border: none;
     color: var(--steamColorWhite);
-    background: var(--primary);
+    background: #e59058;
     margin-top: 20px;
     font-weight: bold;
 
@@ -138,6 +143,7 @@
     transition: 0.4s ease-out;
 
     &:hover {
+        transform: scale(0.98);
         box-shadow: var(--steamBoxShadowHover);
     }
     &:active {

@@ -1,0 +1,106 @@
+.loading {
+    h1 {
+        position: absolute;
+        height: 40px;
+        margin: auto;
+        top: 100px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 0.1em;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: white;
+    }
+    h1 span {
+        display: none;
+    }
+    h1::after {
+        animation: txt 5s infinite;
+        content: '';
+    }
+}
+
+.arc {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 100px;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-top: 2px solid var(--primary);
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    animation: rt 2s infinite linear;
+
+    &::before {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border-top: 2px solid var(--steamColorWhite);
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+        animation: rt 4s infinite linear reverse;
+        content: '';
+    }
+
+    &::after {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        border-top: initial;
+        border-left: initial;
+        border-right: initial;
+        animation: cw 1s infinite;
+        content: '';
+        background: snow;
+    }
+}
+
+@keyframes rt {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes cw {
+    0% {
+        width: 0;
+        height: 0;
+    }
+    75% {
+        width: 40px;
+        height: 40px;
+    }
+    100% {
+        width: 0;
+        height: 0;
+    }
+}
+@keyframes txt {
+    0% {
+        content: 'ĐANG XỬ LÝ.';
+    }
+    50% {
+        content: 'ĐANG XỬ LÝ..';
+    }
+    100% {
+        content: 'ĐANG XỬ LÝ...';
+    }
+}
