@@ -2,9 +2,6 @@
 
 + Dự án này được tạo ra để người dùng dễ dàng mua game và trải nghiệm những tựa game mà người dùng muốn.
 + Đặc điểm chính của Web này là UI thân thiện và có vài chức năng tương tự Steam 
-+
-+
-
 
 ![Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Steam_gray-brown_logo.svg/2560px-Steam_gray-brown_logo.svg.png)
 
