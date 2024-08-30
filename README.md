@@ -65,5 +65,3 @@ function App() {
 ## Screenshot
 ![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Screenshot%202024-07-25%20203434.png)
 
-
->>>>>>> master
