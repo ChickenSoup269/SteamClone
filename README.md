@@ -65,3 +65,11 @@ function App() {
 ## Screenshot
 ![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Screenshot%202024-07-25%20203434.png)
 
+![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Database/Screenshot%202024-08-31%20155604.png)
+
+![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Database/Screenshot%202024-08-31%20155613.png)
+
+## Video demo
+```bash
+ https://youtu.be/zZd_RgvPfic
+```
