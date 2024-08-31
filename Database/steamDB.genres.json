@@ -1,0 +1,91 @@
+[{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db48e"
+  },
+  "genre_id": "28",
+  "description": "Simulation"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db490"
+  },
+  "genre_id": "2",
+  "description": "Strategy"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db495"
+  },
+  "genre_id": "1",
+  "description": "Action"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db497"
+  },
+  "genre_id": "23",
+  "description": "Indie"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db49d"
+  },
+  "genre_id": "25",
+  "description": "Adventure"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db4a0"
+  },
+  "genre_id": "3",
+  "description": "RPG"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db4a5"
+  },
+  "genre_id": "4",
+  "description": "Casual"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db4e1"
+  },
+  "genre_id": "71",
+  "description": "Sexual Content"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db4e3"
+  },
+  "genre_id": "72",
+  "description": "Nudity"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db4e5"
+  },
+  "genre_id": "73",
+  "description": "Violent"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db4fa"
+  },
+  "genre_id": "18",
+  "description": "Sports"
+},
+{
+  "_id": {
+    "$oid": "669fe78fbb8a2ac3e52db518"
+  },
+  "genre_id": "29",
+  "description": "Massively Multiplayer"
+},
+{
+  "_id": {
+    "$oid": "66a0f80b90d21664f2c1249e"
+  },
+  "genre_id": "77",
+  "description": "PR"
+}]
