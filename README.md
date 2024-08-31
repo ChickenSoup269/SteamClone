@@ -43,25 +43,6 @@ Start the server frontend & BackEnd
   npm start
 ```
 
-
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`API_KEY`
-
-`ANOTHER_API_KEY`
-
-
-## Usage/Examples
-
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
-```
 ## Screenshot
 ![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Screenshot%202024-07-25%20203434.png)
 
