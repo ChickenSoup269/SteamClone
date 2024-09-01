@@ -9,8 +9,9 @@
 ## Demo
 
 - Hiện đang trong quá trình thử nghiệm  [BETA]
-
-
+- Sử dụng database MongoDB, nếu quá trình lấy flie game từ steam không thành công thì đã có sẵn 2 file json được để trong folder Database
+- Nếu bạn muốn thay đổi cấu hình MogonDB thì hãy đến SteamClone/Backend/config/mongodb.js
+  
 ## Authors
 
 - [@ChickenSoup269](https://github.com/ChickenSoup269) [FE]
