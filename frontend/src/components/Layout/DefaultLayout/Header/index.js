@@ -113,20 +113,6 @@ function Header() {
         }
     }, [user?.access_token, user?.avatar])
 
-    // điều chỉnh header theme
-    const navLinkStyles = ({ isActive }) => {
-        const textColorLight = isActive ? 'var(--activePrimary)' : isScrolled ? '#000000' : '#ffffff'
-        const textColorDark = isActive ? 'var(--activePrimary)' : '#ffffff'
-        const textColor = theme === 'light' ? textColorLight : textColorDark
-
-        return {
-            fontWeight: isActive ? '700' : '500',
-            background: isActive ? 'var(--activeNavLink)' : 'none',
-            color: textColor,
-            transform: isActive ? ' scale(0.9)' : 'none',
-        }
-    }
-
     const [animationClass, setAnimationClass] = useState('')
 
     useEffect(() => {
@@ -170,6 +156,20 @@ function Header() {
     const handleThemeChange = () => {
         const newTheme = theme === 'light' ? 'dark' : 'light'
         setTheme(newTheme)
+    }
+
+    // điều chỉnh header theme
+    const navLinkStyles = ({ isActive }) => {
+        const textColorLight = isActive ? 'var(--activePrimary)' : isScrolled ? '#000000' : '#ffffff'
+        const textColorDark = isActive ? 'var(--activePrimary)' : '#ffffff'
+        const textColor = theme === 'light' ? textColorLight : textColorDark
+
+        return {
+            fontWeight: isActive ? '700' : '500',
+            background: isActive ? 'var(--activeNavLink)' : 'none',
+            color: textColor,
+            transform: isActive ? ' scale(0.9)' : 'none',
+        }
     }
 
     // cho color Icon đổi màu khi scroll

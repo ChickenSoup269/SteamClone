@@ -25,6 +25,7 @@
 
 .login-box {
     position: relative;
+    z-index: 2;
     min-width: 250px;
     height: 355px;
     background: #181a21;
@@ -184,15 +185,15 @@
 }
 
 .qr-section {
-    opacity: 0;
+    opacity: 1;
     width: 0px;
-    z-index: -1;
+    z-index: 1;
     transform: translateX(-300px);
     transition: 0.5s ease-in;
 
     &.visible {
         width: 220px;
-        opacity: 1;
+        opacity: 2;
         margin-left: -10px;
         transform: translateX(0);
         box-shadow: var(--steamBoxShadow);
