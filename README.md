@@ -10,6 +10,11 @@
 
 - Hiện đang trong quá trình thử nghiệm  [BETA]
 - Sử dụng database MongoDB, nếu quá trình lấy flie game từ steam không thành công thì đã có sẵn 2 file json được để trong folder Database
+  + Ở MongoDB Create new Databasse
+  + Database name: `steamDB`
+  + Collection name: `games` | `genres`
+    > **Cuối cùng ADD DATA và Import JSON file ở Folder Database của steamclone và 2 tên tương ứng**
+
 - Nếu bạn muốn thay đổi cấu hình MogonDB thì hãy đến SteamClone/Backend/config/mongodb.js
   
 ## Authors
