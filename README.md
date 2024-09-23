@@ -37,10 +37,21 @@ Go to the project directory
   cd SteamClone
 ```
 
-Install dependencies
+Create 2 terminal
+
+```bash 
+  cd frontend 
+```
+
+```bash 
+  cd backend 
+```
+
+
+Install dependencies all front end & back end
 
 ```bash
-  npm install
+  npm install 
 ```
 
 Start the server frontend & BackEnd
