@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require("mongodb")
-const config = require("../config/mongodb")
+const config = require("../config/db")
 //Method [GET] ALL from Mongo
 const getAllGenres = async () => {
   let client

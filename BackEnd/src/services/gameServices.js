@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb")
-const config = require("../config/mongodb")
+const config = require("../config/db")
 //Method
 // [GET] All
 const getGamesFromMongo = (page, limit) => {
