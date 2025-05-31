@@ -26,6 +26,7 @@ const gameSchema = new mongoose.Schema({
   poster_url: String,
   publishers: [String],
   release_Date: String,
+  sale_end_date: String,
   screenshots: [
     {
       id: Number,
@@ -33,8 +34,9 @@ const gameSchema = new mongoose.Schema({
       path_full: String,
     },
   ],
-  last_updated: { type: Date, default: Date.now },
 });
 
 gameSchema.index({ game_id: 1 });
+gameSchema.index({ game_name: 'text' }); // Index cho tìm kiếm
+
 module.exports = mongoose.model('Game', gameSchema);

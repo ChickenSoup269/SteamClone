@@ -46,17 +46,51 @@ const hasMetacritic = (gameDetails) => {
 };
 
 const isValidGame = (game, gameDetails) => {
+  if (!game || !gameDetails) return false;
+
+  // Kiểm tra các trường bắt buộc
+  const hasValidName = game.name && game.name.trim() !== '';
+  const hasValidGenres = gameDetails.genres && gameDetails.genres.length > 0 && 
+    gameDetails.genres.every(genre => genre.id && genre.description && genre.description.trim() !== '');
+  const hasValidPackageGroups = gameDetails.package_groups && gameDetails.package_groups.length > 0;
+  const hasValidDlc = gameDetails.dlc && Array.isArray(gameDetails.dlc) && gameDetails.dlc.length > 0;
+  const hasValidMetacritic = hasMetacritic(gameDetails);
+  const hasValidReleaseDate = gameDetails.release_date && gameDetails.release_date.date && gameDetails.release_date.date.trim() !== '';
+  const hasValidDevelopers = gameDetails.developers && gameDetails.developers.length > 0 && 
+    gameDetails.developers.every(dev => dev && dev.trim() !== '');
+  const hasValidPublishers = gameDetails.publishers && gameDetails.publishers.length > 0 && 
+    gameDetails.publishers.every(pub => pub && pub.trim() !== '');
+  const hasValidScreenshots = gameDetails.screenshots && gameDetails.screenshots.length > 0 && 
+    gameDetails.screenshots.every(s => s.id && s.path_thumbnail && s.path_full);
+  const hasValidHeaderImage = gameDetails.header_image && gameDetails.header_image.trim() !== '';
+  const hasValidIsFree = typeof gameDetails.is_free === 'boolean';
+  // Kiểm tra movies_thumnail
+  const hasValidMovies = gameDetails.movies && Array.isArray(gameDetails.movies) && gameDetails.movies.length > 0 &&
+    gameDetails.movies.every(movie => movie.thumbnail && movie.webm?.max);
+
+  // Kiểm tra option nếu không miễn phí
+  let hasValidOption = true;
+  if (!gameDetails.is_free) {
+    const subs = gameDetails.package_groups.flatMap(group => group.subs || []);
+    hasValidOption = subs.length > 0 && subs.every(sub => 
+      sub.option_text && sub.price_in_cents_with_discount !== undefined
+    );
+  }
+
   return (
-    game.name && game.name.trim() !== '' &&
-    gameDetails &&
-    gameDetails.genres && gameDetails.genres.length > 0 &&
-    gameDetails.package_groups && gameDetails.package_groups.length > 0 &&
-    gameDetails.dlc && Array.isArray(gameDetails.dlc) && gameDetails.dlc.length > 0 &&
-    hasMetacritic(gameDetails) &&
-    gameDetails.release_date && gameDetails.release_date.date &&
-    gameDetails.developers && gameDetails.developers.length > 0 &&
-    gameDetails.publishers && gameDetails.publishers.length > 0 &&
-    gameDetails.screenshots && gameDetails.screenshots.length > 0
+    hasValidName &&
+    hasValidGenres &&
+    hasValidPackageGroups &&
+    hasValidDlc &&
+    hasValidMetacritic &&
+    hasValidReleaseDate &&
+    hasValidDevelopers &&
+    hasValidPublishers &&
+    hasValidScreenshots &&
+    hasValidHeaderImage &&
+    hasValidIsFree &&
+    hasValidOption &&
+    hasValidMovies
   );
 };
 
@@ -90,7 +124,7 @@ const fetchDataAndSaveToMongo = async () => {
 
       fetchedGames.push({ game, gameDetails });
       processedCount++;
-      console.log(`Processed ${processedCount}/50 games`);
+      console.log(`Processed ${processedCount}/30 games`);
 
       // Delay để tránh rate limit
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -101,17 +135,19 @@ const fetchDataAndSaveToMongo = async () => {
       return;
     }
 
-    console.log(`Collected 50 valid games. Saving to MongoDB...`);
+    console.log(`Collected 30 valid games. Saving to MongoDB...`);
 
     for (const { game, gameDetails } of fetchedGames) {
       // Lưu genres vào collection genres
       const genres = gameDetails.genres || [];
       for (const genre of genres) {
-        await Genre.findOneAndUpdate(
-          { genre_id: genre.id },
-          { genre_id: genre.id, name: genre.description },
-          { upsert: true, new: true }
-        );
+        if (genre.id && genre.description && genre.description.trim() !== '') {
+          await Genre.findOneAndUpdate(
+            { genre_id: genre.id },
+            { genre_id: genre.id, name: genre.description },
+            { upsert: true, new: true }
+          );
+        }
       }
 
       const genre_ids = genres.map(genre => genre.id);
@@ -119,27 +155,24 @@ const fetchDataAndSaveToMongo = async () => {
       let saleDuration = 0;
       let saleEndDate = null;
       let subs = [];
-      let percentSavings = [];
 
       // Xử lý package_groups
       if (gameDetails.package_groups) {
         for (const group of gameDetails.package_groups) {
           if (group.subs) {
-            subs = group.subs.map(sub => ({
+            subs = subs.concat(group.subs.map(sub => ({
               optionText: sub.option_text,
               percentSavings: sub.percent_savings_text && sub.percent_savings_text.trim() !== ''
                 ? parseInt(sub.percent_savings_text.replace('%', '').trim(), 10)
                 : null,
               priceDiscounted: sub.price_in_cents_with_discount,
               rentalPrice: sub.price_in_cents_with_discount * 0.5,
-            }));
-            percentSavings = percentSavings.concat(subs);
+            })));
           }
         }
-        percentSavings = percentSavings.filter(savings => savings.percentSavings !== null && savings.percentSavings !== undefined);
       }
 
-      if (percentSavings.length > 0) {
+      if (subs.some(sub => sub.percentSavings !== null && sub.percentSavings !== undefined)) {
         saleDuration = 7;
         const saleStartDate = new Date();
         saleEndDate = new Date(saleStartDate.getTime() + saleDuration * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -192,7 +225,7 @@ const fetchDataAndSaveToMongo = async () => {
       }
     }
 
-    console.log('Successfully saved 50 games to MongoDB');
+    console.log('Successfully saved 30 games to MongoDB');
   } catch (error) {
     console.error('Error in fetchDataAndSaveToMongo:', error.message);
   }
