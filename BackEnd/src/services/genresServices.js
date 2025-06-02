@@ -1,5 +1,5 @@
-const Genre = require('../models/gameModel');
-const Game = require('../models/genresModel');
+const Genre = require('../models/genresModel');
+const Game = require('../models/gameModel');
 
 class GenreService {
   static async createGenre(genreData) {

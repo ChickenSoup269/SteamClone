@@ -1,4 +1,4 @@
-const GenreService = require('../services/GenreService');
+const GenreService = require('../services/genresServices');
 
 class genresController {
   // Create

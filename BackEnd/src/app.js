@@ -2,25 +2,25 @@
 const express = require("express")
 const dotenv = require("dotenv")
 const cors = require("cors")
-const bodyParser = require("body-parser")
+// const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const morgan = require("morgan")
 const path = require("path")
 const connectDB = require('./config/db');
-const { autoFetchData } = require('./utils/fetchGameDetails');
+// const { autoFetchData } = require('./utils/fetchGameDetails');
 const userRoutes = require("./routes/appRoutes")
 // Configure environment variables
 dotenv.config()
 
 // Create Express app
 const app = express()
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3001  
 
 // Middleware setup
 app.use(cors())
 app.use(express.json({ limit: "50mb" }))
-app.use(express.urlencoded({ limit: "50mb" }))
-app.use(bodyParser.json())
+// app.use(express.urlencoded({ limit: "50mb" }))
+// app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(morgan("combined"))
 app.use(express.static(path.join(__dirname, "public")))
@@ -32,7 +32,7 @@ userRoutes(app)
 // Connect to MongoDB
 connectDB().then(() => {
   // Chạy fetch dữ liệu khi server khởi động
-  autoFetchData();
+  // autoFetchData();
 });
 // Start the server
 app.listen(port, async () => {
