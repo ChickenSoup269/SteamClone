@@ -1,12 +1,12 @@
-const gameRoutes = require("./gameRoutes");
-const genresRoutes = require("./genresRoutes");
+const gameRouter = require("./gameRoutes");
+const genresRouter = require("./genresRoutes");
 const UserRouter = require('./UserRouter')
-const OrderRouter = require('./OrderRouter')
+const AuthRouter = require('./authRoutes')
 // Contains routes 
 function route(app) {
-  app.use('/', gameRoutes)
+  app.use('/', gameRouter)
   app.use('/user', UserRouter)
-  app.use('/genres',genresRoutes)
-  app.use('/order', OrderRouter)
+  app.use('/genres', genresRouter)
+  app.use('/auth',AuthRouter)
 }
 module.exports = route;

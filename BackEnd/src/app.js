@@ -2,7 +2,6 @@
 const express = require("express")
 const dotenv = require("dotenv")
 const cors = require("cors")
-// const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const morgan = require("morgan")
 const path = require("path")
@@ -19,8 +18,6 @@ const port = process.env.PORT || 3001
 // Middleware setup
 app.use(cors())
 app.use(express.json({ limit: "50mb" }))
-// app.use(express.urlencoded({ limit: "50mb" }))
-// app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(morgan("combined"))
 app.use(express.static(path.join(__dirname, "public")))
@@ -31,7 +28,6 @@ userRoutes(app)
 
 // Connect to MongoDB
 connectDB().then(() => {
-  // Chạy fetch dữ liệu khi server khởi động
   // autoFetchData();
 });
 // Start the server
