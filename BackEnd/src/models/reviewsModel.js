@@ -9,6 +9,9 @@ const reviewSchema = new mongoose.Schema({
   updatedAt: { type: Date },
 });
 
-reviewSchema.index({ userId: 1, gameId: 1 }, { unique: true });
+reviewSchema.index({ gameId: 1 });
 
 module.exports = mongoose.model('Review', reviewSchema);
+
+// reviewSchema.index({ userId: 1, gameId: 1 }, { unique: true });
+
