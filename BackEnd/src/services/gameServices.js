@@ -1,223 +1,64 @@
-const { MongoClient } = require("mongodb")
-const config = require("../config/mongodb")
-//Method
-// [GET] All
-const getGamesFromMongo = (page, limit) => {
-  return new Promise(async (resolve, reject) => {
-    let client;
-    try {
-      client = new MongoClient(config.mongoUrl);
-      await client.connect();
-      const db = client.db(config.dbName);
-      const collection = db.collection("games");
-      const skip = (page - 1) * limit;
-      const games = await collection.find({})
-        .skip(skip)
-        .limit(limit)
-        .toArray();
-      
-      resolve({
-        status: 'OK',
-        message: 'Success',
-        data: games,
-      });
-    } catch (error) {
-      console.error("Có lỗi xảy ra:", error);
-      reject({
-        status: 'ERROR',
-        message: 'Có lỗi xảy ra',
-        error: error.message,
-      });
-    } finally {
-      if (client) {
-        await client.close();
+const Game = require("../models/gameModel")
+const Genre = require("../models/genresModel") 
+class gameServices{
+   static async createGame(gameData) {
+    // Kiểm tra genre_ids tồn tại
+    if (gameData.genre_ids && gameData.genre_ids.length > 0) {
+      const genres = await Genre.find({ genre_id: { $in: gameData.genre_ids } });
+      if (genres.length !== gameData.genre_ids.length) {
+        throw new Error('One or more genre_ids are invalid');
       }
     }
-  });
-};
-
-// [GET] Search
-const searchGames = async (query) => {
-  let client
-  try {
-    client = new MongoClient(config.mongoUrl)
-    await client.connect()
-    console.log("Connected to MongoDB")
-    const db = client.db(config.dbName)
-    const collection = db.collection("games")
-    const filter = { game_name: { $regex: `^${query}`, $options: "i" } }
-    const games = await collection.find(filter).toArray()
-    return games
-  } catch (error) {
-    console.error("Error searching games:", error)
-    throw error
-  } finally {
-    if (client) {
-      await client.close()
-      console.log("Closed MongoDB connection")
+    if (!gameData.game_id) {
+      throw new Error('game_id is required');
     }
+    const game = new Game(gameData);
+    return await game.save();
   }
-}
-
-// [GET] Detail
-const getGameDetails = (game_id) => {
-  return new Promise(async (resolve, reject) => {
-    let client;
-    try {
-      client = new MongoClient(config.mongoUrl);
-      await client.connect();
-      console.log("Connected to MongoDB");
-      const db = client.db(config.dbName);
-      const collection = db.collection("games");
-      const game = await collection.findOne({ game_id: parseInt(game_id) });
-
-      resolve({
-        status: 'OK',
-        message: 'Success',
-        data: game,
-      });
-    } catch (error) {
-      console.error("Error getting game details:", error);
-      reject({
-        status: 'ERROR',
-        message: 'Error getting game details',
-        error: error.message,
-      });
-    } finally {
-      if (client) {
-        await client.close();
-        console.log("Closed MongoDB connection");
-      }
-    }
-  });
-};
-
-// [GET]
-const getGamesOnSale = async () => {
-  let client
-  try {
-    client = new MongoClient(config.mongoUrl)
-    await client.connect()
-    const db = client.db(config.dbName)
-    const collection = db.collection("games")
-    const gamesOnSale = await collection
-      .find(
-        { sale: { $exists: true, $ne: [] } },
-        { projection: { _id: 0, game_name: 1, header_image: 1, sale: 1 } }
-      )
-      .toArray()
-    return gamesOnSale
-  } catch (error) {
-    console.error("Có lỗi xảy ra:", error)
-    throw error
-  } finally {
-    if (client) {
-      await client.close()
-    }
+  static async getAllGames(page, limit) {
+    return await Game.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
   }
-}
-// [POST]
-const insertGame = async (game) => {
-  let client
-  try {
-    client = new MongoClient(config.mongoUrl)
-    await client.connect()
-    const db = client.db(config.dbName)
-    const collection = db.collection("games")
-    const existingGameById = await collection.findOne({ game_id: game.game_id })
-    if (existingGameById) {
-      throw new Error("game_id already exists")
-    }
-    const existingGameByName = await collection.findOne({
-      game_name: game.game_name,
+
+  static async getGameById(gameId) {
+    return await Game.findOne({ game_id: parseInt(gameId) }).lean();
+  }
+
+  static async searchGames(query) {
+    return await Game.find({
+      $text: { $search: query },
     })
-    if (existingGameByName) {
-      throw new Error("game_name already exists")
+      .limit(20)
+      .lean();
+  }
+
+  static async updateGame(gameId, updateData) {
+    if (updateData.genre_ids && updateData.genre_ids.length > 0) {
+      const genres = await Genre.find({ genre_id: { $in: updateData.genre_ids } });
+      if (genres.length !== updateData.genre_ids.length) {
+        throw new Error('One or more genre_ids are invalid');
+      }
     }
-    const result = await collection.insertOne(game)
-    return result.ops ? result.ops[0] : { insertedId: result.insertedId }
-  } catch (error) {
-    console.error("Lỗi trong insertGameToMongo:", error)
-    throw error
-  } finally {
-    if (client) {
-      await client.close()
+    delete updateData.game_id;
+
+    const game = await Game.findOneAndUpdate(
+      { game_id: parseInt(gameId) },
+      { $set: updateData },
+      { new: true, runValidators: true }
+    ).lean();
+
+    if (!game) {
+      return null;
     }
+
+    return game;
+  }
+
+  static async deleteGame(gameId) {
+    const result = await Game.deleteOne({ game_id: parseInt(gameId) });
+    return result.deletedCount > 0;
   }
 }
-
-// [Delete]
-const deleteGame = async (game_id) => {
-  let client
-  try {
-    client = new MongoClient(config.mongoUrl)
-    await client.connect()
-    console.log("Connected to MongoDB")
-
-    const db = client.db(config.dbName)
-    const collection = db.collection("games")
-    //convert int
-    const numericGameId = parseInt(game_id, 10)
-    const result = await collection.deleteOne({ game_id: numericGameId })
-    if (result.deletedCount === 0) {
-      console.log("Game not found with game_id:", numericGameId)
-      return null
-    }
-    console.log("Deleted game with game_id:", numericGameId)
-    return result
-  } catch (error) {
-    console.error("Error deleting game:", error)
-    throw error
-  } finally {
-    if (client) {
-      await client.close()
-      console.log("Closed MongoDB connection")
-    }
-  }
-}
-
-// [Update]
-const updateGame = async (game_id, updateData) => {
-  let client
-  try {
-    client = new MongoClient(config.mongoUrl)
-    await client.connect()
-    console.log("Connected to MongoDB")
-
-    const db = client.db(config.dbName)
-    const collectionGenres = db.collection("games")
-    const numericGameId = parseInt(game_id, 10)
-    const updateObject = { $set: updateData }
-    console.log("Updating Game with game_id:", numericGameId)
-    console.log("Update object:", updateObject)
-    const result = await collectionGenres.findOneAndUpdate(
-      { game_id: numericGameId },
-      updateObject,
-      { returnOriginal: false }
-    )
-    console.log(result)
-    if (!result) {
-      throw new Error(`Games with game_id ${numericGameId} not found.`)
-    }
-    return result
-  } catch (error) {
-    console.error("Error updating Games:", error)
-    throw error
-  } finally {
-    if (client) {
-      await client.close()
-      console.log("Closed MongoDB connection")
-    }
-  }
-}
-// [Search]
-
-module.exports = {
-  getGamesFromMongo,
-  getGameDetails,
-  searchGames,
-  getGamesOnSale,
-  insertGame,
-  deleteGame,
-  updateGame,
-}
+module.exports = gameServices;
