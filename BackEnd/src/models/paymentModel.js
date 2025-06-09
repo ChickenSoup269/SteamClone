@@ -9,6 +9,11 @@ const paymentSchema = new mongoose.Schema({
     enum: ['CREATED', 'APPROVED', 'COMPLETED', 'FAILED'], 
     default: 'CREATED' 
   },
+  transactionType: {
+    type: String,
+    enum: ['buy', 'rent'],
+    required: true,
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
 });

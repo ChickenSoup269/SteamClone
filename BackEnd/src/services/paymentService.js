@@ -1,28 +1,41 @@
 const { paypal, client } = require('../config/paypal');
 const Order = require('../models/bookingModel');
 const Payment = require('../models/paymentModel');
+const mongoose = require('mongoose');
 const Game = require('../models/gameModel');
 const UserGames = require('../models/usergamesModel');
 const OrderService = require('./ordersService');
 
 class PaymentService {
- static async createPayment(orderId) {
+  static async createPayment(orderId) {
+    if (!mongoose.isValidObjectId(orderId)) {
+      console.error('Invalid orderId:', orderId);
+      throw new Error('Invalid orderId');
+    }
+    console.log('Received orderId:', orderId);
     const order = await Order.findById(orderId);
     if (!order) {
+      console.error('Order not found for ID:', orderId);
       throw new Error('Order not found');
     }
-
+    console.log('Found order:', order);
     const game = await Game.findOne({ game_id: order.gameId });
     if (!game) {
       throw new Error('Game not found');
     }
 
-    if (!game.option || !game.option[0] || !game.option[0].priceDiscounted) {
+    if (!game.option || !game.option[0]) {
       throw new Error('Game price not available');
     }
-    const priceInVND = game.option[0].priceDiscounted;
-    const exchangeRate = 24000; // 1 USD = 24,000 VND
-    const priceInUSD = priceInVND / exchangeRate;
+
+    const priceField = order.transactionType === 'buy' ? 'priceDiscounted' : 'rentalPrice';
+    if (!game.option[0][priceField]) {
+      throw new Error(`${order.transactionType === 'buy' ? 'Purchase' : 'Rental'} price not available`);
+    }
+
+    const priceInVND = game.option[0][priceField];
+    const exchangeRate = 24000; 
+    const priceInUSD = priceInVND / 100 / exchangeRate; 
 
     const request = new paypal.orders.OrdersCreateRequest();
     request.prefer('return=representation');
@@ -33,8 +46,14 @@ class PaymentService {
           amount: {
             currency_code: 'USD',
             value: priceInUSD.toFixed(2),
+            breakdown: {
+              item_total: {
+                currency_code: 'USD',
+                value: priceInUSD.toFixed(2),
+              },
+            },
           },
-          description: `Purchase ${game.game_name} (Game ID: ${order.gameId})`,
+          description: `${order.transactionType === 'buy' ? 'Purchase' : 'Rental'} ${game.game_name} (Game ID: ${order.gameId})`,
           custom_id: order._id.toString(),
           items: [
             {
@@ -49,8 +68,8 @@ class PaymentService {
         },
       ],
       application_context: {
-        return_url: `http://localhost:3001/api/payment/success?orderId=${order._id}`,
-        cancel_url: `http://localhost:3001/api/payment/cancel?orderId=${order._id}`,
+        return_url: `http://localhost:3001/payment/success?orderId=${order._id}`,
+        cancel_url: `http://localhost:3001/payment/cancel?orderId=${order._id}`,
       },
     });
 
@@ -63,6 +82,7 @@ class PaymentService {
         orderId: order._id,
         paypalOrderId: paypalOrder.id,
         status: 'CREATED',
+        transactionType: order.transactionType,
       });
       await payment.save();
 
@@ -75,6 +95,15 @@ class PaymentService {
   }
 
   static async capturePayment(paypalOrderId, orderId) {
+    if (!orderId) {
+      console.error('orderId is undefined or null');
+      throw new Error('orderId is required');
+    }
+    if (!mongoose.isValidObjectId(orderId)) {
+      console.error('Invalid orderId:', orderId);
+      throw new Error('Invalid orderId');
+    }
+    console.log('Capturing payment for orderId:', orderId, 'paypalOrderId:', paypalOrderId);
     const order = await Order.findById(orderId);
     if (!order) {
       throw new Error('Order not found');
@@ -101,7 +130,12 @@ class PaymentService {
       await order.save();
 
       if (capture.status === 'COMPLETED') {
-        await UserGames.create({ userId: order.userId, gameId: order.gameId });
+        await UserGames.create({
+          userId: order.userId,
+          gameId: order.gameId,
+          transactionType: order.transactionType,
+          rentalExpiresAt: order.transactionType === 'rent' ? new Date(Date.now() + order.rentalDuration * 24 * 60 * 60 * 1000) : null,
+        });
       }
 
       return capture;
