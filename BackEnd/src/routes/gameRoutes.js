@@ -1,20 +1,11 @@
 const express = require('express');
+const GameController = require('../controllers/gameController');
 const router = express.Router();
-const { getGames, getGamesOnSaleController ,searchGamesController ,getGameDetailsController
-  , insertGameController, deleteGamesController, updateGamesController} = require('../controllers/gameController');
-// Routes detail
-//[GET]
-router.get('/gameOnsale', getGamesOnSaleController);
-//[POST]
-router.post('/insert', insertGameController);
-//[Delete]
-router.delete('/delete/:game_id', deleteGamesController);
-//[Update]
-router.put('/update/:game_id',updateGamesController)
-//[Search]
-router.get('/search',searchGamesController)
-//[Detail]
-router.get('/detail/:game_id/:game_slug', getGameDetailsController);
-// export
-router.get('/getAllGames', getGames);
+router.get('/', GameController.getAllGames);
+router.post('/games', GameController.createGame);
+router.get('/games/:gameId', GameController.getGameById);
+router.get('/search', GameController.searchGames);
+router.put('/games/:gameId', GameController.updateGame);
+router.delete('/games/:gameId', GameController.deleteGame);
+
 module.exports = router;

@@ -1,10 +1,7 @@
-# README SteamClone 1.0
+# README SteamClone 1.0 - Tạm dừng vô thời hạn
 
 + Dự án này được tạo ra để người dùng dễ dàng mua game và trải nghiệm những tựa game mà người dùng muốn.
 + Đặc điểm chính của Web này là UI thân thiện và có vài chức năng tương tự Steam 
-+
-+
-
 
 ![Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Steam_gray-brown_logo.svg/2560px-Steam_gray-brown_logo.svg.png)
 
@@ -12,8 +9,14 @@
 ## Demo
 
 - Hiện đang trong quá trình thử nghiệm  [BETA]
+- Sử dụng database MongoDB, nếu quá trình lấy flie game từ steam không thành công thì đã có sẵn 2 file json được để trong folder Database
+  + Ở MongoDB Create new Databasse
+  + Database name: `steamDB`
+  + Collection name: `games` | `genres`
+  + => **Cuối cùng ADD DATA và Import JSON file ở Folder Database của steamclone vào 2 tên tương ứng**
 
-
+- Nếu bạn muốn thay đổi cấu hình MogonDB thì hãy đến SteamClone/Backend/config/mongodb.js
+  
 ## Authors
 
 - [@ChickenSoup269](https://github.com/ChickenSoup269) [FE]
@@ -34,10 +37,21 @@ Go to the project directory
   cd SteamClone
 ```
 
-Install dependencies
+Create 2 terminal
+
+```bash 
+  cd frontend 
+```
+
+```bash 
+  cd backend 
+```
+
+
+Install dependencies all front end & back end
 
 ```bash
-  npm install
+  npm install 
 ```
 
 Start the server frontend & BackEnd
@@ -46,24 +60,14 @@ Start the server frontend & BackEnd
   npm start
 ```
 
+## Screenshot
+![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Screenshot/Screenshot%202024-07-25%20203434.png)
 
-## Environment Variables
+![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Screenshot/Screenshot%202024-08-31%20155604.png)
 
-To run this project, you will need to add the following environment variables to your .env file
+![App Screenshot](https://github.com/ChickenSoup269/SteamClone/blob/master/Screenshot/Screenshot%202024-08-31%20155613.png)
 
-`API_KEY`
-
-`ANOTHER_API_KEY`
-
-
-## Usage/Examples
-
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
+## Video demo
+```bash
+ https://youtu.be/zZd_RgvPfic
 ```
-
->>>>>>> master

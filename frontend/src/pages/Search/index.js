@@ -1,6 +1,8 @@
 import React, { useRef } from 'react'
+
 import classNames from 'classnames/bind'
 import styles from './Search.module.scss'
+import videoBackground from '../../assets/Videos/video-background-reset-pass.mp4'
 
 const cx = classNames.bind(styles)
 
@@ -41,6 +43,12 @@ function Search() {
 
     return (
         <div className={cx('search_container')}>
+            {/* video background */}
+            <div className={cx('video-background')}>
+                <video className={cx('background-video')} autoPlay loop muted poster="">
+                    <source src={videoBackground} type="video/mp4" />
+                </video>
+            </div>
             <div className={cx('card3d')} ref={cardRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
                 <img
                     src="https://steamcdn-a.akamaihd.net/steam/apps/457140/library_600x900_2x.jpg"
