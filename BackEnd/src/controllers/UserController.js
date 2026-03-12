@@ -1,180 +1,45 @@
-const UserService = require('../services/UserService')
-const JwtService = require('../services/JwtService')
+const UserService = require('../services/UserService');
 
-const createUser = async (req, res) => {
+class UserController {
+  static async getAllUsers(req, res) {
     try {
-        const { username, password, confirmPassword } = req.body;
-        const usernameReg = /^[a-zA-Z0-9]+$/; // Biểu thức chính quy cho username (chữ cái và số)
-        
-        // Kiểm tra username có chứa các ký tự chữ cái và số
-        const isCheckUsername = usernameReg.test(username);
-
-        if (!username || !password || !confirmPassword) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The input is required'
-            });
-        } else if (!isCheckUsername) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The username should not contain special characters'
-            });
-        } else if (password !== confirmPassword) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The password is equal to confirmPassword'
-            });
-        }
-        const response = await UserService.createUser(req.body);
-        return res.status(200).json(response);
-    } catch (e) {
-        return res.status(404).json({
-            message: e
-        });
+      const { page = 1, limit = 20 } = req.query;
+      const users = await UserService.getAllUsers(parseInt(page), parseInt(limit));
+      res.status(200).json(users);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-}
+  }
 
-
-const loginUser = async (req, res) => {
+  static async getUserById(req, res) {
     try {
-        const { username, password } = req.body;
-        const usernameReg = /^[a-zA-Z0-9]+$/; // Biểu thức chính quy cho username (chữ cái và số)
-
-        const isCheckUsername = usernameReg.test(username);
-
-        if (!username || !password) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The input is required'
-            });
-        } else if (!isCheckUsername) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The username should only contain letters and numbers'
-            });
-        }
-
-        const response = await UserService.loginUser(req.body);
-        const { refresh_token, ...newResponse } = response;
-
-        res.cookie('refresh_token', refresh_token, {
-            httpOnly: true,
-            secure: true,
-        });
-
-        return res.status(200).json(newResponse);
-    } catch (e) {
-        return res.status(404).json({
-            message: e.message || 'An error occurred'
-        });
+      const { id } = req.params;
+      const user = await UserService.getUserById(id);
+      res.status(200).json(user);
+    } catch (err) {
+      res.status(404).json({ message: err.message });
     }
-}
+  }
 
-const updateUser = async (req, res) => {
+  static async updateUser(req, res) {
     try {
-        const userId = req.params.id
-        const data = req.body
-        if(!userId) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The userId is required'
-            })
-        }
-        const response = await UserService.updateUser(userId, data)
-        return res.status(200).json(response)
-    } catch (e) {
-        return res.status(404).json({
-            message: e
-        })
+      const { id } = req.params;
+      const user = await UserService.updateUser(id, req.body);
+      res.status(200).json(user);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
     }
-}
+  }
 
-const deleteUser = async (req, res) => {
+  static async deleteUser(req, res) {
     try {
-        const userId = req.params.id
-        if(!userId) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The userId is required'
-            })
-        }
-        const response = await UserService.deleteUser(userId)
-        return res.status(200).json(response)
-    } catch (e) {
-        return res.status(404).json({
-            message: e
-        })
+      const { id } = req.params;
+      await UserService.deleteUser(id);
+      res.status(200).json({ message: 'User deleted successfully' });
+    } catch (err) {
+      res.status(404).json({ message: err.message });
     }
+  }
 }
 
-const getAllUser = async (req, res) => {
-    try {
-        const response = await UserService.getAllUser()
-        return res.status(200).json(response)
-    } catch (e) {
-        return res.status(404).json({
-            message: e
-        })
-    }
-}
-
-const getDetailsUser = async (req, res) => {
-    try {
-        const userId = req.params.id
-        if(!userId) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The userId is required'
-            })
-        }
-        const response = await UserService.getDetailsUser(userId)
-        return res.status(200).json(response)
-    } catch (e) {
-        return res.status(404).json({
-            message: e
-        })
-    }
-}
-
-const refreshToken = async (req, res) => {
-    try {
-        const token = req.cookies.refresh_token
-        if(!token) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The token is required'
-            })
-        }
-        const response = await JwtService.refreshTokenJwtService(token)
-        return res.status(200).json(response)
-    } catch (e) {
-        return res.status(404).json({
-            message: e
-        })
-    }
-}
-
-const logoutUser = async (req, res) => {
-    try {
-        res.clearCookie('refresh_token')
-        return res.status(200).json({
-            status: 'OK',
-            message: 'Logout successfully'
-        })
-    } catch (e) {
-        return res.status(404).json({
-            message: e
-        })
-    }
-}
-
-module.exports = {
-    createUser,
-    loginUser,
-    updateUser,
-    deleteUser,
-    getAllUser,
-    getDetailsUser,
-    refreshToken,
-    logoutUser
-}
+module.exports = UserController;

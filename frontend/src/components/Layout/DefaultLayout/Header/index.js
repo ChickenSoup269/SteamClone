@@ -14,6 +14,7 @@ import {
     faAngleRight,
     faKeyboard,
     faUserTie,
+    faMessage,
 } from '@fortawesome/free-solid-svg-icons'
 
 import Tippy from '@tippyjs/react/'
@@ -26,7 +27,7 @@ import Menu from '~/components/Popper/Menu'
 import Image from '~/components/Image/image'
 import Search from '../../Search'
 import { useSelector } from 'react-redux'
-
+import { useChat } from '../../../../contexts/ChatContext'
 const cx = classNames.bind(styles)
 
 const MENU_ITEMS = [
@@ -66,11 +67,7 @@ const userMenu = [
         title: 'Thông tin cá nhân',
         to: '/profile',
     },
-    {
-        icon: <FontAwesomeIcon icon={faUserTie} />,
-        title: 'Quản lý cá nhân',
-        to: '/admin',
-    },
+
     {
         icon: <FontAwesomeIcon icon={faDollarSign} />,
         title: 'Nạp tiền',
@@ -88,13 +85,13 @@ const userMenu = [
     {
         icon: <FontAwesomeIcon icon={faBoxArchive} />,
         title: 'Kho game',
-        to: '/#',
+        to: '/library',
     },
     ...MENU_ITEMS,
     {
         icon: <FontAwesomeIcon icon={faSignOut} />,
         title: 'Đăng xuất',
-        to: '/#',
+        to: '/logout',
         line: true,
     },
 ]
@@ -103,6 +100,7 @@ function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
     const user = useSelector((state) => state.user)
+    const order = useSelector((state) => state.order)
 
     const [userAvatar, setUserAvatar] = useState()
 
@@ -110,22 +108,24 @@ function Header() {
     useEffect(() => {
         if (user?.access_token) {
             setUserAvatar(user?.avatar)
+        } else {
+            setUserAvatar(null) // Reset avatar khi user không có access_token
         }
     }, [user?.access_token, user?.avatar])
 
-    // điều chỉnh header theme
-    const navLinkStyles = ({ isActive }) => {
-        const textColorLight = isActive ? 'var(--activePrimary)' : isScrolled ? '#000000' : '#ffffff'
-        const textColorDark = isActive ? 'var(--activePrimary)' : '#ffffff'
-        const textColor = theme === 'light' ? textColorLight : textColorDark
+    const [animationClass, setAnimationClass] = useState('')
 
-        return {
-            fontWeight: isActive ? '700' : '500',
-            background: isActive ? 'var(--activeNavLink)' : 'none',
-            color: textColor,
-            transform: isActive ? ' scale(0.9)' : 'none',
+    useEffect(() => {
+        if (order?.orderItems?.length > 0) {
+            setAnimationClass('badge-animation')
+            // xóa animtion khi hết thời gian
+            const timer = setTimeout(() => {
+                setAnimationClass('')
+            }, 500)
+
+            return () => clearTimeout(timer)
         }
-    }
+    }, [order?.orderItems?.length])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -158,6 +158,20 @@ function Header() {
         setTheme(newTheme)
     }
 
+    // điều chỉnh header theme
+    const navLinkStyles = ({ isActive }) => {
+        const textColorLight = isActive ? 'var(--activePrimary)' : isScrolled ? '#000000' : '#ffffff'
+        const textColorDark = isActive ? 'var(--activePrimary)' : '#ffffff'
+        const textColor = theme === 'light' ? textColorLight : textColorDark
+
+        return {
+            fontWeight: isActive ? '700' : '500',
+            background: isActive ? 'var(--activeNavLink)' : 'none',
+            color: textColor,
+            transform: isActive ? ' scale(0.9)' : 'none',
+        }
+    }
+
     // cho color Icon đổi màu khi scroll
     const getIconColor = () => {
         if (theme === 'light') {
@@ -165,6 +179,8 @@ function Header() {
         }
         return '#ffffff'
     }
+
+    const { isChatboxVisible, toggleChatbox } = useChat()
 
     return (
         <header className={cx('wrapper', { scrolled: isScrolled })}>
@@ -177,12 +193,12 @@ function Header() {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink style={navLinkStyles} to="/profile">
+                            <NavLink style={navLinkStyles} to="/chatTogether">
                                 Trò chuyện
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink style={navLinkStyles} to="/search">
+                            <NavLink style={navLinkStyles} to="/category/detailGenresByGames/28">
                                 Thể loại
                             </NavLink>
                         </li>
@@ -200,11 +216,36 @@ function Header() {
                 <div className={cx('actions')}>
                     {user?.access_token ? (
                         <>
+                            <NavLink to="/system/admin">
+                                <Button outline className={cx('change-btn-color')}>
+                                    Quản lý <FontAwesomeIcon icon={faUserTie} />
+                                </Button>
+                            </NavLink>
                             <NavLink to="/notification">
                                 <Tippy content="Thông báo" placement="bottom">
                                     <button className={cx('notification-btn')} style={{ color: getIconColor() }}>
                                         <FontAwesomeIcon icon={faBell} />
                                         <span className={cx('badge')}>3</span>
+                                    </button>
+                                </Tippy>
+                            </NavLink>
+                            <NavLink>
+                                <Tippy content="Tin nhắn" placement="bottom">
+                                    <button
+                                        className={cx('notification-btn')}
+                                        onClick={toggleChatbox}
+                                        style={{ color: getIconColor() }}
+                                    >
+                                        <FontAwesomeIcon icon={faMessage} />
+                                        <span className={cx('badge')}>3</span>
+                                    </button>
+                                </Tippy>
+                            </NavLink>
+                            <NavLink to="/cart">
+                                <Tippy content="Giỏ hàng" placement="bottom">
+                                    <button className={cx('cart-btn')} style={{ color: getIconColor() }}>
+                                        <FontAwesomeIcon icon={faBasketShopping} />
+                                        <span className={cx('badge', animationClass)}>{order?.orderItems?.length}</span>
                                     </button>
                                 </Tippy>
                             </NavLink>
@@ -221,14 +262,7 @@ function Header() {
                             </NavLink>
                         </>
                     )}
-                    <NavLink to="/cart">
-                        <Tippy content="Giỏ hàng" placement="bottom">
-                            <button className={cx('cart-btn')} style={{ color: getIconColor() }}>
-                                <FontAwesomeIcon icon={faBasketShopping} />
-                                <span className={cx('badge')}>3</span>
-                            </button>
-                        </Tippy>
-                    </NavLink>
+
                     <Tippy content="Màu giao diện">
                         <input
                             className={cx('switch')}
@@ -237,7 +271,11 @@ function Header() {
                             onChange={handleThemeChange}
                         />
                     </Tippy>
-                    <Menu items={user?.access_token ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                    <Menu
+                        key={user?.access_token}
+                        items={user?.access_token ? userMenu : MENU_ITEMS}
+                        onChange={handleMenuChange}
+                    >
                         {({ isAnimating }) =>
                             user?.access_token ? (
                                 <Tippy content="Tài khoản" placement="bottom">

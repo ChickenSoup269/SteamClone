@@ -1,186 +1,63 @@
-const User = require("../models/UserModel")
-const bcrypt = require("bcrypt")
-const { generalAccessToken, generalRefreshToken } = require("./JwtService")
+const User = require('../models/UserModel');
+const Auth = require('../models/Auth/sessionModel');
 
-const createUser = (newUser) => {
-    return new Promise(async (resolve, reject) => {
-        const { username, email, password } = newUser
-        try {
-            const checkEmail = await User.findOne({
-                email: email
-            })
-            if (checkEmail) {
-                return resolve({
-                    status: 'ERR',
-                    message: 'The email is already existed'
-                });
-            }
+class UserService {
+  static async getAllUsers(page, limit) {
+    return await User.find()
+      .select('-password')
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+  }
 
-            const checkUser = await User.findOne({
-                username: username
-            })
-            if(checkUser !== null) {
-                resolve({
-                    status: 'ERR',
-                    message: 'The username is already existed'
-                })
-            }
+  static async getUserById(userId) {
+    const user = await User.findOne({ userId }).select('-password').lean();
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
 
-            const hash = bcrypt.hashSync(password, 10);
-            const createdUser = await User.create({
-                email, 
-                username, 
-                password: hash, 
-            })
-            if(createdUser) {
-                resolve({
-                    status: 'OK',
-                    message: 'SUCCESS',
-                    data: createdUser
-                })
-            }
-        } catch (e) {
-            reject(e)
-        }
-    })
+  static async updateUser(userId, updateData) {
+    if (updateData.email) {
+      const existingUser = await User.findOne({ email: updateData.email, userId: { $ne: userId } });
+      if (existingUser) {
+        throw new Error('Email already exists');
+      }
+    }
+
+    if (updateData.username) {
+      const existingUser = await User.findOne({ username: updateData.username, userId: { $ne: userId } });
+      if (existingUser) {
+        throw new Error('Username already exists');
+      }
+    }
+
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10);
+    }
+
+    const user = await User.findOneAndUpdate(
+      { userId },
+      { $set: updateData },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  }
+
+  static async deleteUser(userId) {
+    const user = await User.findOneAndDelete({ userId });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    await Auth.deleteOne({ userId });
+    return true;
+  }
 }
 
-const loginUser = (userLogin) => {
-    return new Promise(async (resolve, reject) => {
-        const { username, password } = userLogin
-        try {
-            const checkUser = await User.findOne({
-                username: username
-            })
-            if(checkUser === null) {
-                resolve({
-                    status: 'ERR',
-                    message: 'The user is not defined'
-                })
-            }
-            const comparePassword = bcrypt.compareSync(password, checkUser.password)
-
-            if(!comparePassword) {
-                resolve({
-                    status: 'ERR',
-                    message: 'The password or user is incorrect'
-                })
-            }
-            const access_token = await generalAccessToken({
-                id: checkUser.id,
-                isAdmin: checkUser.isAdmin
-            })
-
-            const refresh_token = await generalRefreshToken({
-                id: checkUser.id,
-                isAdmin: checkUser.isAdmin
-            })
-
-            resolve({
-                status: 'OK',
-                message: 'SUCCESS',
-                access_token,
-                refresh_token
-            })
-        } catch (e) {
-            reject(e)
-        }
-    })
-}
-
-const updateUser = (id, data) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const checkUser = await User.findOne({
-                _id: id
-            })
-            if(checkUser === null) {
-                resolve({
-                    status: 'OK',
-                    message: 'The user is not defined'
-                })
-            }
-
-            const updatedUser = await User.findByIdAndUpdate(id, data, { new: true })
-            resolve({
-                status: 'OK',
-                message: 'SUCCESS',
-                data: updatedUser
-            })
-        } catch (e) {
-            reject(e)
-        }
-    })
-}
-
-const deleteUser = (id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const checkUser = await User.findOne({
-                _id: id
-            })
-            if(checkUser === null) {
-                resolve({
-                    status: 'OK',
-                    message: 'The user is not defined'
-                })
-            }
-
-            await User.findByIdAndDelete(id)
-            resolve({
-                status: 'OK',
-                message: 'Delete user successful',
-            })
-        } catch (e) {
-            reject(e)
-        }
-    })
-}
-
-const getAllUser = () => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const allUser = await User.find()
-            resolve({
-                status: 'OK',
-                message: 'Success',
-                data: allUser
-            })
-        } catch (e) {
-            reject(e)
-        }
-    })
-}
-
-const getDetailsUser = (id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const user = await User.findOne({
-                _id: id
-            })
-            if(user === null) {
-                resolve({
-                    status: 'OK',
-                    message: 'The user is not defined'
-                })
-            }
-
-            resolve({
-                status: 'OK',
-                message: 'SUCCESS',
-                data: user
-            })
-        } catch (e) {
-            reject(e)
-        }
-    })
-}
-
-module.exports = {
-    createUser,
-    loginUser,
-    updateUser,
-    deleteUser,
-    getAllUser,
-    getDetailsUser
-}
+module.exports = UserService;
